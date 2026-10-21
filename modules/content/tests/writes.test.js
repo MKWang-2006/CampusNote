@@ -5,36 +5,17 @@ const path = require('node:path');
 const { resetDb, agentAs, make, q } = require('../../../test/helpers');
 const config = require('../../../core/config');
 const queries = require('../queries');
+const { PNG, publish, fileList } = require('./fixtures');
 beforeEach(resetDb);
-const PNG = Buffer.from(
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jN5kAAAAASUVORK5CYII=',
-  'base64',
-);
-const fileList = () =>
-  fs.existsSync(config.uploadDir)
-    ? fs
-        .readdirSync(config.uploadDir, { recursive: true })
-        .filter((p) => fs.statSync(path.join(config.uploadDir, p)).isFile())
-        .sort()
-    : [];
 const count = async (table) => (await q.one('SELECT COUNT(*) AS n FROM ' + table)).n; // Test-owned fixed table names only.
-async function publish(a, fields = {}, files = []) {
-  const page = await a.page('/compose');
-  let req = a.raw.post(page.$('form[enctype]').attr('action'));
-  for (const [key, value] of Object.entries(fields)) req = req.field(key, value);
-  for (const file of files)
-    req = req.attach('images', file.bytes || PNG, {
-      filename: file.name || 'image.png',
-      contentType: file.type || 'image/png',
-    });
-  return req;
-}
 
 test('CT-T03/T04: atomic image publish, Host, anonymity, scope, public author and trimming', async () => {
   const a = await agentAs('mandy0hku');
+  // Distinct PNG byte streams make reversed upload order observable.
+  const secondPNG = Buffer.concat([PNG, Buffer.from('second fixture')]);
   const r = await publish(a, { body: '  Selling a desk lamp, HKD 50.\n ', topic: 'trade' }, [
     { name: 'a.png' },
-    { name: 'b.png' },
+    { name: 'b.png', bytes: secondPNG },
   ]);
   assert.equal(r.status, 303);
   const id = Number(r.headers.location.split('/').pop());
@@ -50,6 +31,11 @@ test('CT-T03/T04: atomic image publish, Host, anonymity, scope, public author an
   assert.notEqual(images[0].file_path, images[1].file_path);
   for (const img of images)
     assert.ok(fs.existsSync(path.join(config.uploadDir, img.file_path.slice('/uploads/'.length))));
+  for (const [i, bytes] of [PNG, secondPNG].entries())
+    assert.deepEqual(
+      fs.readFileSync(path.join(config.uploadDir, images[i].file_path.slice('/uploads/'.length))),
+      bytes,
+    );
   assert.equal(
     (await q.one('SELECT alias_no FROM post_participants WHERE post_id = ? AND user_id = 2', [id]))
       .alias_no,
@@ -57,6 +43,15 @@ test('CT-T03/T04: atomic image publish, Host, anonymity, scope, public author an
   );
   const page = await a.page(r.headers.location);
   assert.match(page.text, /Posted/);
+  assert.equal(page.status, 200);
+  assert.equal(page.$('h1').text(), '#' + id);
+  assert.deepEqual(
+    page
+      .$('[data-content-image]')
+      .map((_, el) => page.$(el).attr('href'))
+      .get(),
+    images.map((image) => image.file_path),
+  );
   assert.match(page.$('.content-post').text(), /Trade/);
   assert.ok(!page.$('.content-post').html().includes('mandy0hku'));
   const wing = await agentAs('wing0cuhk');
@@ -68,6 +63,7 @@ test('CT-T03/T04: atomic image publish, Host, anonymity, scope, public author an
     all_universities: ['0', '1'],
   });
   assert.equal(publicPost.status, 303);
+  assert.equal((await wing.page(publicPost.headers.location)).status, 200);
   assert.equal(
     (await wing.page(publicPost.headers.location)).$('a[href="/u/mandy0hku"]').text(),
     'mandy0hku',
@@ -88,6 +84,7 @@ test('CT-T05/T06: Unicode boundaries, error preservation, invalid topics and fil
   assert.match(blank.text, /Please add your images again/);
   const cheerio = require('cheerio');
   const $ = cheerio.load(blank.text);
+  assert.equal($('#f-body-error').text(), 'Your post cannot be blank');
   assert.ok($('input[value=trade]').is(':checked'));
   assert.ok($('input[type=checkbox][name=show_handle]').is(':checked'));
   assert.ok($('input[type=checkbox][name=all_universities]').is(':checked'));
@@ -98,6 +95,8 @@ test('CT-T05/T06: Unicode boundaries, error preservation, invalid topics and fil
     const res = await publish(a, { body: 'Keep this draft', topic });
     assert.equal(res.status, 400);
     assert.match(res.text, /Pick a topic/);
+    assert.equal(await count('posts'), posts);
+    assert.deepEqual(fileList(), files);
   }
   const valid = await publish(a, { body: '😀'.repeat(750), topic: 'random' });
   assert.equal(valid.status, 303);
@@ -193,10 +192,14 @@ test('CT-T13/T14/T15: stable first-comment aliases, Host, replies and trigger no
   const first = await n.form('/posts/600012/comments', { body: ' Good luck! ' });
   assert.equal(first.status, 303);
   const id = Number(first.headers.location.split('#c')[1]);
-  assert.match((await n.page('/posts/600012')).$('#c' + id).text(), /Dave/);
+  const firstPage = await n.page('/posts/600012');
+  assert.equal(firstPage.$('#c' + id + ' .content-alias').text(), 'Dave');
+  assert.match(firstPage.$('#comment-box').text(), /You will appear as Dave/);
   const reply = await n.form('/posts/600012/comments', { body: 'Thanks Bob', reply_to: 11 });
   assert.equal(reply.status, 303);
   const p = await n.page('/posts/600012');
+  assert.equal(reply.status, 303);
+  assert.equal(p.$('.comment').last().find('.content-alias').text(), 'Dave');
   assert.match(p.$('.comment').last().text(), /Dave[\s\S]*replying to Bob/);
   assert.equal(
     (await q.one('SELECT COUNT(*) AS n FROM post_participants WHERE post_id=600012 AND user_id=6'))
@@ -217,6 +220,14 @@ test('CT-T13/T14/T15: stable first-comment aliases, Host, replies and trigger no
   const w = await agentAs('wing0cuhk');
   assert.match((await w.page('/posts/600003')).text, /You will appear as Host/);
   await w.form('/posts/600003/comments', { body: 'Host reply' });
+  const aliases = await w.page('/posts/600003');
+  assert.deepEqual(
+    aliases
+      .$('.content-alias')
+      .map((_, el) => aliases.$(el).text())
+      .get(),
+    ['Alice', 'Bob', 'Host'],
+  );
   assert.deepEqual(
     (await queries.listThread(600003, 6)).map((c) => c.alias_no),
     [1, 2, 0],
@@ -244,6 +255,12 @@ test('CT-T16/T17: invalid replies and text never consume aliases or visits', asy
     const r = await n.form('/posts/600012/comments', { body });
     assert.equal(r.status, 400);
     assert.equal(r.$('textarea').val(), body);
+    assert.equal(
+      r.$('#f-body-error').text(),
+      body.trim()
+        ? 'Your comment is too long (at most 500 characters)'
+        : 'Your comment cannot be blank',
+    );
   }
   assert.equal(await count('comments'), comments);
   assert.equal((await q.one('SELECT COUNT(*) AS n FROM post_participants WHERE user_id=6')).n, 0);
@@ -313,10 +330,16 @@ test('CT-3: reply target deleted during submission preserves the draft and consu
 
 test('CT-T18/T19/T20/T26: soft deletes preserve anchors/aliases and enforce ownership', async () => {
   const m = await agentAs('mandy0hku');
+  const before = await m.page('/posts/600012');
+  assert.equal(before.$('#content-comments-title').text(), '4 comments');
   assert.equal((await m.form('/posts/600012/delete')).status, 404);
   assert.equal((await m.form('/comments/11/delete')).status, 404);
+  const refused = await m.page('/posts/600012');
+  assert.equal(refused.status, 200);
+  assert.equal(refused.$('#c11 .content-text').text(), before.$('#c11 .content-text').text());
   assert.equal((await m.form('/comments/14/delete')).headers.location, '/posts/600012#c14');
   const p = await m.page('/posts/600012');
+  assert.match(p.text, /Comment deleted/);
   assert.match(p.$('#c14').text(), /\[deleted\]/);
   assert.equal(p.$('#content-comments-title').text(), '3 comments');
   assert.equal((await m.form('/comments/14/delete')).status, 404);
@@ -332,10 +355,17 @@ test('CT-T18/T19/T20/T26: soft deletes preserve anchors/aliases and enforce owne
   const kelvin = await agentAs('kelvin0hk');
   const c = await kelvin.form('/posts/600005/comments', { body: 'About these books' });
   const cId = c.headers.location.split('#c')[1];
-  assert.equal((await kelvin.page('/me/comments')).$('a[href$="#c' + cId + '"]').length, 1);
+  assert.equal(
+    (await kelvin.page('/me/comments')).$('.content-comment-item').first().attr('href'),
+    '/posts/600005#c' + cId,
+  );
   assert.equal((await m.form('/posts/600005/delete')).status, 303);
   assert.equal((await kelvin.page('/me/comments')).$('a[href$="#c' + cId + '"]').length, 0);
   assert.equal((await m.form('/posts/600013/delete')).headers.location, '/feed');
+  const feed = await m.page('/feed');
+  assert.equal(feed.status, 200);
+  assert.match(feed.text, /Post deleted/);
+  assert.equal(feed.$('a[href="/posts/600013"]').length, 0);
   for (const a of [m, kelvin]) assert.equal((await a.page('/posts/600013')).status, 404);
   assert.equal((await m.page('/feed')).$('a[href="/posts/600013"]').length, 0);
   assert.equal((await m.form('/posts/600013/delete')).status, 404);
@@ -391,12 +421,21 @@ test('CT-T23/T24: visit increments, personal clear retains totals, reopening res
   await n.page('/posts/600003');
   await n.page('/posts/600003');
   assert.equal(
+    (await q.one('SELECT COUNT(*) AS n FROM post_views WHERE post_id=600003 AND user_id=6')).n,
+    1,
+  );
+  assert.equal(
     (await q.one('SELECT view_count FROM post_views WHERE post_id=600003 AND user_id=6'))
       .view_count,
     2,
   );
   const m = await agentAs('mandy0hku');
+  const kelvinBefore = await q('SELECT * FROM post_views WHERE user_id=3 ORDER BY post_id');
   assert.equal((await m.form('/me/history/clear')).headers.location, '/me/history');
+  assert.deepEqual(
+    await q('SELECT * FROM post_views WHERE user_id=3 ORDER BY post_id'),
+    kelvinBefore,
+  );
   assert.equal((await q.one('SELECT COUNT(*) AS n FROM post_views WHERE user_id=2')).n, 4);
   assert.equal(
     (await q.one('SELECT COUNT(*) AS n FROM post_views WHERE user_id=2 AND cleared_at IS NULL')).n,
@@ -427,7 +466,7 @@ test('CT-T23/T24: visit increments, personal clear retains totals, reopening res
   assert.match((await m.page('/me')).text, /Viewed/);
 });
 
-test('CT-T28: 20 simultaneous first HTTP comments get aliases 1–20 exactly once', async () => {
+test('CT-T28: 20 simultaneous first HTTP comments get aliases 1–20 exactly once', async (t) => {
   const users = await Promise.all(Array.from({ length: 20 }, () => make.user()));
   const agents = await Promise.all(users.map((u) => agentAs(u.handle)));
   const results = await Promise.all(
@@ -444,10 +483,14 @@ test('CT-T28: 20 simultaneous first HTTP comments get aliases 1–20 exactly onc
     Array.from({ length: 21 }, (_, i) => i),
   );
   assert.equal((await q.one('SELECT COUNT(*) AS n FROM comments WHERE post_id=600003')).n, 20);
+  t.diagnostic('All 20 first-comment requests succeeded with distinct aliases.');
+  // Independent sessions exercise one user's competing requests without sharing an ephemeral
+  // Supertest server or racing the helper's post-login CSRF-token refresh.
+  const sameUserAgents = await Promise.all(
+    Array.from({ length: 5 }, () => agentAs(users[0].handle)),
+  );
   const repeated = await Promise.all(
-    Array.from({ length: 5 }, () =>
-      agents[0].form('/posts/600003/comments', { body: 'Same participant' }),
-    ),
+    sameUserAgents.map((a) => a.form('/posts/600003/comments', { body: 'Same participant' })),
   );
   assert.ok(repeated.every((r) => r.status === 303));
   assert.equal(

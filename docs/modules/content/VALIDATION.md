@@ -7,7 +7,8 @@ Checked on 21 October 2026 against main `89fed67` and the updated responsive gui
 1. [PR #6](https://github.com/Michael-wzl/CampusNote/pull/6): responsive compose form, post/thread pages and My comments (CT-2, CT-7).
 2. [PR #7](https://github.com/Michael-wzl/CampusNote/pull/7): transactional publishing, comments/replies, deletion, likes, watches and history (CT-1, CT-3–CT-6).
 3. [PR #8](https://github.com/Michael-wzl/CampusNote/pull/8): full image viewer, browser checks and delivery documentation (CT-8).
-4. `content/CT-3-deletion-races`: regression coverage for deletion during comment/reply submission (CT-3).
+4. [PR #9](https://github.com/Michael-wzl/CampusNote/pull/9): regression coverage for deletion during comment/reply submission (CT-3).
+5. `content/CT-acceptance-audit`: clause-by-clause acceptance assertions and executable pending integration checks.
 
 The branches are stacked in this order so each diff contains only its own changes. After merging a preceding PR, retarget/rebase the following PR onto main; do not merge later branches first. Team review and merging are still pending.
 
@@ -15,41 +16,68 @@ The branches are stacked in this order so each diff contains only its own change
 
 | Check | Result |
 |---|---|
-| `npm test -- modules/content` | 19 tests passed; 0 failed |
-| `npm test` | 141 total: 134 passed, 0 failed, 7 existing TODOs |
+| `npm test -- modules/content` | 21 tests: 19 passed, 0 unexpected failures, 2 explicit TODOs |
+| `npm test` | 143 total: 134 passed, 0 unexpected failures, 9 TODOs (7 existing + 2 Content integration/contract checks) |
 | `npm run lint` | Passed (ESLint and Prettier) |
 | Full `npm run check:sql` on a disposable database | 456 PASS checks; `ALL SQL CHECKS PASSED` |
 | HTTP race: 20 first-time participants | 20 successful 303 responses; aliases 0–20 including Host, no gaps or duplicates |
-| HTTP race: one participant comments five times | One participant row and unchanged alias |
+| HTTP race: one participant comments five times | Five independent sessions for one user; one participant row and unchanged alias |
 | SQL race: 30 participants | All 30 names unique with the lock; the no-lock comparison failed 28/30 transactions in this run |
 
-Local runtime: Node 25.8.1 and MySQL 8.0.46. Development, HTTP tests and SQL races use separate task-owned databases. GitHub checks exercise the repository CI environment as well; consult each PR's checks for its exact commit.
+Local runtime: Node 25.8.1 and MySQL 8.0.46. Development, HTTP tests and SQL races use separate task-owned databases. Content upload tests now use a temporary directory per test process and remove it afterwards; they never write into the running demo's upload folder. GitHub checks exercise the repository CI environment as well; consult each PR's checks for its exact commit.
 
-The seven TODOs are pre-existing integration checks (five end-to-end checks and two Identity checks). The Identity count-to-list check still reports its expected TODO assertion while Discover's lists are placeholders; the process exits successfully. These TODOs are **not** counted as completed integration tests. The upload rollback test deliberately causes one SQL error and expects HTTP 500, then proves that neither rows nor uploaded files remain.
+Seven of the nine TODOs are pre-existing integration checks (five end-to-end checks and two Identity checks). The Identity count-to-list check still reports its expected TODO assertion while Discover's lists are placeholders; the process exits successfully. These TODOs are **not** counted as completed integration tests. The upload rollback test deliberately causes one SQL error and expects HTTP 500, then proves that neither rows nor uploaded files remain.
 
-## Acceptance mapping
+## Acceptance mapping: every CT-T01–CT-T30 clause
 
-Tests group related acceptance cases to avoid resetting a database once per tiny assertion. `pages.test.js` and `writes.test.js` both live in `modules/content/tests/`.
+Audit baseline: the latest fetched main `635a204`, whose Content guide is unchanged. **27 cases pass without a contract qualification. CT-T03 and CT-T08 pass the Content behavior but remain qualified by the ambiguous whole-page no-handle rule; CT-T22 is partial because Discover has no Watching list yet.** CT-T09's stated Mandy-viewer test passes; the broader author-viewer requirement in §8 remains a separate unmet contract, not a passed test.
 
-| Guide cases | Executable evidence | Result / boundary |
+Evidence links: [page tests](../../../modules/content/tests/pages.test.js), [write tests](../../../modules/content/tests/writes.test.js), [pending integration tests](../../../modules/content/tests/integration.test.js). The tests group related cases, but every acceptance ID is accounted for below.
+
+| Case | Required behavior and evidence | Verdict |
 |---|---|---|
-| CT-T01–T02 | `pages.test.js`: compose contracts and preference defaults | Passed, including changed account defaults |
-| CT-T03–T04 | `writes.test.js`: ordered images, Host, anonymity and university visibility | Passed |
-| CT-T05–T07 | `writes.test.js`: blank/750/751 Unicode characters, required topic, 6/7 files, MIME/signature/size and CSRF | Passed; retained fields, no orphan uploads |
-| CT-T08–T09 | `pages.test.js`: owner actions, public identities, anonymous page/Content-region privacy | Passed for Content; whole-page author wording has the shared-sidebar exception below |
-| CT-T10–T11 | `pages.test.js`: flat thread, hidden/deleted placeholders and unavailable IDs | Passed |
-| CT-T12 | `writes.test.js`: cross-university GET and writes | Passed; no data changes |
-| CT-T13–T15 | `writes.test.js` plus reply-form GET assertions in `pages.test.js` | Passed; stable Dave/Alice/Bob/Host, reply/cancel and anchors |
-| CT-T16–T17 | `writes.test.js`: invalid/hidden/deleted/cross-post reply targets, blank/500/501 characters | Passed; no consumed alias, no extra view on error |
-| CT-T18–T20 | `writes.test.js`: owner-only soft deletion, counts, stable aliases and 404 | Passed on Content and shared data views; Discover lists still need integration |
-| CT-T21 | `writes.test.js`: repeated like/unlike JSON and ordinary form | Passed; notification trigger checked |
-| CT-T22 | `writes.test.js`: repeated watch/unwatch JSON/form and stored state | Content contract passed; actual Discover Watching list pending |
-| CT-T23–T24 | `writes.test.js`: visit counts, clear history, repeated clear and reopening | Passed on data/route contract; actual Discover History list pending |
-| CT-T25–T26 | `pages.test.js` and deletion checks in `writes.test.js` | Passed; real 20+1 paging, hidden/deleted visibility and empty state |
-| CT-T27 | `pages.test.js` plus browser reply/delete flows | Passed; anchors survive soft deletion |
-| CT-T28 | `writes.test.js`: 20 concurrent HTTP clients and repeated participant | Passed |
-| CT-T29 | `pages.test.js` and browser original-link check | Passed; original order and no-JavaScript fallback |
-| CT-T30 | `writes.test.js`: missing CSRF token | Passed; no insert |
+| CT-T01 | Mandy compose 200, no compact tabs, multipart/leave guard, 750 counter, preview input, seven topics, both switches off (pages) | Pass |
+| CT-T02 | Jason/Kelvin/Newbie defaults and updated Newbie preference reflected in the form (pages) | Pass |
+| CT-T03 | Publish two distinguishable PNG byte streams; 303, Posted, post number, Trade, anonymous header, Host, database flags, and identical storage/HTML image order (writes) | **Content passes; whole-page privacy wording pending** |
+| CT-T04 | Wing cannot open the HKU-only post; both toggles on exposes the new post and Mandy's author link to Wing (writes) | Pass |
+| CT-T05 | Blank + image gives field error and preserves topic; no row/file; 751 rejected and exactly 750 Unicode code points accepted (writes) | Pass |
+| CT-T06 | Missing/invalid topic gives Pick a topic; no post or file added (writes) | Pass |
+| CT-T07 | Seven images/wrong MIME rejected with draft and exact upload error; files removed; missing multipart CSRF refused (writes) | Pass |
+| CT-T08 | Seed metadata, like 3/watch 1 selected, non-owner Message/Report links; author-only Delete and no self Message/Report (pages) | **Content passes; whole-page privacy wording pending** |
+| CT-T09 | Mandy's entire response excludes Kelvin/Wing/Jason identities; named Jason and Film Society posts show their required links/names (pages) | Pass for this exact case; broader author-viewer §8 wording remains unmet |
+| CT-T10 | Anchors c10–c14, Alice/Bob/Carol/Host/Alice, hidden c12 has no actions, reply labels including Host=0, owner actions, alias links, deleted c6 (pages) | Pass |
+| CT-T11 | All six specified unavailable/invalid IDs return 404, plus zero/negative/fraction/exponent/overflow IDs (pages) | Pass |
+| CT-T12 | Wing's GET/like/watch/comment on HKU-only post return 404; all five relevant tables remain unchanged (writes) | Pass |
+| CT-T13 | Newbie's first and second comments render Dave; composer says Dave; one participant row (writes) | Pass |
+| CT-T14 | Empty-post first commenters render Alice, Bob, then author Host; database aliases 1, 2, 0 (writes) | Pass |
+| CT-T15 | Newbie GET reply=11 shows Bob and hidden target; Cancel returns to box; POST reply says Bob; hidden reply=12 is ignored (pages/writes) | Pass |
+| CT-T16 | Hidden/deleted/cross-post/unknown/malformed targets give 400 with the expected message and no comment/alias (writes) | Pass |
+| CT-T17 | Blank/501-character comments give exact field errors, preserve input and allocate no alias; 500 accepted (writes) | Pass |
+| CT-T18 | Delete c14 redirects to its anchor; deleted placeholder and flash; count 4→3; next comment stays Alice; repeat delete 404 (writes) | Pass |
+| CT-T19 | Non-owner deletion of post/comment gives 404; post still opens and original comment text is unchanged (writes) | Pass |
+| CT-T20 | Delete 600013 redirects to feed with Post deleted; feed link absent; owner/other viewer GET and repeat deletion give 404 (writes) | Pass, including the existing seed feed |
+| CT-T21 | Like 1/1/0/0 returns exact states/counts; ordinary form redirects to post (writes; browser checks cover in-place updates) | Pass |
+| CT-T22 | Watch/unwatch JSON and stored state pass; actual Watching page never displays the saved post (writes + executable integration TODO) | **Partial: Discover list assertion fails** |
+| CT-T23 | Newbie's two visits create one row/count 2; Mandy count 4→5; inaccessible visit creates no row (writes) | Pass |
+| CT-T24 | Clear marks Mandy's four rows, leaves Kelvin's rows unchanged and total 11; repeat safe; revisit restores row/count 5 and total 12 (writes) | Pass for all stated assertions; History page UI is separate pending integration |
+| CT-T25 | Exact links/order 14,10,3,2 and Alice/Alice/Alice/Host labels; cursor 10 gives exactly 3,2; hidden text preserved as placeholder; deleted c6 omitted (pages) | Pass |
+| CT-T26 | Newbie empty state; Kelvin's new comment is first; deleting its post removes it from My comments (pages/writes) | Pass |
+| CT-T27 | All required anchors remain, including hidden/deleted comments (pages) | Pass |
+| CT-T28 | 20 concurrent HTTP submissions all 303; exactly 20 comments and aliases 0–20, no duplicates/gaps (writes) | Pass |
+| CT-T29 | Two seed thumbnails link to original files in order; no-JavaScript original links work (pages/browser) | Pass |
+| CT-T30 | Missing comment CSRF gives 403 and no comment inserted (writes; shared CSRF tests cover every POST) | Pass |
+
+### Unmet checks are executable, not silently counted as passed
+
+`integration.test.js` actually executes the Watching-list and whole-page author-privacy assertions. Normal CI marks the known failures as TODO with their dependency/reason. They are excluded from the pass count. To turn them into strict release failures, run:
+
+```sh
+CONTENT_STRICT_ACCEPTANCE=1 npm test -- modules/content/tests/integration.test.js
+```
+
+On this baseline both assertions fail: the first belongs to Discover; the second needs Michael's decision in [issue #5](https://github.com/Michael-wzl/CampusNote/issues/5). Once resolved, remove their TODO declarations and rerun the full flows. This strict command is not a claim that release acceptance is already green.
+
+The repeated-user race uses independent authenticated sessions. An earlier run sharing one agent hit `ECONNRESET` during concurrent request setup; this was not counted as a pass. The independent-session regression keeps concurrent HTTP writes while avoiding a shared test client and concurrent CSRF refresh.
 
 Additional coverage includes escaped user text, strict positive IDs, malformed array fields, SQL-looking topic values, disguised image files and a forced database failure after partial post/image insertion. The latter verifies the real transaction rollback and file cleanup together.
 
