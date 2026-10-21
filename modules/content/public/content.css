@@ -63,3 +63,13 @@
 .content-compose .previews {
   flex-wrap: wrap;
 }
+
+.content-header a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.content-compose .chip-choice span {
+  min-height: 44px;
+}
