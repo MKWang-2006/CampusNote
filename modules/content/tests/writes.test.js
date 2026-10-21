@@ -2,6 +2,7 @@ const { test, beforeEach } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const cheerio = require('cheerio');
 const { resetDb, agentAs, make, q } = require('../../../test/helpers');
 const config = require('../../../core/config');
 const queries = require('../queries');
@@ -19,6 +20,7 @@ test('CT-T03/T04: atomic image publish, Host, anonymity, scope, public author an
   ]);
   assert.equal(r.status, 303);
   const id = Number(r.headers.location.split('/').pop());
+  assert.equal(id, 600015);
   const p = await q.one('SELECT * FROM posts WHERE post_id = ?', [id]);
   assert.equal(p.body, 'Selling a desk lamp, HKD 50.');
   assert.equal(p.is_anonymous, 1);
@@ -82,7 +84,6 @@ test('CT-T05/T06: Unicode boundaries, error preservation, invalid topics and fil
   assert.equal(blank.status, 400);
   assert.match(blank.text, /Your post cannot be blank/);
   assert.match(blank.text, /Please add your images again/);
-  const cheerio = require('cheerio');
   const $ = cheerio.load(blank.text);
   assert.equal($('#f-body-error').text(), 'Your post cannot be blank');
   assert.ok($('input[value=trade]').is(':checked'));
@@ -122,7 +123,10 @@ test('CT-T07/T30: upload limits, disguised files and CSRF leave no writes/files'
   ]) {
     const res = await publish(a, { body: 'Draft retained', topic: 'trade' }, files);
     assert.equal(res.status, 400);
-    assert.match(res.text, /Up to 6 images/);
+    assert.equal(
+      cheerio.load(res.text)('#content-images-error').text(),
+      'Up to 6 images, JPEG, PNG, WebP or GIF, 5 MB each.',
+    );
     assert.match(res.text, /Draft retained/);
     assert.match(res.text, /value="trade" checked/);
     assert.deepEqual(fileList(), baseline);
@@ -361,7 +365,9 @@ test('CT-T18/T19/T20/T26: soft deletes preserve anchors/aliases and enforce owne
   );
   assert.equal((await m.form('/posts/600005/delete')).status, 303);
   assert.equal((await kelvin.page('/me/comments')).$('a[href$="#c' + cId + '"]').length, 0);
-  assert.equal((await m.form('/posts/600013/delete')).headers.location, '/feed');
+  const deletedPost = await m.form('/posts/600013/delete');
+  assert.equal(deletedPost.status, 303);
+  assert.equal(deletedPost.headers.location, '/feed');
   const feed = await m.page('/feed');
   assert.equal(feed.status, 200);
   assert.match(feed.text, /Post deleted/);
@@ -379,7 +385,9 @@ test('CT-T21/T22: explicit like/watch state is repeatable; notification and list
       liked: !!on,
       likeCount: on ? 4 : 3,
     });
-  assert.equal((await n.form('/posts/600012/like', { like: 1 })).headers.location, '/posts/600012');
+  const plainLike = await n.form('/posts/600012/like', { like: 1 });
+  assert.equal(plainLike.status, 303);
+  assert.equal(plainLike.headers.location, '/posts/600012');
   for (const on of [1, 1, 0, 0]) {
     assert.deepEqual((await n.json('/posts/600003/watch', { watch: on })).body, {
       watched: !!on,
@@ -416,7 +424,7 @@ test('CT-T21/T22: explicit like/watch state is repeatable; notification and list
   );
 });
 
-test('CT-T23/T24: visit increments, personal clear retains totals, reopening restores history', async () => {
+test('CT-T23: fresh and existing visits increment once; denied visits record nothing', async () => {
   const n = await agentAs('newbie0hk');
   await n.page('/posts/600003');
   await n.page('/posts/600003');
@@ -430,8 +438,25 @@ test('CT-T23/T24: visit increments, personal clear retains totals, reopening res
     2,
   );
   const m = await agentAs('mandy0hku');
+  assert.equal((await m.page('/posts/600012')).status, 200);
+  assert.equal(
+    (await q.one('SELECT view_count FROM post_views WHERE user_id=2 AND post_id=600012'))
+      .view_count,
+    5,
+  );
+  assert.equal((await m.page('/posts/600008')).status, 404);
+  assert.equal(
+    (await q.one('SELECT COUNT(*) AS n FROM post_views WHERE user_id=2 AND post_id=600008')).n,
+    0,
+  );
+});
+
+test('CT-T24: personal clear retains totals and other users; reopening restores history', async () => {
+  const m = await agentAs('mandy0hku');
   const kelvinBefore = await q('SELECT * FROM post_views WHERE user_id=3 ORDER BY post_id');
-  assert.equal((await m.form('/me/history/clear')).headers.location, '/me/history');
+  const cleared = await m.form('/me/history/clear');
+  assert.equal(cleared.status, 303);
+  assert.equal(cleared.headers.location, '/me/history');
   assert.deepEqual(
     await q('SELECT * FROM post_views WHERE user_id=3 ORDER BY post_id'),
     kelvinBefore,

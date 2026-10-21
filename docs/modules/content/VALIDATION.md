@@ -8,7 +8,8 @@ Checked on 21 October 2026 against main `89fed67` and the updated responsive gui
 2. [PR #7](https://github.com/Michael-wzl/CampusNote/pull/7): transactional publishing, comments/replies, deletion, likes, watches and history (CT-1, CT-3–CT-6).
 3. [PR #8](https://github.com/Michael-wzl/CampusNote/pull/8): full image viewer, browser checks and delivery documentation (CT-8).
 4. [PR #9](https://github.com/Michael-wzl/CampusNote/pull/9): regression coverage for deletion during comment/reply submission (CT-3).
-5. `content/CT-acceptance-audit`: clause-by-clause acceptance assertions and executable pending integration checks.
+5. [PR #10](https://github.com/Michael-wzl/CampusNote/pull/10): clause-by-clause acceptance assertions and executable pending integration checks.
+6. `content/CT-boundary-regressions`: upload boundaries, input safety, transaction rollback and concurrent-request regressions.
 
 The branches are stacked in this order so each diff contains only its own changes. After merging a preceding PR, retarget/rebase the following PR onto main; do not merge later branches first. Team review and merging are still pending.
 
@@ -16,8 +17,8 @@ The branches are stacked in this order so each diff contains only its own change
 
 | Check | Result |
 |---|---|
-| `npm test -- modules/content` | 21 tests: 19 passed, 0 unexpected failures, 2 explicit TODOs |
-| `npm test` | 143 total: 134 passed, 0 unexpected failures, 9 TODOs (7 existing + 2 Content integration/contract checks) |
+| `npm test -- modules/content` | 32 tests: 30 passed, 0 unexpected failures, 2 explicit TODOs |
+| `npm test` | 154 total: 145 passed, 0 unexpected failures, 9 TODOs (7 existing + 2 Content integration/contract checks) |
 | `npm run lint` | Passed (ESLint and Prettier) |
 | Full `npm run check:sql` on a disposable database | 456 PASS checks; `ALL SQL CHECKS PASSED` |
 | HTTP race: 20 first-time participants | 20 successful 303 responses; aliases 0–20 including Host, no gaps or duplicates |
@@ -26,7 +27,7 @@ The branches are stacked in this order so each diff contains only its own change
 
 Local runtime: Node 25.8.1 and MySQL 8.0.46. Development, HTTP tests and SQL races use separate task-owned databases. Content upload tests now use a temporary directory per test process and remove it afterwards; they never write into the running demo's upload folder. GitHub checks exercise the repository CI environment as well; consult each PR's checks for its exact commit.
 
-Seven of the nine TODOs are pre-existing integration checks (five end-to-end checks and two Identity checks). The Identity count-to-list check still reports its expected TODO assertion while Discover's lists are placeholders; the process exits successfully. These TODOs are **not** counted as completed integration tests. The upload rollback test deliberately causes one SQL error and expects HTTP 500, then proves that neither rows nor uploaded files remain.
+Seven of the nine TODOs are pre-existing integration checks (five end-to-end checks and two Identity checks). The Identity count-to-list check still reports its expected TODO assertion while Discover's lists are placeholders; the process exits successfully. These TODOs are **not** counted as completed integration tests. The post and comment rollback tests deliberately cause SQL errors and expect HTTP 500. They verify that failed transactions retain neither partial rows nor uploaded files; a comment retry still receives the first available alias.
 
 ## Acceptance mapping: every CT-T01–CT-T30 clause
 
@@ -77,9 +78,26 @@ CONTENT_STRICT_ACCEPTANCE=1 npm test -- modules/content/tests/integration.test.j
 
 On this baseline both assertions fail: the first belongs to Discover; the second needs Michael's decision in [issue #5](https://github.com/Michael-wzl/CampusNote/issues/5). Once resolved, remove their TODO declarations and rerun the full flows. This strict command is not a claim that release acceptance is already green.
 
-The repeated-user race uses independent authenticated sessions. An earlier run sharing one agent hit `ECONNRESET` during concurrent request setup; this was not counted as a pass. The independent-session regression keeps concurrent HTTP writes while avoiding a shared test client and concurrent CSRF refresh.
+The repeated-user race uses independent authenticated sessions. An earlier concurrent run sharing one agent hit `ECONNRESET`; this was not counted as a pass, and the exact transport cause was not conclusively isolated. The independent-session regression keeps concurrent HTTP writes while avoiding a shared test client and concurrent CSRF refresh.
 
-Additional coverage includes escaped user text, strict positive IDs, malformed array fields, SQL-looking topic values, disguised image files and a forced database failure after partial post/image insertion. The latter verifies the real transaction rollback and file cleanup together.
+### Additional boundary and regression tests
+
+[Boundary tests](../../../modules/content/tests/boundaries.test.js) add ten executable cases, all passing:
+
+| Test | Result demonstrated |
+|---|---|
+| File size below/above 5 MB | 5 MB minus one byte accepted; plus one byte refused with no new post/file |
+| File size exactly 5 MB | Inclusive limit accepted |
+| Repeated form fields | Array-valued text/topic rejected with no uploads, comments or participant aliases |
+| Stored HTML payload | Real HTTP post/comment submissions remain literal text in detail, personal list and error draft; no injected script/event handler/image |
+| Comment failure after alias allocation | Real SQL error rolls back alias/comment/notification effects; retry becomes Alice; no visit recorded |
+| Concurrent duplicate interactions | Five independent sessions each send like/watch 1, 0, 1; one row per user and one like notification; no self notification |
+| All comments by a participant deleted | Alias remains reserved; replies keep their deleted target anchor and name; returning commenter stays Alice |
+| More than 26 participants | Participant 27 appears as Alice 2 in thread, composer, reply prompt and personal list |
+| Concurrent visits | Ten simultaneous successful GETs from one account produce one row with ten visits |
+| Cursor/moderation boundaries | Invalid/repeated cursors safely fall back; newly hidden posts disappear from My comments and return 404 without losing aliases |
+
+Earlier regressions also cover strict positive IDs, SQL-looking topic values, disguised image files and a forced database failure after partial post/image insertion. CT-T23 and CT-T24 now run as separate fresh-seed tests, explicitly checking both ordinary visit increments and clear/revisit behavior. Exact upload error text and ordinary-form 303 responses are asserted as well.
 
 Two follow-up HTTP tests deliberately pause a submission after its route-level visibility check, let an owner's real delete request finish, then resume the real comment transaction. A deleted post returns 404 without creating a comment, alias, notification or visit. A deleted reply target returns 400, retains the draft, removes the invalid reply target and shows its deleted placeholder, with the same absence of side effects. The barrier controls request order without timing sleeps or privileged database-monitoring queries; the existing 20-client test separately exercises simultaneous alias allocation.
 
