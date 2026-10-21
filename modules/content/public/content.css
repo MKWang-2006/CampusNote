@@ -1,0 +1,65 @@
+.content-post,
+.content-compose,
+.content-my-comments {
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.content-text {
+  white-space: pre-wrap;
+  margin: 0;
+}
+.content-post .stack {
+  min-width: 0;
+}
+.content-post .like-watch {
+  flex-wrap: wrap;
+}
+.content-header > div {
+  flex: 1;
+}
+.content-images {
+  display: grid;
+  gap: 12px;
+}
+.content-images a {
+  display: block;
+  min-width: 0;
+}
+.content-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.content-post .comment,
+.content-post #comment-box {
+  scroll-margin-top: 96px;
+}
+.content-post .comment:target {
+  outline: 2px solid var(--brand-soft);
+  outline-offset: 3px;
+}
+.content-post .is-host {
+  color: var(--brand-soft);
+}
+.content-post .content-delete {
+  color: var(--danger);
+}
+.content-reply-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.content-comment-item {
+  color: var(--text);
+  text-decoration: none;
+}
+.content-compose input[type='file'] {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+}
+.content-compose .previews {
+  flex-wrap: wrap;
+}
