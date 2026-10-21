@@ -1,0 +1,8 @@
+<%# ID-3 step 1: the e-mail. Locals: values, errors. -%>
+<form class="form" method="post" action="/auth/forgot">
+  <%- csrfField() %>
+  <div class="group">
+    <%- include('partials/field', field({ name: 'email', type: 'email', label: 'University e-mail', value: values.email, error: errors.email, autocomplete: 'username' })) %>
+  </div>
+  <button class="btn btn-cta" type="submit">Send code</button>
+</form>

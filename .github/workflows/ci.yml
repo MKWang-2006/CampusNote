@@ -1,0 +1,51 @@
+# Runs on every pull request and on main: lint, every test, and the SQL check suite against a
+# MySQL 8.4 service. Branch protection on main requires this job ("ci") to pass.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    env:
+      NODE_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: campus_notes
+      DB_NAME_TEST: campus_notes_test
+      SESSION_SECRET: ci-only-secret
+      MYSQL: mysql -h 127.0.0.1 -P 3306 -uroot -proot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Tests
+        run: npm test
+      - name: Install MySQL client
+        run: sudo apt-get update -qq && sudo apt-get install -y default-mysql-client
+      - name: SQL checks
+        run: npm run check:sql

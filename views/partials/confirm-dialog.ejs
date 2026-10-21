@@ -1,0 +1,9 @@
+<%# The confirmation modal (screenshot 04). kit.js opens it for data-confirm and the leave guard;
+    without this partial kit.js creates the same dialog itself. Locals: id, text, ok, cancel. -%>
+<dialog class="confirm" id="<%= locals.id || 'confirm-dialog' %>">
+  <p class="confirm-text"><%= locals.text || 'Are you sure?' %></p>
+  <div class="confirm-actions">
+    <button type="button" class="cancel"><%= locals.cancel || 'Cancel' %></button>
+    <button type="button" class="ok"><%= locals.ok || 'OK' %></button>
+  </div>
+</dialog>

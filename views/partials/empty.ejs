@@ -1,0 +1,9 @@
+<%# An empty state. Locals: text, href and label (an optional button), icon (default doc). -%>
+<% const emptyIcon = ['doc', 'comment', 'star', 'heart', 'clock', 'bell', 'messages', 'ticket', 'calendar', 'search', 'flag', 'image'].includes(locals.icon) ? locals.icon : 'doc'; -%>
+<div class="empty">
+  <%- ui.icon(emptyIcon) %>
+  <p><%= text %></p>
+<% if (locals.href && locals.label) { -%>
+  <a class="btn" href="<%= locals.href %>"><%= locals.label %></a>
+<% } -%>
+</div>

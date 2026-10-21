@@ -1,0 +1,9 @@
+<div class="empty">
+  <%- ui.icon('info') %>
+  <p><%= message %></p>
+<% if (status === 401 || !me) { -%>
+  <a class="btn" href="/auth/login">Log in</a>
+<% } else { -%>
+  <a class="btn" href="/feed">Back to the feed</a>
+<% } -%>
+</div>

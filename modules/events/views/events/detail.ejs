@@ -1,0 +1,52 @@
+<article class="card stack event-detail" data-event-id="<%= event.event_id %>">
+<% if (event.cover_path) { -%>
+  <img class="event-cover" src="<%= event.cover_path %>" alt="">
+<% } -%>
+  <h1><%= event.title %></h1>
+  <p>By <a href="/u/<%= event.organizer_handle %>"><%= event.organizer_name %></a></p>
+  <p><%- ui.icon('calendar') %> <%= ui.hkt(event.starts_at, true) %> – <%= ui.hkt(event.ends_at, true) %> HKT</p>
+  <p><%= event.venue %></p>
+  <p><%= event.audience === 'all' ? 'Open to all universities' : `${event.university_code} members only` %></p>
+  <p>Tickets: <%= event.tickets_left %> of <%= event.capacity %> left</p>
+  <%- include('events/status', { event }) %>
+  <p class="pre"><%= event.description %></p>
+</article>
+<section class="card stack event-actions" aria-label="Tickets">
+<% if (event.my_ticket_code) { -%>
+  <h2>Your ticket</h2>
+  <strong class="ticket-code"><%= event.my_ticket_code %></strong>
+  <p class="small muted">Booked <%= ui.timeAgo(event.my_booked_at) %></p>
+<% if (event.my_checked_in_at) { -%>
+  <p class="chip chip-ok">Checked in · <%= ui.hkt(event.my_checked_in_at) %></p>
+<% } else if (event.before_start && !event.cancelled_at) { -%>
+  <form method="post" action="/events/<%= event.event_id %>/cancel-booking" data-confirm="Cancel your booking?" data-confirm-ok="Cancel booking">
+    <%- csrfField() %>
+    <button class="btn btn-danger" type="submit">Cancel booking</button>
+  </form>
+<% } -%>
+<% } else if (event.status === 'upcoming') { -%>
+  <p>Tickets go on sale at <%= ui.hkt(event.release_at, true) %> HKT.</p>
+<% } else if (event.status === 'on_sale') { -%>
+  <form method="post" action="/events/<%= event.event_id %>/book">
+    <%- csrfField() %>
+    <button class="btn btn-cta" type="submit">Book a ticket</button>
+  </form>
+<% } else { -%>
+  <p class="muted">Booking is unavailable for this event.</p>
+<% } -%>
+</section>
+<% if (isOwner || me.isAdmin) { -%>
+<nav class="card stack" aria-label="Manage event">
+<% if (isOwner && !event.cancelled_at) { -%>
+  <a href="/events/<%= event.event_id %>/edit">Edit</a>
+<% } -%>
+  <a href="/events/<%= event.event_id %>/attendees">Attendees</a>
+<% if (isOwner && !event.cancelled_at) { -%>
+  <form method="post" action="/events/<%= event.event_id %>/cancel" data-confirm="Cancel this event? Tickets will be kept as a record." data-confirm-ok="Cancel event">
+    <%- csrfField() %>
+    <button class="btn btn-danger" type="submit">Cancel event</button>
+  </form>
+<% } -%>
+</nav>
+<% } -%>
+<%- include('partials/confirm-dialog', { id: 'event-confirm', text: null, ok: null, cancel: null }) %>

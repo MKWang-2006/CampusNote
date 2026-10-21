@@ -1,0 +1,18 @@
+<%# ID-3 step 2: the code and a new password. Locals: email, errors. -%>
+<p>Enter the 6-digit code from the e-mail we sent to <%= email %> and choose a new password. The code is valid for 10 minutes.</p>
+<form class="form" method="post" action="/auth/reset">
+  <%- csrfField() %>
+  <div class="group">
+    <%- include('partials/field', field({ name: 'code', label: '6-digit code', inputmode: 'numeric', autocomplete: 'one-time-code', error: errors.code })) %>
+    <%- include('partials/field', field({ name: 'password', type: 'password', label: 'New password', hint: 'At least 8 characters', autocomplete: 'new-password', error: errors.password })) %>
+    <%- include('partials/field', field({ name: 'confirm', type: 'password', label: 'Type the new password again', autocomplete: 'new-password', error: errors.confirm })) %>
+  </div>
+  <button class="btn btn-cta" type="submit">Set new password</button>
+</form>
+<div class="auth-links">
+  <form method="post" action="/auth/forgot">
+    <%- csrfField() %>
+    <input type="hidden" name="email" value="<%= email %>">
+    <button class="link-button" type="submit">Send a new code</button>
+  </form>
+</div>

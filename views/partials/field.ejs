@@ -1,0 +1,26 @@
+<%# A labelled input or textarea with its hint, error and (when max is set) a live counter.
+    Locals: name, label, type (default text; 'textarea', or rows, gives a textarea), value, error,
+    max, hint, rows, autocomplete, inputmode, placeholder. -%>
+<% const fieldId = `f-${name}`;
+   const TYPES = ['text', 'email', 'password', 'number', 'search', 'tel', 'url', 'date', 'datetime-local', 'time', 'textarea'];
+   const fieldType = TYPES.includes(locals.type) ? locals.type : 'text';
+   const isArea = fieldType === 'textarea' || Boolean(locals.rows);
+   const fieldValue = locals.value === undefined || locals.value === null || fieldType === 'password' ? '' : String(locals.value);
+   const describedBy = [locals.hint && `${fieldId}-hint`, locals.error && `${fieldId}-error`].filter(Boolean).join(' '); -%>
+<div class="field<%= locals.error ? ' has-error' : '' %>">
+  <label for="<%= fieldId %>"><%= label %></label>
+<% if (isArea) { -%>
+  <textarea id="<%= fieldId %>" name="<%= name %>" rows="<%= locals.rows || 5 %>"<% if (locals.max) { %> data-max="<%= locals.max %>"<% } %><% if (locals.placeholder) { %> placeholder="<%= locals.placeholder %>"<% } %><% if (describedBy) { %> aria-describedby="<%= describedBy %>"<% } %><% if (locals.error) { %> aria-invalid="true"<% } %>><%= fieldValue %></textarea>
+<% } else { -%>
+  <input id="<%= fieldId %>" name="<%= name %>" type="<%= fieldType %>" value="<%= fieldValue %>"<% if (locals.autocomplete) { %> autocomplete="<%= locals.autocomplete %>"<% } %><% if (locals.inputmode) { %> inputmode="<%= locals.inputmode %>"<% } %><% if (locals.max) { %> data-max="<%= locals.max %>"<% } %><% if (locals.placeholder) { %> placeholder="<%= locals.placeholder %>"<% } %><% if (describedBy) { %> aria-describedby="<%= describedBy %>"<% } %><% if (locals.error) { %> aria-invalid="true"<% } %>>
+<% } -%>
+<% if (locals.max) { const left = locals.max - Array.from(fieldValue).length; -%>
+  <span class="counter<%= left < 0 ? ' is-over' : '' %>" data-counter-for="<%= fieldId %>"><%= left >= 0 ? `${left} characters left` : `${-left} characters too many` %></span>
+<% } -%>
+<% if (locals.hint) { -%>
+  <p class="hint" id="<%= fieldId %>-hint"><%= locals.hint %></p>
+<% } -%>
+<% if (locals.error) { -%>
+  <p class="error" id="<%= fieldId %>-error"><%= locals.error %></p>
+<% } -%>
+</div>

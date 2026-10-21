@@ -1,0 +1,8 @@
+<%# A switch row. Submits 1 when on and 0 when off (the hidden input carries the 0; bool() reads
+    the last value). Locals: name, label, checked, hint. -%>
+<label class="toggle">
+  <span class="toggle-text"><span><%= label %></span><% if (locals.hint) { %><span class="hint"><%= locals.hint %></span><% } %></span>
+  <input type="hidden" name="<%= name %>" value="0">
+  <input type="checkbox" name="<%= name %>" value="1" role="switch"<%= locals.checked ? ' checked' : '' %>>
+  <span class="switch" aria-hidden="true"></span>
+</label>

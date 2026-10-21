@@ -1,0 +1,21 @@
+<%# Like and watch buttons for a post (content's post page). Each form posts the action it wants
+    next (like=1 when not liked, like=0 when liked); kit.js applies the reply { liked, likeCount }
+    or { watched, watchCount }. Locals: postId, liked, watched, likeCount, watchCount. -%>
+<div class="like-watch">
+  <form method="post" action="/posts/<%= postId %>/like" data-ajax>
+    <%- csrfField() %>
+    <input type="hidden" name="like" value="<%= liked ? 0 : 1 %>" data-bind-not="liked">
+    <button class="btn like" type="submit" aria-pressed="<%= Boolean(liked) %>" data-bind-pressed="liked">
+      <span class="off"><%- ui.icon('heart') %></span><span class="on"><%- ui.icon('heart-filled') %></span>
+      <span>Like</span> <span data-bind="likeCount"><%= likeCount %></span>
+    </button>
+  </form>
+  <form method="post" action="/posts/<%= postId %>/watch" data-ajax>
+    <%- csrfField() %>
+    <input type="hidden" name="watch" value="<%= watched ? 0 : 1 %>" data-bind-not="watched">
+    <button class="btn watch" type="submit" aria-pressed="<%= Boolean(watched) %>" data-bind-pressed="watched">
+      <span class="off"><%- ui.icon('star') %></span><span class="on"><%- ui.icon('star-filled') %></span>
+      <span>Watch</span> <span data-bind="watchCount"><%= watchCount %></span>
+    </button>
+  </form>
+</div>

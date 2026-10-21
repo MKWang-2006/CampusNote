@@ -1,0 +1,14 @@
+<%# A list of post cards with "Load more", or the empty state.
+    Locals: cards, nextUrl (or null), empty (the empty-state text). -%>
+<% if (!cards || cards.length === 0) { -%>
+<%- include('empty', { text: locals.empty || 'Nothing here yet.', href: null, label: null }) %>
+<% } else { -%>
+<div class="post-list">
+<% cards.forEach((c) => { -%>
+<%- include('post-card', { card: c, link: null }) %>
+<% }) -%>
+</div>
+<% if (locals.nextUrl) { -%>
+<a class="btn load-more" href="<%= locals.nextUrl %>">Load more</a>
+<% } -%>
+<% } -%>

@@ -1,0 +1,10 @@
+node_modules/
+uploads/
+package-lock.json
+# The design pack and SQL are formatted by hand; templates are not supported by Prettier.
+docs/
+*.md
+*.sql
+*.ejs
+*.svg
+*.html

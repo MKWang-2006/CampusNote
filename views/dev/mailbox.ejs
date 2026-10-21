@@ -1,0 +1,16 @@
+<p class="muted small">Development only. Every e-mail the app sent is stored here (table <code>outbox</code>), newest first.</p>
+<form method="get" action="/dev/mailbox" class="row">
+  <label class="sr-only" for="mailbox-to">E-mail address</label>
+  <input class="input" id="mailbox-to" name="to" type="email" value="<%= to %>" placeholder="Filter by address">
+  <button class="btn btn-sm" type="submit">Filter</button>
+</form>
+<% if (mails.length === 0) { -%>
+<%- include('partials/empty', { text: to ? `No mail to ${to}.` : 'No mail yet. Register to get a code.' }) %>
+<% } -%>
+<% mails.forEach((m) => { -%>
+<article class="card stack">
+  <div class="row-between small"><span><%= m.to_email %></span><span class="muted"><%= ui.timeAgo(m.created_at) %></span></div>
+  <h2><%= m.subject %></h2>
+  <p class="pre"><%= m.body_text %></p>
+</article>
+<% }) -%>

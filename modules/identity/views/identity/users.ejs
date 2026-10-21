@@ -1,0 +1,56 @@
+<%# ID-8: admin user list. Locals: q (the search), users (searchUsers rows), alert. -%>
+<% if (alert) { -%>
+<p class="alert" role="alert"><%= alert %></p>
+<% } -%>
+<form class="form" method="get" action="/admin/users" role="search">
+  <div class="group">
+    <%- include('partials/field', field({ name: 'q', type: 'search', label: 'Handle or e-mail', value: q })) %>
+  </div>
+  <button class="btn" type="submit">Search</button>
+</form>
+<% if (users.length === 0) { -%>
+<%- include('partials/empty', { text: 'No accounts match this search.', href: null, label: null, icon: 'search' }) %>
+<% } -%>
+<% users.forEach((u) => { -%>
+<article class="card stack user-row" id="u<%= u.user_id %>">
+  <div class="row-between wrap">
+    <strong class="user-handle"><%= u.handle %></strong>
+    <span class="row wrap">
+      <span class="chip"><%= u.university_code %></span>
+      <span class="chip"><%= u.role %></span>
+<% if (u.status === 'banned') { -%>
+      <span class="chip chip-danger">Banned</span>
+<% } -%>
+    </span>
+  </div>
+  <div class="small"><%= u.email %></div>
+  <div class="small muted">Member since <%= ui.date(u.created_at) %> · Last login <%= u.last_login_at ? ui.timeAgo(u.last_login_at) : 'never' %></div>
+  <div class="user-actions">
+<% if (u.status === 'banned') { -%>
+    <form method="post" action="/admin/users/<%= u.user_id %>">
+      <%- csrfField() %>
+      <input type="hidden" name="q" value="<%= q %>">
+      <input type="hidden" name="action" value="unban">
+      <button class="btn btn-sm" type="submit">Unban</button>
+    </form>
+<% } else if (u.user_id !== me.userId) { -%>
+    <form method="post" action="/admin/users/<%= u.user_id %>">
+      <%- csrfField() %>
+      <input type="hidden" name="q" value="<%= q %>">
+      <input type="hidden" name="action" value="ban">
+      <button class="btn btn-sm btn-danger" type="submit" data-confirm="Ban <%= u.handle %>? They are logged out and cannot log in.">Ban</button>
+    </form>
+<% } -%>
+<% if (u.role === 'student') { -%>
+    <form method="post" action="/admin/users/<%= u.user_id %>" class="make-org">
+      <%- csrfField() %>
+      <input type="hidden" name="q" value="<%= q %>">
+      <input type="hidden" name="action" value="make_org">
+      <label class="sr-only" for="dn-<%= u.user_id %>">Display name</label>
+      <input class="input" id="dn-<%= u.user_id %>" name="display_name" maxlength="60" required placeholder="Display name">
+      <button class="btn btn-sm" type="submit">Make organization</button>
+    </form>
+<% } -%>
+  </div>
+</article>
+<% }) -%>

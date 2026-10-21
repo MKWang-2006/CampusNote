@@ -1,0 +1,10 @@
+<%# The four counts on the Me page. Locals: items [{ label, value, href }]. -%>
+<div class="stat-row">
+<% items.forEach((s) => { -%>
+<% if (s.href) { -%>
+  <a href="<%= s.href %>"><span class="stat-value"><%= s.value %></span><span class="stat-label"><%= s.label %></span></a>
+<% } else { -%>
+  <div><span class="stat-value"><%= s.value %></span><span class="stat-label"><%= s.label %></span></div>
+<% } -%>
+<% }) -%>
+</div>

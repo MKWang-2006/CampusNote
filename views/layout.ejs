@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <meta name="theme-color" content="#864442">
+  <title><%= title ? `${title} · Campus Notes` : 'Campus Notes' %></title>
+  <link rel="icon" href="/static/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/css/kit.css">
+<% styles.forEach((href) => { -%>
+  <link rel="stylesheet" href="<%= href %>">
+<% }) -%>
+  <script src="/static/js/kit.js" defer></script>
+<% scripts.forEach((src) => { -%>
+  <script src="<%= src %>" defer></script>
+<% }) -%>
+</head>
+<body class="<%= hideTabs || !me ? 'no-tabs' : '' %>">
+  <header class="topbar">
+<% if (back) { -%>
+    <a class="topbar-back" href="<%= back %>" aria-label="Back"><%- ui.icon('back') %></a>
+<% } -%>
+    <h1 class="topbar-title"><%= title || 'Campus Notes' %></h1>
+  </header>
+  <main class="page" id="main">
+<% if (flash) { -%>
+    <p class="flash" role="status"><%= flash %></p>
+<% } -%>
+<%- body %>
+  </main>
+<% if (!hideTabs && me) {
+     const unread = Number((badges && badges.messages) || 0);
+     const tabs = [
+       { key: 'feed', href: '/feed', label: 'Feed', icon: 'feed' },
+       { key: 'search', href: '/search', label: 'Search', icon: 'search' },
+       { key: 'compose', href: '/compose', label: 'New post', icon: 'plus' },
+       { key: 'messages', href: '/messages', label: 'Messages', icon: 'messages' },
+       { key: 'me', href: '/me', label: 'Me', icon: 'me' },
+     ]; -%>
+  <nav class="tabbar" aria-label="Main">
+<% tabs.forEach((t) => { -%>
+<%   if (t.key === 'compose') { -%>
+    <a class="tab-compose" href="<%= t.href %>"<%- tab === t.key ? ' aria-current="page"' : '' %>><span class="plus"><%- ui.icon('plus') %></span><span class="sr-only"><%= t.label %></span></a>
+<%   } else { -%>
+    <a href="<%= t.href %>"<%- tab === t.key ? ' aria-current="page"' : '' %>>
+      <%- ui.icon(t.icon) %><span><%= t.label %></span>
+<%     if (t.key === 'messages' && unread > 0) { -%>
+      <span class="badge" aria-label="<%= unread %> unread"><%= unread > 99 ? '99+' : unread %></span>
+<%     } -%>
+    </a>
+<%   } -%>
+<% }) -%>
+  </nav>
+<% } -%>
+</body>
+</html>

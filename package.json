@@ -1,0 +1,39 @@
+{
+  "name": "campus-notes",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Campus Notes: an anonymous campus forum for Hong Kong university students (COMP3278 group project)",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:reset": "node db/reset.js",
+    "test": "node scripts/test.js",
+    "check:sql": "bash db/tests/run_all.sh",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "load-test": "node scripts/load-test.js",
+    "demo:race": "node scripts/demo-race.js"
+  },
+  "dependencies": {
+    "bcryptjs": "3.0.3",
+    "ejs": "3.1.10",
+    "express": "5.2.1",
+    "express-session": "1.19.0",
+    "multer": "2.4.0",
+    "mysql2": "3.24.5",
+    "nodemailer": "10.0.13"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "cheerio": "1.2.0",
+    "eslint": "9.39.5",
+    "globals": "17.12.0",
+    "prettier": "3.9.9",
+    "supertest": "7.3.0"
+  }
+}

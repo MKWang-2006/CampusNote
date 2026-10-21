@@ -1,0 +1,40 @@
+<% if (errors.form) { -%>
+<p class="alert" role="alert"><%= errors.form %></p>
+<% } -%>
+<form class="form" method="post" enctype="multipart/form-data" action="<%= csrfUrl(action) %>" data-leave-guard>
+  <p class="hint">All dates and times are in Hong Kong time (UTC+8).</p>
+  <div class="group">
+    <%- include('partials/field', { name: 'title', label: 'Title', type: 'text', value: values.title, error: errors.title, max: 80, hint: null, rows: null, autocomplete: null, inputmode: null, placeholder: null }) %>
+    <%- include('partials/field', { name: 'description', label: 'Description', type: 'textarea', value: values.description, error: errors.description, max: 2000, hint: null, rows: 5, autocomplete: null, inputmode: null, placeholder: null }) %>
+    <%- include('partials/field', { name: 'venue', label: 'Venue', type: 'text', value: values.venue, error: errors.venue, max: 120, hint: null, rows: null, autocomplete: null, inputmode: null, placeholder: null }) %>
+  </div>
+  <div class="group">
+<% [['starts_at', 'Starts'], ['ends_at', 'Ends'], ['release_at', 'Tickets go on sale']].forEach(([name, label]) => { -%>
+    <%- include('partials/field', { name, label, type: 'datetime-local', value: values[name], error: errors[name], max: null, hint: null, rows: null, autocomplete: null, inputmode: null, placeholder: null }) %>
+<% }) -%>
+    <%- include('partials/field', { name: 'capacity', label: 'Capacity', type: 'number', value: values.capacity, error: errors.capacity, max: null, hint: '1 to 5,000 free tickets', rows: null, autocomplete: null, inputmode: 'numeric', placeholder: null }) %>
+    <div class="field<%= errors.audience ? ' has-error' : '' %>">
+      <label for="f-audience">Audience</label>
+      <select id="f-audience" name="audience"<% if (errors.audience) { %> aria-describedby="f-audience-error" aria-invalid="true"<% } %>>
+        <option value="all"<%= values.audience === 'all' ? ' selected' : '' %>>All universities</option>
+        <option value="university"<%= values.audience === 'university' ? ' selected' : '' %>><%= me.universityCode %> members only</option>
+      </select>
+<% if (errors.audience) { -%>
+      <p class="error" id="f-audience-error"><%= errors.audience %></p>
+<% } -%>
+    </div>
+    <div class="field<%= errors.cover ? ' has-error' : '' %>">
+      <label for="f-cover">Cover (optional)</label>
+<% if (event && event.cover_path) { -%>
+      <img class="event-cover" src="<%= event.cover_path %>" alt="Current cover">
+      <p class="hint">Choose an image to replace the current cover.</p>
+<% } -%>
+      <input id="f-cover" name="cover" type="file" accept="image/jpeg,image/png,image/webp,image/gif" data-preview="images" data-max-files="1" aria-describedby="f-cover-hint<%= errors.cover ? ' f-cover-error' : '' %>"<% if (errors.cover) { %> aria-invalid="true"<% } %>>
+      <p class="hint" id="f-cover-hint">One image: JPEG, PNG, WebP or GIF, at most 5 MB. Choose it again after correcting an error.</p>
+<% if (errors.cover) { -%>
+      <p class="error" id="f-cover-error"><%= errors.cover %></p>
+<% } -%>
+    </div>
+  </div>
+  <button class="btn btn-cta" type="submit"><%= event ? 'Save event' : 'Create event' %></button>
+</form>

@@ -1,0 +1,13 @@
+<%# Radio chips for picking one topic (compose). Locals: topics (ref.topics), name, selected, error,
+    label (default 'Pick a topic'). -%>
+<fieldset class="group topic-chips<%= locals.error ? ' has-error' : '' %>">
+  <legend class="field-label"><%= locals.label || 'Pick a topic' %></legend>
+  <div class="chips">
+<% topics.forEach((t) => { -%>
+    <label class="chip-choice"><input type="radio" name="<%= name %>" value="<%= t.code %>"<%= locals.selected === t.code ? ' checked' : '' %>><span><%= t.name_en %></span></label>
+<% }) -%>
+  </div>
+<% if (locals.error) { -%>
+  <p class="error chips-error"><%= locals.error %></p>
+<% } -%>
+</fieldset>

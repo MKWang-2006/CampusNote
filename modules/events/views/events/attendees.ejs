@@ -1,0 +1,24 @@
+<section class="card stack">
+  <h1><%= event.title %></h1>
+  <p><%= attendees.length %> / <%= event.capacity %> sold · <%= attendees.filter((ticket) => ticket.checked_in_at).length %> checked in</p>
+  <form class="form" method="post" action="/events/<%= event.event_id %>/check-in">
+    <%- csrfField() %>
+    <%- include('partials/field', { name: 'code', label: 'Ticket code', type: 'text', value: '', error: null, max: 8, hint: 'Enter the eight-character code shown on the ticket', rows: null, autocomplete: 'off', inputmode: null, placeholder: 'DB9H4R7W' }) %>
+    <button class="btn btn-cta" type="submit">Check in by code</button>
+  </form>
+</section>
+<% if (!attendees.length) { -%>
+<%- include('partials/empty', { text: 'No bookings yet.', icon: 'ticket', href: null, label: null }) %>
+<% } else { -%>
+<div class="table-wrap">
+<table class="table">
+  <caption class="sr-only">Attendees for <%= event.title %></caption>
+  <thead><tr><th scope="col">Handle</th><th scope="col">University</th><th scope="col">Code</th><th scope="col">Booked</th><th scope="col">Checked in</th></tr></thead>
+  <tbody>
+<% attendees.forEach((ticket) => { -%>
+    <tr><td><%= ticket.handle %></td><td><%= ticket.university_code %></td><td><%= ticket.ticket_code %></td><td><%= ui.hkt(ticket.booked_at) %></td><td><%= ticket.checked_in_at ? ui.hkt(ticket.checked_in_at) : '—' %></td></tr>
+<% }) -%>
+  </tbody>
+</table>
+</div>
+<% } -%>

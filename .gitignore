@@ -1,0 +1,11 @@
+node_modules/
+uploads/
+.env
+*.log
+.DS_Store
+coverage/
+
+# Personal local configuration and original-app reference images stay local.
+.env.*
+!.env.example
+/docs/reference/triple-uni-screenshots/

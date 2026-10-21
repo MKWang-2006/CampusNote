@@ -1,0 +1,27 @@
+<%# ID-1 step 2: the code and a password. Locals: email, values, errors, alert, taken, devTools. -%>
+<% if (alert) { -%>
+<p class="alert" role="alert"><%= alert %></p>
+<% } -%>
+<% if (taken) { -%>
+<p class="alert" role="alert">This e-mail is already registered. <a href="/auth/login">Log in</a> or <a href="/auth/forgot">reset your password</a>.</p>
+<% } -%>
+<p>Enter the code we sent to <%= email %>. It is valid for 10 minutes.</p>
+<form class="form" method="post" action="/auth/verify">
+  <%- csrfField() %>
+  <div class="group">
+    <%- include('partials/field', field({ name: 'code', label: '6-digit code', inputmode: 'numeric', autocomplete: 'one-time-code', error: errors.code })) %>
+    <%- include('partials/field', field({ name: 'password', type: 'password', label: 'Choose a password', hint: 'At least 8 characters', autocomplete: 'new-password', error: errors.password })) %>
+    <%- include('partials/field', field({ name: 'confirm', type: 'password', label: 'Type the password again', autocomplete: 'new-password', error: errors.confirm })) %>
+  </div>
+  <button class="btn btn-cta" type="submit">Create account</button>
+</form>
+<div class="auth-links">
+  <form method="post" action="/auth/resend">
+    <%- csrfField() %>
+    <button class="link-button" type="submit">Send a new code</button>
+  </form>
+  <a href="/auth/register">Use a different e-mail</a>
+<% if (devTools) { -%>
+  <a class="small" href="/dev/mailbox?to=<%= encodeURIComponent(email) %>">Open the dev mailbox</a>
+<% } -%>
+</div>

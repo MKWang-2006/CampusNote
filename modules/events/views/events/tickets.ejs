@@ -1,0 +1,21 @@
+<% if (!tickets.length) { -%>
+<%- include('partials/empty', { text: 'No tickets yet', icon: 'ticket', href: '/events', label: 'Browse events' }) %>
+<% } else { -%>
+<div class="stack">
+<% tickets.forEach((ticket) => { -%>
+  <article class="card ticket-card" data-event-id="<%= ticket.event_id %>">
+    <a href="/events/<%= ticket.event_id %>"><h2><%= ticket.title %></h2></a>
+    <p><%= ui.hkt(ticket.starts_at, true) %> HKT · <%= ticket.venue %></p>
+    <p class="ticket-code"><%= ticket.ticket_code %></p>
+<% if (ticket.cancelled_at) { -%>
+    <span class="chip chip-danger">Cancelled</span>
+<% } -%>
+<% if (ticket.checked_in_at) { -%>
+    <span class="chip chip-ok">Checked in</span>
+<% } else if (ticket.is_past && !ticket.cancelled_at) { -%>
+    <span class="chip">Ended</span>
+<% } -%>
+  </article>
+<% }) -%>
+</div>
+<% } -%>

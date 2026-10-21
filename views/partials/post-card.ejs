@@ -1,0 +1,31 @@
+<%# One post as a feed card (UI_KIT §3). Locals: card (a v_post_cards row), link (default /posts/:id).
+    Shows the author only when the view says so (author_name is NULL for anonymous posts). -%>
+<% const cardHref = (typeof locals.link === 'string' && locals.link) || `/posts/${card.post_id}`; -%>
+<a class="post-card" href="<%= cardHref %>">
+  <div class="post-card-head">
+    <span class="post-no"><%= ui.postNo(card.post_id) %></span>
+    <%- include('avatar', { code: card.avatar_code, size: 'sm' }) %>
+    <span class="chip"><%= card.topic_name_en %></span>
+    <span class="post-counts">
+      <span><%- ui.icon('heart') %><%= card.like_count %><span class="sr-only"> likes</span></span>
+      <span><%- ui.icon('star') %><%= card.watch_count %><span class="sr-only"> watching</span></span>
+      <span><%- ui.icon('comment') %><%= card.comment_count %><span class="sr-only"> comments</span></span>
+    </span>
+  </div>
+  <div class="post-card-body">
+    <p class="post-text"><%= card.body %></p>
+<% if (card.cover_path) { -%>
+    <span class="post-cover"><img src="<%= card.cover_path %>" alt="" loading="lazy"><% if (card.image_count > 1) { %><span class="more">+<%= card.image_count - 1 %></span><% } %></span>
+<% } -%>
+  </div>
+  <div class="post-meta">
+    <span><%= ui.timeAgo(card.created_at) %></span>
+    <span><%= card.author_university_code %></span>
+<% if (card.visibility === 'all') { -%>
+    <span title="Visible to all universities"><%- ui.icon('globe') %><span class="sr-only">All universities</span></span>
+<% } -%>
+<% if (card.author_name) { -%>
+    <span class="author"><%= card.author_name %></span>
+<% } -%>
+  </div>
+</a>

@@ -1,0 +1,6 @@
+<%# The scrollable tab strip at the top of a list. Locals: items [{ label, href, active }]. -%>
+<nav class="tabs" aria-label="<%= locals.label || 'Tabs' %>">
+<% items.forEach((t) => { -%>
+  <a href="<%= t.href %>"<%- t.active ? ' aria-current="page"' : '' %>><%= t.label %></a>
+<% }) -%>
+</nav>

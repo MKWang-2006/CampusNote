@@ -1,0 +1,92 @@
+/* Identity module styles, on top of kit.css (served at /m/identity/identity.css). */
+
+/* Me hub: the banner runs edge to edge under the top bar (.page > .full-bleed in kit.css). */
+.me-banner {
+  display: block;
+  width: calc(100% + 2 * var(--gap));
+  max-width: none;
+  height: auto;
+  aspect-ratio: 960 / 300;
+  object-fit: cover;
+}
+.me-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: -40px;
+  position: relative;
+}
+.me-id {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.me-id .avatar {
+  border: 3px solid var(--surface);
+}
+.me-handle {
+  font-size: 20px;
+}
+
+/* Read-only rows on Profile. */
+.readonly {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+}
+.group > .readonly + .readonly {
+  border-top: 1px solid var(--line);
+}
+.readonly .field-label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Profile: the avatar radio list. */
+.avatar-picker legend {
+  float: left;
+  width: 100%;
+  padding: 12px 14px 10px;
+}
+.avatar-picker .avatar-choices {
+  clear: both;
+}
+.avatar-picker .error {
+  padding: 0 14px 12px;
+}
+
+/* Auth pages: the links under a form. */
+.auth-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+/* Admin user list. */
+.user-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.user-actions form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+}
+.user-actions .input {
+  min-height: 36px;
+  padding: 6px 10px;
+  width: 12em;
+}
+.me-names {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}

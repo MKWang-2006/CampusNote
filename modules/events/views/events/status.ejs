@@ -1,0 +1,6 @@
+<% const labels = { on_sale: `On sale · ${event.tickets_left} left`, sold_out: 'Sold out', in_progress: 'Happening now', ended: 'Ended', cancelled: 'Cancelled' }; -%>
+<% if (event.status === 'upcoming') { -%>
+<span class="chip chip-warn event-status">Opens in <span <%- ui.countdownAttr(event.release_at) %>><%= ui.hkt(event.release_at) %> HKT</span></span>
+<% } else { -%>
+<span class="chip event-status<%= event.status === 'on_sale' ? ' chip-ok' : event.status === 'cancelled' ? ' chip-danger' : '' %>"><%= labels[event.status] %></span>
+<% } -%>

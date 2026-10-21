@@ -1,0 +1,32 @@
+# Shared paths: the coordinator reviews every change (docs/team/WORKFLOW.md §6).
+# Member module folders are not listed, so a PR that stays inside one needs no approval (CI must
+# still pass). The coordinator is Michael-wzl.
+/core/                 @Michael-wzl
+/views/                @Michael-wzl
+/public/               @Michael-wzl
+/db/                   @Michael-wzl
+/test/                 @Michael-wzl
+/scripts/              @Michael-wzl
+/.github/              @Michael-wzl
+/package.json          @Michael-wzl
+/package-lock.json     @Michael-wzl
+/app.js                @Michael-wzl
+/AGENTS.md             @Michael-wzl
+/docs/product/         @Michael-wzl
+/docs/architecture/    @Michael-wzl
+/docs/data/            @Michael-wzl
+/docs/team/            @Michael-wzl
+/modules/identity/     @Michael-wzl
+
+/server.js             @Michael-wzl
+/README.md             @Michael-wzl
+/START_HERE.md         @Michael-wzl
+/compose.yaml          @Michael-wzl
+/.env.example          @Michael-wzl
+/.gitignore            @Michael-wzl
+/modules/events/       @Michael-wzl
+/docs/modules/events/  @Michael-wzl
+/docs/modules/identity/ @Michael-wzl
+/eslint.config.js      @Michael-wzl
+/.prettierignore       @Michael-wzl
+/.prettierrc           @Michael-wzl

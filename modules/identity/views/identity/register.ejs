@@ -1,0 +1,17 @@
+<%# ID-1 step 1: the university e-mail. Locals: values, errors, alert, taken. -%>
+<% if (alert) { -%>
+<p class="alert" role="alert"><%= alert %></p>
+<% } -%>
+<% if (taken) { -%>
+<p class="alert" role="alert">This e-mail is already registered. <a href="/auth/login">Log in</a> or <a href="/auth/forgot">reset your password</a>.</p>
+<% } -%>
+<form class="form" method="post" action="/auth/register">
+  <%- csrfField() %>
+  <div class="group">
+    <%- include('partials/field', field({ name: 'email', type: 'email', label: 'University e-mail', hint: 'HKU, CUHK or HKUST, such as name@connect.hku.hk', value: values.email, error: errors.email, autocomplete: 'email' })) %>
+  </div>
+  <button class="btn btn-cta" type="submit">Send code</button>
+</form>
+<div class="auth-links">
+  <a href="/auth/login">Already have an account? Log in</a>
+</div>

@@ -1,0 +1,13 @@
+<%# ID-4: the Me hub. Locals: stats (stat-row items), groups (menu groups). -%>
+<img class="me-banner full-bleed" src="/m/identity/banner.svg" alt="" width="960" height="300">
+<section class="card me-card" aria-label="Your account">
+  <div class="me-id">
+    <%- include('partials/avatar', { code: me.avatarCode, size: 'lg' }) %>
+    <div class="me-names">
+      <h2 class="me-handle"><%= me.handle %></h2>
+      <span><span class="chip chip-brand"><%= me.universityCode %></span></span>
+    </div>
+  </div>
+  <%- include('partials/stat-row', { items: stats }) %>
+</section>
+<%- include('partials/menu', { groups }) %>

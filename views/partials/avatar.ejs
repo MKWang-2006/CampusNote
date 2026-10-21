@@ -1,0 +1,4 @@
+<%# The avatar image for an avatar code. Locals: code, size ('sm' 32, 'md' 44, 'lg' 72). -%>
+<% const avatarSize = ['sm', 'md', 'lg'].includes(locals.size) ? locals.size : 'md';
+   const avatarPx = { sm: 32, md: 44, lg: 72 }[avatarSize]; -%>
+<img class="avatar avatar-<%= avatarSize %>" src="<%= ui.avatarUrl(locals.code) %>" alt="" width="<%= avatarPx %>" height="<%= avatarPx %>">

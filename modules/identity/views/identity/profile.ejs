@@ -1,0 +1,54 @@
+<%# ID-5: profile. Locals: profile (getProfile row), since, values { avatar, bio }, errors. -%>
+<section class="group" aria-label="Your account">
+  <div class="readonly">
+    <span class="field-label">Handle</span>
+    <span><%= profile.handle %></span>
+    <span class="hint">Your public id. It never changes.</span>
+  </div>
+  <div class="readonly">
+    <span class="field-label">E-mail</span>
+    <span><%= profile.email %></span>
+  </div>
+  <div class="readonly">
+    <span class="field-label">University</span>
+    <span><%= profile.university_name %></span>
+  </div>
+  <div class="readonly">
+    <span>Member since <%= since %></span>
+  </div>
+</section>
+<% if (profile.display_name !== null && profile.display_name !== undefined) { -%>
+<section class="group org-profile" aria-label="Organization">
+  <div class="readonly">
+    <span class="field-label">Display name</span>
+    <span><%= profile.display_name %></span>
+  </div>
+  <div class="readonly">
+    <span class="field-label">Description</span>
+<% if (profile.description) { -%>
+    <span class="pre"><%= profile.description %></span>
+<% } else { -%>
+    <span class="muted">None yet</span>
+<% } -%>
+    <span class="hint">Ask an admin to change these.</span>
+  </div>
+</section>
+<% } -%>
+<form class="form" method="post" action="/me/profile">
+  <%- csrfField() %>
+  <fieldset class="group avatar-picker<%= errors.avatar ? ' has-error' : '' %>">
+    <legend class="field-label">Avatar</legend>
+    <div class="avatar-choices">
+<% ui.avatars.forEach((code) => { -%>
+      <label class="avatar-choice"><input type="radio" name="avatar" value="<%= code %>"<%= values.avatar === code ? ' checked' : '' %>><%- include('partials/avatar', { code, size: 'md' }) %><span class="sr-only"><%= code %></span></label>
+<% }) -%>
+    </div>
+<% if (errors.avatar) { -%>
+    <p class="error" id="f-avatar-error"><%= errors.avatar %></p>
+<% } -%>
+  </fieldset>
+  <div class="group">
+    <%- include('partials/field', field({ name: 'bio', label: 'Bio', rows: 3, max: 160, hint: 'Shown on your public page', value: values.bio, error: errors.bio })) %>
+  </div>
+  <button class="btn btn-cta" type="submit">Save</button>
+</form>

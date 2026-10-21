@@ -1,0 +1,23 @@
+<%# ID-6: settings and password. Locals: prefs { defaultAnonymous, shareAll, notifyComments,
+    notifyLikes }, errors (of the password form). -%>
+<form class="form" method="post" action="/me/settings">
+  <%- csrfField() %>
+  <h2 class="group-title">Defaults and notifications</h2>
+  <div class="group">
+    <%- include('partials/toggle', { name: 'default_anonymous', label: 'Post anonymously by default', checked: prefs.defaultAnonymous, hint: null }) %>
+    <%- include('partials/toggle', { name: 'share_all', label: 'Share new posts with all universities by default', checked: prefs.shareAll, hint: null }) %>
+    <%- include('partials/toggle', { name: 'notify_comments', label: 'Notify me about comments', checked: prefs.notifyComments, hint: null }) %>
+    <%- include('partials/toggle', { name: 'notify_likes', label: 'Notify me about likes', checked: prefs.notifyLikes, hint: null }) %>
+  </div>
+  <button class="btn btn-cta" type="submit">Save</button>
+</form>
+<form class="form" method="post" action="/me/password">
+  <%- csrfField() %>
+  <h2 class="group-title">Change password</h2>
+  <div class="group">
+    <%- include('partials/field', field({ name: 'current', type: 'password', label: 'Current password', autocomplete: 'current-password', error: errors.current })) %>
+    <%- include('partials/field', field({ name: 'password', type: 'password', label: 'New password', hint: 'At least 8 characters', autocomplete: 'new-password', error: errors.password })) %>
+    <%- include('partials/field', field({ name: 'confirm', type: 'password', label: 'Type the new password again', autocomplete: 'new-password', error: errors.confirm })) %>
+  </div>
+  <button class="btn btn-block" type="submit">Change password</button>
+</form>

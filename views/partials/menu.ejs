@@ -1,0 +1,17 @@
+<%# Grouped menu rows with a chevron (Me page). Locals: groups [[{ href, icon, label, badge, danger }]].
+    A row with `form` instead of `href` is a POST form carrying the CSRF token (Log out). -%>
+<% groups.forEach((group) => { -%>
+<ul class="group menu-group">
+<% group.forEach((item) => { -%>
+  <li class="menu-row<%= item.danger ? ' is-danger' : '' %>">
+<% if (item.form) { -%>
+    <form method="post" action="<%= item.form %>"><%- csrfField() %>
+      <button type="submit"><span class="menu-icon"><%- ui.icon(item.icon || 'chevron') %></span><span class="menu-label"><%= item.label %></span></button>
+    </form>
+<% } else { -%>
+    <a href="<%= item.href %>"><span class="menu-icon"><%- ui.icon(item.icon || 'chevron') %></span><span class="menu-label"><%= item.label %></span><% if (item.badge) { %><span class="badge"><%= item.badge %></span><% } %><span class="chevron"><%- ui.icon('chevron') %></span></a>
+<% } -%>
+  </li>
+<% }) -%>
+</ul>
+<% }) -%>
