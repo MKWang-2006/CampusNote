@@ -7,7 +7,7 @@
 <% if (!events.length) { -%>
 <%- include('partials/empty', { text: mine ? 'You have not created an event yet.' : 'No upcoming events yet.', icon: 'calendar', href: mine ? '/events/new' : null, label: mine ? 'New event' : null }) %>
 <% } else { -%>
-<div class="stack events-list">
+<div class="page-grid events-list">
 <% events.forEach((event) => { -%>
   <article class="card event-card" data-event-id="<%= event.event_id %>">
     <a class="event-card-link" href="/events/<%= event.event_id %>">

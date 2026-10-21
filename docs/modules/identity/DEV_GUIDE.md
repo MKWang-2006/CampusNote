@@ -5,7 +5,7 @@
 | **Owner** | Michael (coordinator). Built by Claude together with the backbone before kickoff (decision D2); Michael reviews it, owns it and maintains it. |
 | **Folder** | `modules/identity/`, `docs/modules/identity/` |
 | **Features** | ID-1 to ID-8 (`PRODUCT_SPEC.md` §4) |
-| **Read first** | `ARCHITECTURE.md` §1, §4, §5, §6, §9; `PRODUCT_SPEC.md` BR-1 to BR-4, BR-10 and BR-18; this guide |
+| **Read first** | `ARCHITECTURE.md` §1, §4, §5, §6, §9; `PRODUCT_SPEC.md` BR-1 to BR-4, BR-10 and BR-18; [responsive layout](../../architecture/RESPONSIVE.md); this guide |
 | **Tested SQL** | `queries.sql` (this folder) |
 
 You can build this module without knowing the rest of the app. Everything you need from other modules is listed in §3. Because identity ships with the backbone, this guide is mainly the specification and the test list for that build, and the reference for whoever maintains it afterwards.
@@ -107,6 +107,10 @@ No other module writes `users`, `organizations` or `email_codes`.
 | Could | ID-8 admin user list, in integration week at the latest; the first thing to cut. |
 
 ## 5. Features
+
+### Responsive page layout (every feature)
+
+Keep authentication, profile and settings forms within `form-width`, and About/Terms/Privacy prose within `readable`. The Me hub may place its overview beside its menu on desktop; it stacks on phones. Avatar choices and actions wrap. Admin tables use `table-wrap`, never a fixed page width. Read [RESPONSIVE.md](../../architecture/RESPONSIVE.md) before adding page CSS. Do not create another sidebar/bottom bar or use a fixed 480 px page width. Keep module CSS under `modules/identity/public/` and scope selectors to this module.
 
 ### ID-1 Register with a university e-mail: `/auth/register`, `/auth/verify`, `/auth/resend` (Must)
 
@@ -402,9 +406,11 @@ Run them with `npm test -- modules/identity`. The SQL itself is checked by `npm 
 
 ## 8. Definition of done
 
+- The [responsive acceptance checklist](../../architecture/RESPONSIVE.md#acceptance-checks-for-every-page) passes: no horizontal document overflow, appropriate navigation, readable forms, wrapping long text, visible focus and touch targets at least 44 px high. Add phone and desktop screenshots to the PR.
+
 - ID-T01 to ID-T29 pass (ID-T30 to ID-T33 too if ID-8 is built), and `npm test`, `npm run lint` and `npm run check:sql` are green in CI.
 - The full sign-up has been done by hand in a browser with the dev mailbox, with JavaScript on and off.
-- Every page checked as `mandy0hku`, `newbie0hk`, `filmsoc00` and `admin0000`, and logged out, on a phone-width window.
+- Every page checked as `mandy0hku`, `newbie0hk`, `filmsoc00` and `admin0000`, and logged out, at 390, 768 and 1440 CSS pixels, with JavaScript on and off.
 - Nothing in the logs contains a code or a password in clear (`grep` the server log after ID-T01), and your tables hold them only as hashes (`email_codes.code_hash`, `users.password_hash`). The one copy of a code is the mail itself: the backbone's `outbox` keeps each mail's text so that `/dev/mailbox` works without a mail server, and keeps only the recipient and subject once `SMTP_URL` is set.
 - `USER_GUIDE.md` has screenshots; `SQL_CARD.md` has the outline in §9.
 
@@ -418,4 +424,4 @@ Identity has the least presentable SQL, so in the presentation Michael presents 
 
 ## 10. Prompt for a coding agent
 
-> You are working in the Campus Notes repository on the **identity** module only. Read `AGENTS.md`, `docs/architecture/ARCHITECTURE.md` (§1, §4, §5, §6, §9) and `docs/modules/identity/DEV_GUIDE.md`. Implement feature **ID-1** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/identity/queries.sql` (turn `@variables` into `?` placeholders in `modules/identity/queries.js`). Store only SHA-256 hashes of codes and bcrypt hashes of passwords, never log either in clear, and use the exact user-facing messages from the guide. Write the tests listed for that feature in §7 in `modules/identity/tests/`. Change no file outside `modules/identity/` and `docs/modules/identity/`; if the backbone (`core/`) does not behave as §3 says, stop and report it instead of changing it. When done, run `npm test -- modules/identity` and `npm run lint`, and summarise what you changed and anything in the guide you could not follow.
+> You are working in the Campus Notes repository on the **identity** module only. Read `AGENTS.md`, `docs/architecture/RESPONSIVE.md`, `docs/architecture/ARCHITECTURE.md` (§1, §4, §5, §6, §9) and `docs/modules/identity/DEV_GUIDE.md`. Implement feature **ID-1** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/identity/queries.sql` (turn `@variables` into `?` placeholders in `modules/identity/queries.js`). Store only SHA-256 hashes of codes and bcrypt hashes of passwords, never log either in clear, and use the exact user-facing messages from the guide. Write the tests listed for that feature in §7 in `modules/identity/tests/`. Change no file outside `modules/identity/` and `docs/modules/identity/`; if the backbone (`core/`) does not behave as §3 says, stop and report it instead of changing it. When done, run `npm test -- modules/identity` and `npm run lint`, check the changed pages at 390, 768 and 1440 px with JavaScript on and off, and summarise what you changed and anything in the guide you could not follow.

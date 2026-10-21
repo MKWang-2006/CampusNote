@@ -19,3 +19,11 @@ One earlier full run intermittently returned 404 instead of the upload rejection
 The optional Docker Compose setup was syntax/formatted-checked but not started on this Mac, where Docker is unavailable. Application and SQL validation used a real isolated MySQL server. GitHub CI runs the pinned project with Node 22 and a MySQL 8.4 service; check its latest result in [Actions](https://github.com/Michael-wzl/CampusNote/actions).
 
 No live deployment or real email service is configured. Local signup/reset codes use the development mailbox. Test databases and the demo race must remain separate from any real data.
+
+## Responsive update
+
+The desktop-first shared shell and module examples were checked at 390, 768 and 1440 px, with additional 320, 767, 1023, 1024 and 1920 px edge checks and short desktop windows. Browser checks cover real login/settings saves, normal and empty pages, 44 px navigation targets, visible keyboard focus/skip link, grid/navigation breakpoints, and JavaScript-disabled forms. The shared layout uses CSS viewport rules, without device detection or duplicate routes. Representative screenshots are in [RESPONSIVE.md](../architecture/RESPONSIVE.md#reference-views).
+
+Fresh full application suite after this update: **122 total, 115 pass, 0 fail, 7 TODO**. The TODOs still belong to the teammate modules. Lint/format pass. SQL and database behavior are unchanged; remote CI runs the SQL suite on the new commit.
+
+Browser evidence includes 105 page visits, 94 edge checks and a long-content component fixture; it used Chromium emulation. Physical phones, Safari and Firefox have not been tested. Local evidence is retained in the course workspace’s AI working folder rather than the public repo.

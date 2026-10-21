@@ -2,10 +2,10 @@
 
 | | |
 |---|---|
-| **Owner** | Member 2 — Discover (unclaimed; teammates choose their own role) |
+| **Owner** | Member 2 — Discover: [hX1-dev](https://github.com/hX1-dev), self-selected in issue #2 |
 | **Folder** | `modules/discover/`, `docs/modules/discover/` |
 | **Features** | DS-1 to DS-7 (`PRODUCT_SPEC.md` §4) |
-| **Read first** | `ARCHITECTURE.md` §1, §5, §6 (above all §6.5), §8, §9; `PRODUCT_SPEC.md` BR-5, BR-6, BR-8 to BR-12, BR-17; `DATA_MODEL.md` §7.5 and §7.6; this guide |
+| **Read first** | `ARCHITECTURE.md` §1, §5, §6 (above all §6.5), §8, §9; `PRODUCT_SPEC.md` BR-5, BR-6, BR-8 to BR-12, BR-17; `DATA_MODEL.md` §7.5 and §7.6; [responsive layout](../../architecture/RESPONSIVE.md); this guide |
 | **Tested SQL** | `queries.sql` (this folder) |
 
 You can build this module without knowing the rest of the app. Everything you need from other modules is listed in §3.
@@ -72,6 +72,8 @@ From the other modules you rely only on URLs and on rows they write:
 
 Announcement 1 ("Film night this Friday", links to `/events/1`, image `/static/seed/film-night.svg`) is current; announcement 2 ("Welcome week") has expired. Organization posts that show their name: 600011 (CUHK Hiking Club) and 600006 (HKU Film Society). Kelvin (`kelvin0hk`) posts only anonymously, so his user page lists nothing.
 
+**Existing starter:** `/feed` already renders the shared post cards for the basic All feed with seed data and paging. Extend this into DS-1; the remaining tabs, search, lists and announcements still need implementation.
+
 ## 4. Build plan
 
 | By | Tasks |
@@ -82,6 +84,10 @@ Announcement 1 ("Film night this Friday", links to `/events/1`, image `/static/s
 | Could | Nothing is planned for this module. Spend spare time timing the pages after `npm run load-test` (§5 DS-2 and DS-4 give the numbers to expect). |
 
 ## 5. Features
+
+### Responsive page layout (every feature)
+
+Use the shared `post-list` for feed and search cards; it handles responsive card layout. Search controls wrap and keep an explicit submit button for JavaScript-disabled use. Put user summaries or supporting cards beside lists only with the shared grid helpers. The topic strip may scroll locally; the document must not. Read [RESPONSIVE.md](../../architecture/RESPONSIVE.md) before adding page CSS. Do not create another sidebar/bottom bar or use a fixed 480 px page width. Keep module CSS under `modules/discover/public/` and scope selectors to this module.
 
 Every list in this module follows the same two steps (decision D18, `ARCHITECTURE.md` §6.5):
 
@@ -282,9 +288,11 @@ Run them with `npm test -- modules/discover`. The SQL itself is checked by `npm 
 
 ## 8. Definition of done
 
+- The [responsive acceptance checklist](../../architecture/RESPONSIVE.md#acceptance-checks-for-every-page) passes: no horizontal document overflow, appropriate navigation, readable forms, wrapping long text, visible focus and touch targets at least 44 px high. Add phone and desktop screenshots to the PR.
+
 - DS-T01 to DS-T28 pass, and `npm test`, `npm run lint` and `npm run check:sql` are green in CI.
 - No route builds SQL from user text; the only string choice is the search `ORDER BY` from the whitelist.
-- Every page checked as `mandy0hku`, `wing0cuhk`, `jason0ust`, `newbie0hk` (empty states) and `admin0000`, on a phone-width window and with JavaScript off (the sort select then needs the form's Search button).
+- Every page checked as `mandy0hku`, `wing0cuhk`, `jason0ust`, `newbie0hk` (empty states) and `admin0000`, at 390, 768 and 1440 CSS pixels and with JavaScript off (the sort select then needs the form's Search button).
 - The feed, Hot and search pages timed after `npm run load-test` (expected: feed under 10 ms, Hot about 150 ms, search under 1 ms for a rare word).
 - `USER_GUIDE.md` has screenshots; `SQL_CARD.md` is written (§9).
 
@@ -298,4 +306,4 @@ Run them with `npm test -- modules/discover`. The SQL itself is checked by `npm 
 
 ## 10. Prompt for a coding agent
 
-> You are working in the Campus Notes repository on the **discover** module only. Read `AGENTS.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §8, §9) and `docs/modules/discover/DEV_GUIDE.md`. Implement feature **DS-1** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/discover/queries.sql` (turn `@variables` into `?` placeholders in `modules/discover/queries.js`; leave out the `INSERT INTO got` test lines). Every list must take two steps: ids from `v_live_posts` with the `VISIBLE` fragment, then `byIds`; never `ORDER BY` or `LIMIT` on `v_post_cards`. Write the tests listed for that feature in §7 in `modules/discover/tests/`. Change no file outside `modules/discover/` and `docs/modules/discover/`. When done, run `npm test -- modules/discover` and `npm run lint`, and summarise what you changed and anything in the guide you could not follow.
+> You are working in the Campus Notes repository on the **discover** module only. Read `AGENTS.md`, `docs/architecture/RESPONSIVE.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §8, §9) and `docs/modules/discover/DEV_GUIDE.md`. Implement feature **DS-1** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/discover/queries.sql` (turn `@variables` into `?` placeholders in `modules/discover/queries.js`; leave out the `INSERT INTO got` test lines). Every list must take two steps: ids from `v_live_posts` with the `VISIBLE` fragment, then `byIds`; never `ORDER BY` or `LIMIT` on `v_post_cards`. Write the tests listed for that feature in §7 in `modules/discover/tests/`. Change no file outside `modules/discover/` and `docs/modules/discover/`. When done, run `npm test -- modules/discover` and `npm run lint`, check the changed pages at 390, 768 and 1440 px with JavaScript on and off, and summarise what you changed and anything in the guide you could not follow.

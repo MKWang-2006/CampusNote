@@ -4,9 +4,11 @@ Campus Notes is a tree hole: you write short notes, anonymously unless you choos
 
 Screenshots go in `docs/modules/content/img/` when the pages are built; the placeholders below name the file each one should have.
 
+**On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Compose and reply forms stay at a comfortable reading width; post images fit the screen and action buttons wrap. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
+
 ## 1. Writing a post
 
-Tap the pink **+** button in the middle of the tab bar.
+Select **New post** in the desktop sidebar, or tap the pink **+** button in the compact tab bar.
 
 1. Type your note: up to 750 characters, in any language. The counter under the box shows how many characters are left.
 2. Optionally tap **Images** and choose up to 6 photos (JPEG, PNG, WebP or GIF, at most 5 MB each). They appear in the order you chose them. If a photo is refused, the page says why and keeps everything else you wrote; only the photos need choosing again.

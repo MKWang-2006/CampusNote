@@ -49,3 +49,14 @@
 .event-actions {
   margin-bottom: var(--gap);
 }
+
+.event-toolbar {
+  flex-wrap: wrap;
+}
+.event-card {
+  height: 100%;
+}
+.event-detail-layout .event-detail,
+.event-side > .event-actions {
+  margin-bottom: 0;
+}

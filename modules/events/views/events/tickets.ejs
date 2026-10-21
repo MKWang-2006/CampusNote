@@ -1,7 +1,7 @@
 <% if (!tickets.length) { -%>
 <%- include('partials/empty', { text: 'No tickets yet', icon: 'ticket', href: '/events', label: 'Browse events' }) %>
 <% } else { -%>
-<div class="stack">
+<div class="page-grid">
 <% tickets.forEach((ticket) => { -%>
   <article class="card ticket-card" data-event-id="<%= ticket.event_id %>">
     <a href="/events/<%= ticket.event_id %>"><h2><%= ticket.title %></h2></a>

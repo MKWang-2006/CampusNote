@@ -1,3 +1,4 @@
+<div class="page-grid-wide event-detail-layout">
 <article class="card stack event-detail" data-event-id="<%= event.event_id %>">
 <% if (event.cover_path) { -%>
   <img class="event-cover" src="<%= event.cover_path %>" alt="">
@@ -11,6 +12,7 @@
   <%- include('events/status', { event }) %>
   <p class="pre"><%= event.description %></p>
 </article>
+<div class="stack event-side">
 <section class="card stack event-actions" aria-label="Tickets">
 <% if (event.my_ticket_code) { -%>
   <h2>Your ticket</h2>
@@ -49,4 +51,6 @@
 <% } -%>
 </nav>
 <% } -%>
+</div>
+</div>
 <%- include('partials/confirm-dialog', { id: 'event-confirm', text: null, ok: null, cancel: null }) %>

@@ -4,6 +4,8 @@ The **Messages** tab is your inbox. It tells you when people react to your posts
 
 Screenshots go in `docs/modules/messages/img/` when the pages are built; the placeholders below name the file each one should have.
 
+**On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Conversations keep their chronological reading order, and long messages wrap to fit the screen. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
+
 ## 1. The Messages tab
 
 The number on the **Messages** tab is everything you have not seen yet: new notifications plus unread private messages. It disappears when you have read everything. Pages refresh when you open them; there is no live push, so open the tab again to check for news.

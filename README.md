@@ -2,13 +2,13 @@
 
 An anonymous notice board for students of HKU, CUHK and HKUST, in the style of the Triple Uni "tree hole": post a note under a topic (anonymously or with your handle), comment under a per-post alias such as Host or Alice, like and watch posts, message people privately, report abuse, and book tickets for campus events. Only people with a university e-mail address can join.
 
-Built by Group 8 for COMP3278 (Introduction to Database Management Systems), HKU, autumn 2026. A server-rendered Node.js app: Express 5, EJS templates and MySQL 8 through `mysql2` with hand-written SQL (no ORM).
+Built by Group 8 for COMP3278 (Introduction to Database Management Systems), HKU, autumn 2026. A desktop-first responsive website that also adapts to tablets and phones. A server-rendered Node.js app: Express 5, EJS templates and MySQL 8 through `mysql2` with hand-written SQL (no ORM).
 
 ## Team: start here
 
-**[Choose a role and start working → START_HERE.md](START_HERE.md)**
+**[Check your role and start working → START_HERE.md](START_HERE.md)**
 
-Repository: [Michael-wzl/CampusNote](https://github.com/Michael-wzl/CampusNote). The shared backbone, identity and events modules are built; the three teammate modules are starter pages. The detailed design pack is reference material, not a reading prerequisite for claiming a role.
+Repository: [Michael-wzl/CampusNote](https://github.com/Michael-wzl/CampusNote). The shared backbone, identity and events modules are built; the three teammate modules are starter pages. The detailed design pack is reference material, not a reading prerequisite for starting work. The [responsive guide](docs/architecture/RESPONSIVE.md) explains desktop/sidebar and phone/bottom-navigation behavior.
 
 ## Run locally
 

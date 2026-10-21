@@ -80,7 +80,7 @@ function installRender(modules) {
         ...locals,
       };
       const body = await renderAsync(res, view, frame);
-      const html = await renderAsync(res, 'layout', { ...frame, body });
+      const html = await renderAsync(res, 'layout', { ...frame, body, pagePath: req.path });
       res.send(html);
     }
 

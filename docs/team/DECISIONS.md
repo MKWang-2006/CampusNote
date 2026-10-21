@@ -75,6 +75,7 @@ The backbone is everything shared: the app skeleton, database runner, sessions, 
 | D19 | **Public GitHub repository: Michael-wzl/CampusNote**, as requested by Michael on 21 Oct. | The team can clone one shared project. Local credentials, course materials, conversation history and original-app reference screenshots are excluded. Protect `main` with CI and code-owner reviews. | everyone |
 | D20 | **One synchronous meeting** (kickoff, Thu 22 Oct). Everything else is asynchronous on GitHub: issues, PRs and a Sunday status comment. | This is the least-communication requirement. The docs answer the questions a meeting normally would. | everyone |
 | D21 | **Node 22 LTS or later, MySQL 8.0.19 or later** (8.4 LTS recommended). CI uses MySQL 8.4. | The schema uses CHECK constraints (8.0.16) and REGEXP_LIKE; messages uses `INSERT ... AS new ON DUPLICATE KEY UPDATE` (8.0.19). Tested on 8.0.46. | everyone |
+| D22 | **Desktop-first responsive website**, approved by Michael on 21 Oct. Desktop has a sidebar and wider content; phones keep one column and bottom tabs. | One shared server-rendered app adapts by CSS viewport width. Modules reuse the layout and pass 390 / 768 / 1440 px browser checks; see [RESPONSIVE.md](../architecture/RESPONSIVE.md). | everyone |
 
 ## Change log
 
@@ -87,4 +88,9 @@ The backbone is everything shared: the app skeleton, database runner, sessions, 
 
 - D8 replaced: all three teammate roles are self-selected and initially unclaimed.
 - The public repository is [Michael-wzl/CampusNote](https://github.com/Michael-wzl/CampusNote); it contains the app and design documentation, with original-app reference screenshots kept local.
+- D22 replaces the fixed phone-width layout with a desktop-first responsive website.
 - Codex now maintains the local workspace. The earlier Claude decisions remain project history.
+
+### Role claims, 21 Oct 2026
+
+Catherine135 self-selected Content (issue #1); hX1-dev self-selected Discover (issue #2). Messages remains unclaimed. The coordinator records role claims and invites accounts; no name-only PR is required. D8 describes the original unclaimed role options, not the current availability.

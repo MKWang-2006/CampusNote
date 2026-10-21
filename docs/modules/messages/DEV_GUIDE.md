@@ -5,7 +5,7 @@
 | **Owner** | Member 3 — Messages (unclaimed; teammates choose their own role) |
 | **Folder** | `modules/messages/` (including `db/triggers.sql`), `docs/modules/messages/` |
 | **Features** | MS-1 to MS-8 (`PRODUCT_SPEC.md` §4) |
-| **Read first** | `ARCHITECTURE.md` §1, §5, §6, §9; `PRODUCT_SPEC.md` BR-5, BR-6, BR-8, BR-9, BR-13, BR-14, BR-15, BR-17, BR-18; this guide |
+| **Read first** | `ARCHITECTURE.md` §1, §5, §6, §9; `PRODUCT_SPEC.md` BR-5, BR-6, BR-8, BR-9, BR-13, BR-14, BR-15, BR-17, BR-18; [responsive layout](../../architecture/RESPONSIVE.md); this guide |
 | **Tested SQL** | `queries.sql` (this folder) and `modules/messages/db/triggers.sql` |
 
 You can build this module without knowing the rest of the app. Everything you need from other modules is listed in §3.
@@ -103,6 +103,10 @@ module.exports = {
 | Weeks 4 and 5 | Your shared duties: lead the bug bash (Sun 8 Nov), do the rebuild test on a second laptop, assemble the Moodle package (`WORK_DIVISION.md` §5). |
 
 ## 5. Features
+
+### Responsive page layout (every feature)
+
+Keep conversations and notifications readable at all widths. Message text and long aliases wrap; compose and report forms use `form-width`. A conversation remains one chronological column on desktop. Use `table-wrap` for moderation tables, and let action buttons wrap instead of widening the page. Read [RESPONSIVE.md](../../architecture/RESPONSIVE.md) before adding page CSS. Do not create another sidebar/bottom bar or use a fixed 480 px page width. Keep module CSS under `modules/messages/public/` and scope selectors to this module.
 
 ### The triggers (`db/triggers.sql`), the base of MS-1 and MS-5
 
@@ -297,9 +301,11 @@ Run them with `npm test -- modules/messages`. The SQL itself is checked by `npm 
 
 ## 8. Definition of done
 
+- The [responsive acceptance checklist](../../architecture/RESPONSIVE.md#acceptance-checks-for-every-page) passes: no horizontal document overflow, appropriate navigation, readable forms, wrapping long text, visible focus and touch targets at least 44 px high. Add phone and desktop screenshots to the PR.
+
 - MS-T01 to MS-T26 pass (and MS-T27 to MS-T29 if MS-8 is built), and `npm test`, `npm run lint` and `npm run check:sql` are green in CI.
 - The privacy contract test passes for your smoke pages, and you have checked by hand that no page of yours prints a handle, avatar or user id for a person on an anonymous post (only `/admin/reports` shows handles, to admins).
-- Every page checked as `mandy0hku`, `kelvin0hk`, `jason0ust`, `newbie0hk` (empty states) and `admin0000`, on a phone-width window, and with JavaScript off.
+- Every page checked as `mandy0hku`, `kelvin0hk`, `jason0ust`, `newbie0hk` (empty states) and `admin0000`, at 390, 768 and 1440 CSS pixels, and with JavaScript off.
 - `USER_GUIDE.md` has screenshots; `SQL_CARD.md` is written (§9).
 
 ## 9. Presentation (SQL card)
@@ -312,4 +318,4 @@ Run them with `npm test -- modules/messages`. The SQL itself is checked by `npm 
 
 ## 10. Prompt for a coding agent
 
-> You are working in the Campus Notes repository on the **messages** module only. Read `AGENTS.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §9) and `docs/modules/messages/DEV_GUIDE.md`. Implement feature **MS-4** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/messages/queries.sql` (turn `@variables` into `?` placeholders in `modules/messages/queries.js`; drop the `CREATE TEMPORARY TABLE res AS` lines, which only exist for the checks). Never select or print a handle, avatar or user id for a person on an anonymous post: people on a post are shown by `ui.alias(n)` or "Visitor". Do not change `modules/messages/db/triggers.sql` unless the task says so. Write the tests listed for that feature in §7 in `modules/messages/tests/`. Change no file outside `modules/messages/` and `docs/modules/messages/`. When done, run `npm test -- modules/messages` and `npm run lint`, and summarise what you changed and anything in the guide you could not follow.
+> You are working in the Campus Notes repository on the **messages** module only. Read `AGENTS.md`, `docs/architecture/RESPONSIVE.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §9) and `docs/modules/messages/DEV_GUIDE.md`. Implement feature **MS-4** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/messages/queries.sql` (turn `@variables` into `?` placeholders in `modules/messages/queries.js`; drop the `CREATE TEMPORARY TABLE res AS` lines, which only exist for the checks). Never select or print a handle, avatar or user id for a person on an anonymous post: people on a post are shown by `ui.alias(n)` or "Visitor". Do not change `modules/messages/db/triggers.sql` unless the task says so. Write the tests listed for that feature in §7 in `modules/messages/tests/`. Change no file outside `modules/messages/` and `docs/modules/messages/`. When done, run `npm test -- modules/messages` and `npm run lint`, check the changed pages at 390, 768 and 1440 px with JavaScript on and off, and summarise what you changed and anything in the guide you could not follow.

@@ -2,7 +2,9 @@
 
 Campus organizations post events with a limited number of free tickets that go on sale at a set time. You can book one ticket per event and show its code at the door.
 
-Implemented and checked on 21 October 2026. Screenshots below show seed accounts at phone width. Until the teammate-owned Search page is finished, open `/events` directly or use Me → My tickets.
+Implemented and checked on 21 October 2026. Screenshots below are the original phone-width captures of seed accounts; they document the feature flow, not the desktop layout. On desktop, use Events in the sidebar. On compact screens, open `/events` directly or use Me → My tickets until the teammate-owned Search page is finished. Updated desktop/tablet/phone screenshots are in [the responsive guide](../../architecture/RESPONSIVE.md#reference-views).
+
+**On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Event and ticket cards use the available space; event forms stay readable, and attendee tables can scroll sideways inside their own panel. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
 
 ## 1. Finding an event
 

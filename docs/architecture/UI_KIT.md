@@ -6,42 +6,35 @@ Everything is local: no CDN, no web fonts, no icon fonts. The app must run on a 
 
 ## 1. Look and feel
 
-A dark, phone-sized layout modelled on the reference screenshots (`docs/reference/triple-uni-screenshots/`), in our own name and colours.
+A dark, desktop-first responsive website in our own name and colours. The reference screenshots (`docs/reference/triple-uni-screenshots/`) explain feature flows; [RESPONSIVE.md](RESPONSIVE.md) defines the current desktop, tablet and phone layout.
 
 | Token (CSS variable) | Value | Used for |
 |---|---|---|
-| `--bg` | `#000000` | page background |
+| `--bg` | `#101012` | page background and desktop/tablet header |
 | `--surface` | `#1c1c1c` | cards, menu groups, inputs |
 | `--surface-2` | `#2a2a2a` | pressed states, chips |
 | `--line` | `#333333` | dividers |
 | `--text` | `#e8e8e8` | body text |
 | `--muted` | `#9a9a9a` | times, counts, hints |
-| `--brand` | `#864442` | top bar, switches that are on, brand backgrounds |
+| `--brand` | `#864442` | phone top bar, active switches and brand backgrounds |
 | `--brand-soft` | `#e3a49b` | the brand colour as text on dark surfaces: links, the active tab (the dark maroon fails WCAG AA as text on black) |
 | `--accent` | `#d92f5c` | the + button, unread badges, primary toggles |
 | `--cta` | `#f3ec68` (text `#111`) | the one main action of a form (Publish, Book): class `btn btn-cta` |
 | `--ok` / `--warn` / `--danger` | `#4caf7a` / `#e0a030` / `#e5484d` | flash messages, statuses |
-| `--radius` | `12px` | cards and groups |
-| `--gap` | `12px` | spacing unit |
+| `--radius` | `16px` desktop/tablet; `12px` phone | cards and groups |
+| `--gap` | `20px` desktop/tablet; `16px` phone | spacing unit |
 
-Font: the system UI font stack (`-apple-system, "PingFang HK", "Noto Sans CJK TC", "Segoe UI", sans-serif`), 15 px body. The column is at most 480 px wide and centred on a desktop. Tap targets are at least 44 px high.
+Font: the system UI font stack (`-apple-system, "PingFang HK", "Noto Sans CJK TC", "Segoe UI", sans-serif`), 16 px body. Desktop uses a wider centred shell, up to 1280 px including the left sidebar. Forms and prose are bounded at about 42 rem; tablet and phone widths adapt fluidly. Touch targets are at least 44 px high, and keyboard focus is visible.
 
 ## 2. Page anatomy (`views/layout.ejs`)
 
-```
-┌──────────────────────────────┐
-│ ‹  Title                      │  top bar: brand colour; back arrow if `back` is set
-├──────────────────────────────┤
-│ flash message (once)          │
-│                               │
-│ your view                     │  scrolls; bottom padding clears the tab bar
-│                               │
-├──────────────────────────────┤
-│ Feed  Search  (+)  Msgs• Me   │  tab bar: fixed; active = `tab`; badge = badges.messages
-└──────────────────────────────┘
-```
+The shared shell adapts without JavaScript:
 
-`res.page(view, { title, tab, back, hideTabs, styles, scripts })` fills the frame; `styles` and `scripts` add your module's own files from `/m/<module>/`. Pages without a tab (a post page, settings) pass `tab: null` and usually `back`. The compose page hides the tab bar (`hideTabs: true`), as in the reference app, and so do the logged-out pages.
+- **Desktop (at least 1024 px):** a left sidebar with Feed, Search, New post, Messages, Events and Me sits beside the page title, flash message and content.
+- **Tablet (768 to 1023 px):** an expanded content column with bottom navigation; suitable card lists use two columns.
+- **Phone (below 768 px):** a full-width single column and compact bottom tabs; bottom padding keeps page controls above the fixed navigation.
+
+`res.page(view, { title, tab, back, hideTabs, styles, scripts })` fills the frame; `styles` and `scripts` add your module's own files from `/m/<module>/`. Pages without an active destination (a post page, settings) pass `tab: null` and usually `back`. `hideTabs: true` on compose hides compact tabs; the logged-in desktop sidebar remains available. Logged-out pages have no authenticated navigation and use readable centred forms. Modules provide page content, not another navigation frame. See [RESPONSIVE.md](RESPONSIVE.md) for the complete contract.
 
 The layout's `<head>` carries `<meta name="csrf-token" content="...">`. `kit.js` sends that token as the `X-CSRF-Token` header on every `fetch`, and scripts that drive the app over HTTP (the race demo) read it from there.
 
@@ -97,9 +90,9 @@ Mark up the HTML; the script does the rest. Without JavaScript every page still 
 
 ## 6. Page patterns
 
-- **List page** (feed, my lists, search results): optional `tabs`, then `post-list`. Load more links keep the current tab and filter.
-- **Detail page** (post, event): a card at the top, then actions, then the thread or details. Destructive actions sit at the bottom in `--danger`, with `data-confirm`.
-- **Form page** (compose, settings, new event): `field`s and `toggle`s in surface groups, one `btn btn-cta` button at the bottom. Validation errors re-render the page with status 400, the user's values and a message under each bad field.
+- **List page** (feed, my lists, search results): optional `tabs`, then `post-list`. Reuse the shared responsive card layout; keep the topic strip locally scrollable. Load more links keep the current tab and filter.
+- **Detail page** (post, event): a card at the top, then actions, then the thread or details. Use `readable` for long text; an independent supporting panel may sit beside the main content in `page-grid-wide` on desktop and stacks on phones. Comments stay in chronological reading order. Destructive actions sit at the bottom in `--danger`, with `data-confirm`.
+- **Form page** (compose, settings, new event): `form-width` around `field`s and `toggle`s in surface groups, one `btn btn-cta` button at the bottom. Validation errors re-render the page with status 400, the user's values and a message under each bad field.
 - **Menu page** (Me, admin): `menu` groups, as in screenshots 06 and 07.
 - **Status words:** use the same words everywhere: "On sale", "Sold out", "Opens in", "Happening now", "Ended", "Cancelled", "[deleted]", "[hidden by a moderator]".
 
@@ -113,6 +106,9 @@ Use these before writing your own CSS, so every module looks the same.
 
 | Class | For |
 |---|---|
+| `page-grid` | One column below 768 px, two equal card columns from 768 px. |
+| `page-grid-wide` | One column below 1024 px, roughly 3:2 primary/supporting panels from 1024 px. |
+| `readable`, `form-width` | Keep prose and forms within about 42 rem while fitting narrow screens. |
 | `card` | A padded surface block (a post header, an event, a notice). |
 | `group` | A surface block without padding that holds `field`s, `toggle`s or menu rows, separated by lines. |
 | `stack`, `row`, `row-between`, `wrap` | Vertical spacing; a horizontal row; a row pushed to both ends; let a row wrap. |
@@ -122,6 +118,8 @@ Use these before writing your own CSS, so every module looks the same.
 | `link-button`, `inline` | A submit button that looks like a link; a form that sits inside a line of text (`<form class="inline">`). |
 | `form`, `alert` | A form's column of groups; a red notice at the top of a form (a 400 message that belongs to no field). |
 | `prose` | Paragraphs and lists of running text (About, Terms). |
-| `table-wrap` + `table` | A small table that scrolls sideways on a phone (admin pages). |
+| `table-wrap` + `table` | A table that scrolls within its own container when needed (admin and attendee pages); never widens the document. |
 | `full-bleed` | A banner or image that spans the whole column (the Me banner). |
 | `sr-only` | Text for screen readers only. |
+
+Check every page at 390, 768 and 1440 px using the [responsive acceptance checklist](RESPONSIVE.md#acceptance-checks-for-every-page). Keep module CSS scoped; shared shell classes are maintained by the coordinator.

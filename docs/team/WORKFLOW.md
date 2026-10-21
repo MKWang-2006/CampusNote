@@ -4,19 +4,20 @@ The whole team process fits on this page. Nothing here needs a meeting.
 
 ## 1. The loop for one feature
 
-1. **Pick** your role using `START_HERE.md`, then the next feature from your DEV_GUIDE (such as `CT-3`). Track it in your role issue checklist, or open a separate issue if useful.
+1. **Check** your recorded role and accept your collaborator invitation using `START_HERE.md`, then pick the next feature from your DEV_GUIDE (such as `CT-3`). Track it in your role issue checklist, or open a separate issue if useful.
 2. **Branch** from an up-to-date `main`:
    ```bash
    git switch main && git pull
    git switch -c content/CT-3-comments        # <module>/<feature ID>-<few words>
    ```
-3. **Build** it from your DEV_GUIDE. Run the app with `npm run dev` and log in as personas from the login page (development only).
+3. **Build** it from your DEV_GUIDE and the [responsive layout guide](../architecture/RESPONSIVE.md). Use the shared shell; keep your page layout and CSS inside your module. Run the app with `npm run dev` and log in as personas from the login page (development only).
 4. **Test**:
    ```bash
    npm test -- modules/content      # your module's tests
    npm run lint                     # style and obvious mistakes
    npm test                         # everything, before you push
    ```
+   Check the page in a browser at **390, 768 and 1440 px**, with JavaScript on and off. Test normal, empty and validation-error states; long text must wrap, and only table/tab containers may scroll sideways. See the responsive guide for the full acceptance checklist.
 5. **Commit** with the module and feature ID: `content: comments with aliases and replies (CT-3)`.
 6. **Push and open a pull request**: `git push -u origin content/CT-3-comments`, then open the PR on GitHub. Fill in the template. CI runs lint, all tests and the SQL checks.
 7. **Merge** when CI is green: squash and merge (module-only PRs merge themselves; PRs touching shared files wait for the coordinator). Delete the branch and check off the feature in your role issue.
@@ -58,7 +59,7 @@ Feature IDs: CT-3
 One or two sentences on what a user can now do.
 
 ## Screenshots
-Before / after, or the new page.
+Phone (390 px) and desktop (1440 px) views of the changed page. Record the 768 px tablet check too.
 
 ## Checklist
 - [ ] Only files in my module (or labelled `contract-change` and reviewed by the coordinator)
@@ -67,12 +68,14 @@ Before / after, or the new page.
 - [ ] Visibility checked for anything about a post; ownership checked for every change
 - [ ] Acceptance tests from my DEV_GUIDE added and passing; `npm test` and `npm run lint` pass
 - [ ] Checked in the browser as two personas, including `newbie0hk` for empty states
+- [ ] 390 / 768 / 1440 px: no horizontal document overflow; navigation, long text and error states work
+- [ ] Keyboard focus visible; touch targets at least 44 px high; works with JavaScript off
 - [ ] USER_GUIDE section written or updated
 ```
 
 ## 6. Code owners (`.github/CODEOWNERS`)
 
-Shared paths and the coordinator's modules have `@Michael-wzl` as owner in [.github/CODEOWNERS](../../.github/CODEOWNERS). Teammate module folders are unassigned so each member can claim a role. The coordinator reviews changes outside your module, including schema changes. CI must pass for every PR.
+Shared paths and the coordinator's modules have `@Michael-wzl` as owner in [.github/CODEOWNERS](../../.github/CODEOWNERS). Teammate module folders have no CODEOWNERS requirement; their self-selected owners are recorded in `START_HERE.md`. The coordinator reviews changes outside your module, including schema changes. CI must pass for every PR.
 
 GitHub branch protection is configured to require a pull request and passing `ci`, with code-owner review enabled for covered paths and no force pushes. When a PR changes only an unowned teammate module, it can merge without a coordinator approval. Do not merge shared changes until the coordinator has reviewed them.
 

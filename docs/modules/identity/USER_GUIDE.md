@@ -4,6 +4,8 @@ Your Campus Notes account: joining with your university e-mail, logging in, rese
 
 Screenshots go in `docs/modules/identity/img/` when the pages are built; the placeholders below name the file each one should have.
 
+**On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Login and settings forms stay at a comfortable width; the Me page uses more space on a desktop and stacks on a phone. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
+
 ## 1. Joining Campus Notes
 
 Only students and organizations of **HKU, CUHK and HKUST** can join, and you prove it with your university e-mail address. These addresses are accepted:

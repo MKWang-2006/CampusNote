@@ -4,17 +4,17 @@ Repository: **[Michael-wzl/CampusNote](https://github.com/Michael-wzl/CampusNote
 
 Campus Notes is our COMP3278 anonymous campus forum. The shared app, database, demo data, login/profile and events modules are built. Content, Discover and Messages are starter modules for teammates to implement. Michael owns shared code, identity and events.
 
-## 1. Choose one role
+## 1. Roles and repository access
 
-These are job options, not assignments to people. Reply on one unclaimed role issue with your name and GitHub username; check that nobody else has claimed it. Record your ownership in your module's README in your first pull request.
+| Role | Owner | What you build | Detailed guide |
+|---|---|---|---|
+| **Member 1 — Content** | **[Catherine135](https://github.com/Catherine135)** — claimed | Posts/images, comments, likes, watches and history | [Content DEV_GUIDE](docs/modules/content/DEV_GUIDE.md) |
+| **Member 2 — Discover** | **[hX1-dev](https://github.com/hX1-dev)** — claimed | Feeds, ranking, search, personal lists, user pages and announcements | [Discover DEV_GUIDE](docs/modules/discover/DEV_GUIDE.md) |
+| **Member 3 — Messages** | **Unclaimed** | Notifications, private messages, reports and moderation | [Messages DEV_GUIDE](docs/modules/messages/DEV_GUIDE.md) |
 
-| Available role | What you build | Detailed guide |
-|---|---|---|
-| **Member 1 — Content** | Posts and images, comments and aliases, likes, watches and history | [Content DEV_GUIDE](docs/modules/content/DEV_GUIDE.md) |
-| **Member 2 — Discover** | Feeds, hot ranking, search, personal lists, user pages and announcements | [Discover DEV_GUIDE](docs/modules/discover/DEV_GUIDE.md) |
-| **Member 3 — Messages** | Notifications, private messages, reports and moderation | [Messages DEV_GUIDE](docs/modules/messages/DEV_GUIDE.md) |
+These are self-selected roles. To claim Messages, tell Michael your GitHub username and chosen role, or comment on [issue #3](https://github.com/Michael-wzl/CampusNote/issues/3). Michael records the owner and sends the collaborator invitation; no name-only PR is needed.
 
-Claim a role: [Member 1 — Content](https://github.com/Michael-wzl/CampusNote/issues/1) · [Member 2 — Discover](https://github.com/Michael-wzl/CampusNote/issues/2) · [Member 3 — Messages](https://github.com/Michael-wzl/CampusNote/issues/3).
+Invitations have been sent to **Catherine135** and **hX1-dev**. Accept your invitation on GitHub before pushing. Existing claims are tracked in [Content #1](https://github.com/Michael-wzl/CampusNote/issues/1) and [Discover #2](https://github.com/Michael-wzl/CampusNote/issues/2).
 
 [Weekly status — Done / Next / Blocked](https://github.com/Michael-wzl/CampusNote/issues/4)
 
@@ -22,7 +22,11 @@ Claim a role: [Member 1 — Content](https://github.com/Michael-wzl/CampusNote/i
 
 Follow [README.md](README.md#run-locally). You need Node 22+ and MySQL 8 (or Docker for the database). Log in using the development shortcuts. Placeholder pages for the three teammate modules are expected.
 
-## 3. Start your first task
+## 3. Build for desktop and phones
+
+The shared layout adapts automatically: a sidebar and wider content on desktop, an expanded layout on tablets, and bottom navigation with one-column content on phones. Read the short [responsive guide](docs/architecture/RESPONSIVE.md); your module should use its fluid widths and shared helpers. Check pages at **390, 768 and 1440 px**, including without JavaScript.
+
+## 4. Start your first task
 
 1. Read your DEV_GUIDE's scope, build plan and acceptance tests. It includes tested SQL and a coding-agent prompt.
 2. Work only in `modules/<your module>/` and `docs/modules/<your module>/`. Ask Michael about shared-file or schema changes.

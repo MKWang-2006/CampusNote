@@ -90,3 +90,28 @@
   align-items: flex-start;
   gap: 4px;
 }
+
+.user-actions form {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+.user-actions .input {
+  min-width: 0;
+  max-width: 100%;
+  flex: 1 1 140px;
+}
+@media (min-width: 768px) {
+  .me-banner {
+    max-height: 220px;
+    border-radius: var(--radius);
+  }
+}
+@media (min-width: 1024px) {
+  .me-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    align-items: center;
+    gap: 24px;
+    margin-inline: 20px;
+  }
+}

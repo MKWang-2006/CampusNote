@@ -1,6 +1,6 @@
 # Campus Notes: product specification
 
-**Version 1.0, 16 Oct 2026.** This is the single source for *what* the product does. `ARCHITECTURE.md` says how it is built, and each module's `DEV_GUIDE.md` turns this spec into tasks. If a guide disagrees with this file, this file wins; raise an issue so the guide gets fixed.
+**Version 1.1, 21 Oct 2026.** This is the single source for *what* the product does. `ARCHITECTURE.md` says how it is built, and each module's `DEV_GUIDE.md` turns this spec into tasks. If a guide disagrees with this file, this file wins; raise an issue so the guide gets fixed.
 
 ## 1. What it is
 
@@ -21,7 +21,9 @@ Reference screenshots of the original app are in `docs/reference/triple-uni-scre
 
 ## 3. Navigation and screens
 
-A dark, mobile-first layout, 480 px wide and centred on a desktop screen, with a maroon top bar and a fixed bottom tab bar with five tabs, as in the reference app:
+One dark, desktop-first responsive website adapts to the browser width. At 1024 px and above, a left sidebar sits beside a comfortable, wider content area; tablet widths (768 to 1023 px) use an expanded content column with optional two-column card lists; phones below 768 px use one column. Both tablet and phone layouts use a fixed bottom tab bar. The same pages and features work at every width. Forms and prose stay at a readable width, while suitable lists and cards can use multiple columns. [RESPONSIVE.md](../architecture/RESPONSIVE.md) defines the shared layout.
+
+The primary destinations are:
 
 **Feed** (树洞) · **Search** (搜索) · **+** (compose, the pink round button) · **Messages** (消息, with an unread badge) · **Me** (我的)
 
@@ -172,8 +174,8 @@ These rules cross module boundaries. Each module's guide repeats the ones it mus
 - **Privacy:** no page may show the handle behind an anonymous post or comment. An automated contract test logs in as every persona, opens every page and checks this. The one exception is the admin report queue (`/admin/reports`), which shows authors to admins on purpose (BR-15); the test skips it.
 - **Security:** parameterised SQL only; CSRF tokens on every form; output escaped by default; passwords hashed with bcrypt; codes hashed; uploads checked for type and size; every change checks that the user owns the thing or is an admin. (The 18 Nov lecture covers SQL injection, which the presentation can mention.)
 - **Speed:** every page under 300 ms on a laptop, with the seed data and with 20,000 extra posts (load-test script). The one known exception is a search, sorted by relevance, for a word that appears in most posts (about 0.6 s measured), because MySQL must score every match.
-- **Layout:** works on a phone and in a desktop browser (centred 480 px column); latest Chrome and Safari.
-- **Accessibility:** every input has a label; text contrast meets WCAG AA on the dark theme.
+- **Layout:** works in desktop, tablet and phone browsers; latest Chrome and Safari. Check at 390, 768 and 1440 CSS pixels: no horizontal document overflow, readable forms and text, and navigation appropriate to the viewport. Wide tables scroll within their own container.
+- **Accessibility:** every input has a label; text contrast meets WCAG AA on the dark theme; keyboard focus is visible; touch targets are at least 44 px high. Browser resizing and 200% zoom preserve access to content and controls.
 - **Runs anywhere:** `git clone`, `npm install`, set `.env`, `npm run db:reset`, `npm run dev`. No external services needed.
 
 ## 8. Out of scope (Won't, v1)

@@ -2,10 +2,10 @@
 
 | | |
 |---|---|
-| **Owner** | Member 1 — Content (unclaimed; teammates choose their own role) |
+| **Owner** | Member 1 — Content: [Catherine135](https://github.com/Catherine135), self-selected in issue #1 |
 | **Folder** | `modules/content/`, `docs/modules/content/` |
 | **Features** | CT-1 to CT-8 (`PRODUCT_SPEC.md` §4) |
-| **Read first** | `ARCHITECTURE.md` §1, §5, §6, §9; `PRODUCT_SPEC.md` BR-5 to BR-10, BR-17 and BR-18; `UI_KIT.md` §3 to §5; this guide |
+| **Read first** | `ARCHITECTURE.md` §1, §5, §6, §9; `PRODUCT_SPEC.md` BR-5 to BR-10, BR-17 and BR-18; `UI_KIT.md` §3 to §5; [responsive layout](../../architecture/RESPONSIVE.md); this guide |
 | **Tested SQL** | `queries.sql` (this folder) and `check_race_alias.sh` |
 
 You can build this module without knowing the rest of the app. Everything you need from other modules is listed in §3.
@@ -89,11 +89,15 @@ Your shared duty in weeks 4 and 5 is the demo video (`PRODUCT_SPEC.md` §9); mos
 
 ## 5. Features
 
+### Responsive page layout (every feature)
+
+Keep compose and comment forms within `form-width`, and post text within `readable`. Images must scale within their container; image groups and action rows wrap. Keep comments in reading order in one column, including on desktop. `hideTabs: true` on compose hides the compact tab bar; let the shared shell handle desktop navigation. Read [RESPONSIVE.md](../../architecture/RESPONSIVE.md) before adding page CSS. Do not create another sidebar/bottom bar or use a fixed 480 px page width. Keep module CSS under `modules/content/public/` and scope selectors to this module.
+
 Every route about a post starts the same way: `const card = await findVisible(id, req.me); if (!card) throw notFound();` (BR-5). An id that is not a positive integer is also 404. Use 404, never 403, so the answer does not reveal that the post exists.
 
 ### CT-1 Compose and publish: `GET /compose`, `POST /compose` (Must)
 
-- `res.page('content/compose', { title: 'New post', tab: 'compose', back: '/feed', hideTabs: true, errors, values })`. The tab bar is hidden, as in the reference app (screenshot 03).
+- `res.page('content/compose', { title: 'New post', tab: 'compose', back: '/feed', hideTabs: true, errors, values })`. The compact tab bar is hidden; desktop sidebar navigation remains available.
 - One form: `method="post" action="<%= csrfUrl('/compose') %>" enctype="multipart/form-data" data-leave-guard`. A multipart form carries its CSRF token in the action URL (`ARCHITECTURE.md` §6.8): the backbone checks it before any route runs and answers 403 for a missing or wrong token. Put the image input last in the form.
 - Fields, top to bottom:
 
@@ -295,8 +299,10 @@ Run them with `npm test -- modules/content`. The SQL itself is checked by `npm r
 
 ## 8. Definition of done
 
+- The [responsive acceptance checklist](../../architecture/RESPONSIVE.md#acceptance-checks-for-every-page) passes: no horizontal document overflow, appropriate navigation, readable forms, wrapping long text, visible focus and touch targets at least 44 px high. Add phone and desktop screenshots to the PR.
+
 - CT-T01 to CT-T30 pass, and `npm test`, `npm run lint` and `npm run check:sql` are green in CI.
-- Every page checked as `mandy0hku`, `kelvin0hk`, `wing0cuhk` and `newbie0hk`, on a phone-width window, and with JavaScript off (compose still publishes, like and watch redirect back, Reply still works through `?reply=`).
+- Every page checked as `mandy0hku`, `kelvin0hk`, `wing0cuhk` and `newbie0hk`, at 390, 768 and 1440 CSS pixels, and with JavaScript off (compose still publishes, like and watch redirect back, Reply still works through `?reply=`).
 - No handle appears on an anonymous post's page for anyone, including its author (CT-T09 and the contract privacy test).
 - `USER_GUIDE.md` has screenshots, and its §10 matches what the pages really print (the blank and too-long messages come from `core/validate`; copy their exact wording into the guide); `SQL_CARD.md` is written (§9).
 
@@ -310,4 +316,4 @@ Run them with `npm test -- modules/content`. The SQL itself is checked by `npm r
 
 ## 10. Prompt for a coding agent
 
-> You are working in the Campus Notes repository on the **content** module only. Read `AGENTS.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §9), `docs/architecture/UI_KIT.md` (§3 to §5) and `docs/modules/content/DEV_GUIDE.md`. Implement feature **CT-3** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/content/queries.sql` (turn `@variables` into `?` placeholders in `modules/content/queries.js`). Every route about a post starts with `findVisible(id, req.me)` and answers 404 when it returns null. Never print `author_id`, an e-mail, or a handle that the views return as NULL. Write the tests listed for that feature in §7 in `modules/content/tests/`. Change no file outside `modules/content/` and `docs/modules/content/`. When done, run `npm test -- modules/content` and `npm run lint`, and summarise what you changed and anything in the guide you could not follow.
+> You are working in the Campus Notes repository on the **content** module only. Read `AGENTS.md`, `docs/architecture/RESPONSIVE.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §9), `docs/architecture/UI_KIT.md` (§3 to §5) and `docs/modules/content/DEV_GUIDE.md`. Implement feature **CT-3** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/content/queries.sql` (turn `@variables` into `?` placeholders in `modules/content/queries.js`). Every route about a post starts with `findVisible(id, req.me)` and answers 404 when it returns null. Never print `author_id`, an e-mail, or a handle that the views return as NULL. Write the tests listed for that feature in §7 in `modules/content/tests/`. Change no file outside `modules/content/` and `docs/modules/content/`. When done, run `npm test -- modules/content` and `npm run lint`, check the changed pages at 390, 768 and 1440 px with JavaScript on and off, and summarise what you changed and anything in the guide you could not follow.

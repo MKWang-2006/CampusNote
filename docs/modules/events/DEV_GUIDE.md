@@ -7,7 +7,7 @@
 | **Owner** | Michael (coordinator) |
 | **Folder** | `modules/events/`, `scripts/demo-race.js`, `docs/modules/events/` |
 | **Features** | EV-1 to EV-7 (`PRODUCT_SPEC.md` §4) |
-| **Read first** | `ARCHITECTURE.md` §1, §5, §6, §9; `PRODUCT_SPEC.md` BR-16 and BR-17; this guide |
+| **Read first** | `ARCHITECTURE.md` §1, §5, §6, §9; `PRODUCT_SPEC.md` BR-16 and BR-17; [responsive layout](../../architecture/RESPONSIVE.md); this guide |
 | **Tested SQL** | `queries.sql` (this folder) and `check_race_booking.sh` |
 
 You can build this module without knowing the rest of the app. Everything you need from other modules is listed in §3.
@@ -66,6 +66,10 @@ module.exports = {
 | Could | An "Add to calendar" `.ics` download on the event page. |
 
 ## 5. Features
+
+### Responsive page layout (every feature)
+
+Use responsive card grids for events, tickets and the organizer dashboard where suitable. Event details and booking information may sit side by side on desktop and stack in source order on phones. Event forms use `form-width`; attendee tables use `table-wrap` with local horizontal scrolling. Read [RESPONSIVE.md](../../architecture/RESPONSIVE.md) before adding page CSS. Do not create another sidebar/bottom bar or use a fixed 480 px page width. Keep module CSS under `modules/events/public/` and scope selectors to this module.
 
 ### EV-1 Events list: `GET /events` (Must)
 
@@ -189,9 +193,11 @@ Run them with `npm test -- modules/events`. The SQL itself is checked by `npm ru
 
 ## 8. Definition of done
 
+- The [responsive acceptance checklist](../../architecture/RESPONSIVE.md#acceptance-checks-for-every-page) passes: no horizontal document overflow, appropriate navigation, readable forms, wrapping long text, visible focus and touch targets at least 44 px high. Add phone and desktop screenshots to the PR.
+
 - EV-T01 to EV-T19 pass, and `npm test`, `npm run lint` and `npm run check:sql` are green in CI.
 - `npm run demo:race` prints the expected result three times in a row.
-- Every page checked as `mandy0hku`, `wing0cuhk`, `newbie0hk` and `filmsoc00`, on a phone-width window, and with JavaScript off (the countdown then shows the release time instead).
+- Every page checked as `mandy0hku`, `wing0cuhk`, `newbie0hk` and `filmsoc00`, at 390, 768 and 1440 CSS pixels, and with JavaScript off (the countdown then shows the release time instead).
 - `USER_GUIDE.md` has screenshots; `SQL_CARD.md` is written (§9).
 
 ## 9. Presentation (SQL card)
@@ -204,4 +210,4 @@ Run them with `npm test -- modules/events`. The SQL itself is checked by `npm ru
 
 ## 10. Prompt for a coding agent
 
-> You are working in the Campus Notes repository on the **events** module only. Read `AGENTS.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §9) and `docs/modules/events/DEV_GUIDE.md`. Implement feature **EV-3** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/events/queries.sql` (turn `@variables` into `?` placeholders in `modules/events/queries.js`). Write the tests listed for that feature in §7 in `modules/events/tests/`. Change no file outside `modules/events/`, `scripts/demo-race.js` and `docs/modules/events/`. When done, run `npm test -- modules/events` and `npm run lint`, and summarise what you changed and anything in the guide you could not follow.
+> You are working in the Campus Notes repository on the **events** module only. Read `AGENTS.md`, `docs/architecture/RESPONSIVE.md`, `docs/architecture/ARCHITECTURE.md` (§1, §5, §6, §9) and `docs/modules/events/DEV_GUIDE.md`. Implement feature **EV-3** (replace with the feature you want) exactly as specified in §5 of the guide, using the SQL in `docs/modules/events/queries.sql` (turn `@variables` into `?` placeholders in `modules/events/queries.js`). Write the tests listed for that feature in §7 in `modules/events/tests/`. Change no file outside `modules/events/`, `scripts/demo-race.js` and `docs/modules/events/`. When done, run `npm test -- modules/events` and `npm run lint`, check the changed pages at 390, 768 and 1440 px with JavaScript on and off, and summarise what you changed and anything in the guide you could not follow.

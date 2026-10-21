@@ -6,8 +6,9 @@ Campus Notes is an anonymous campus forum for Hong Kong university students (a T
 
 1. `docs/README.md`: map of the design pack.
 2. `docs/architecture/ARCHITECTURE.md`: the rules and the core API. §1, §5, §6 and §9 are mandatory.
-3. The DEV_GUIDE of the module you are working on: `docs/modules/<module>/DEV_GUIDE.md`.
-4. When writing SQL: `db/schema.sql` (the contract) and `docs/data/DATA_MODEL.md` §3 to §5.
+3. `docs/architecture/RESPONSIVE.md`: shared desktop, tablet and phone layout rules.
+4. The DEV_GUIDE of the module you are working on: `docs/modules/<module>/DEV_GUIDE.md`.
+5. When writing SQL: `db/schema.sql` (the contract) and `docs/data/DATA_MODEL.md` §3 to §5.
 
 ## Hard rules
 
@@ -22,6 +23,7 @@ Campus Notes is an anonymous campus forum for Hong Kong university students (a T
 - **Transactions** with `tx()` for multi-statement changes; lock the row that serialises the operation.
 - **Times:** `UTC_TIMESTAMP()` in SQL; `ui.timeAgo` or `ui.hkt` in templates.
 - **Never `TRUNCATE`**, never change `db/schema.sql`, never add dependencies.
+- **Responsive pages:** use the shared shell and UI kit. Do not add another navigation bar, fixed phone width, device detection or separate mobile routes. Keep module CSS scoped to your module; see `docs/architecture/RESPONSIVE.md`.
 - **Forms:** POST handlers end with `res.done({ to, json, flash })`, or re-render with status 400 and `errors`.
 
 ## Commands
@@ -41,5 +43,6 @@ Seed personas (password `campus123`): `admin0000`, `mandy0hku`, `kelvin0hk` (alw
 
 - The feature's acceptance tests from the DEV_GUIDE exist in `modules/<module>/tests/` and pass, and `npm test` and `npm run lint` pass.
 - The page works as at least two personas, including `newbie0hk` for empty states, and without JavaScript.
+- Browser checks at 390, 768 and 1440 CSS pixels pass the responsive checklist in `docs/architecture/RESPONSIVE.md`: no horizontal document overflow, usable navigation, visible keyboard focus and touch targets at least 44 px high. Include phone and desktop screenshots in the PR.
 - No file outside the module changed (for events, `scripts/demo-race.js` is part of the module).
 - Every SQL statement you added has a one-line comment naming the rule it implements (for example `-- BR-7`), and you can explain it.

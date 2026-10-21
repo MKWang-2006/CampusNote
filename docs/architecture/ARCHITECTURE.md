@@ -1,8 +1,8 @@
 # Campus Notes: architecture and developer handbook
 
-**Version 1.1, 17 Oct 2026** (the backbone is built; §2, §4, §6.3, §6.8 and §6.10 describe it as built). Read this once before writing code. It explains how four people can build one app with almost no coordination, and it is the reference for the shared code (the "backbone") that every module uses. What the product does is in `docs/product/PRODUCT_SPEC.md`; what you own is in `docs/team/WORK_DIVISION.md`; your tasks are in `docs/modules/<your module>/DEV_GUIDE.md`.
+**Version 1.2, 21 Oct 2026** (the backbone is built; §2, §4, §6.3, §6.8 and §6.10 describe it as built). Read this once before writing code. It explains how four people can build one app with almost no coordination, and it is the reference for the shared code (the "backbone") that every module uses. What the product does is in `docs/product/PRODUCT_SPEC.md`; what you own is in `docs/team/WORK_DIVISION.md`; your tasks are in `docs/modules/<your module>/DEV_GUIDE.md`.
 
-Status: the stack (decision D1) and the backbone plan (D2) were decided on 17 Oct 2026, as recommended.
+Status: the stack (decision D1) and the backbone plan (D2) were decided on 17 Oct 2026, as recommended. The 21 Oct update adopts one desktop-first responsive website (D22); [RESPONSIVE.md](RESPONSIVE.md) is the layout contract for every module.
 
 ## 1. Seven rules that let four people work apart
 
@@ -101,7 +101,7 @@ module.exports = {
 
 Rules:
 - **Routes** only use paths listed for your module in `WORK_DIVISION.md` §3. A contract test fails if two modules register the same method and path.
-- **Views** live in `modules/<m>/views/<m>/` and are rendered as `res.page('<m>/name', {...})`. The folder name is the namespace, so two modules' `index.ejs` never clash.
+- **Views** live in `modules/<m>/views/<m>/` and are rendered as `res.page('<m>/name', {...})`. The folder name is the namespace, so two modules' `index.ejs` never clash. Use the shared responsive shell and classes in [RESPONSIVE.md](RESPONSIVE.md); modules own their page content, not the global navigation or viewport width.
 - **SQL** lives in `queries.js` as named async functions (`listFeed`, `addComment`). Route handlers never contain SQL strings. This keeps every query in one file for review and for the presentation.
 - **Database objects** a module owns (triggers) live in `modules/<m>/db/*.sql` and are applied by `npm run db:reset`. They may use `DELIMITER $$` like the mysql client.
 - **Tests** live in `modules/<m>/tests/` and use only the helpers in §10.
@@ -154,7 +154,7 @@ res.page('content/compose', {
   title: 'New post',      // top bar text
   tab: 'compose',         // highlighted tab: feed | search | compose | messages | me | null
   back: '/feed',          // optional: shows a back arrow linking here
-  hideTabs: true,         // optional: no tab bar (the compose page; logged-out pages never have one)
+  hideTabs: true,         // optional: hide bottom tabs on compose; desktop navigation remains available
   styles: ['/m/content/content.css'],   // optional: extra stylesheets from your module's public/ folder
   scripts: ['/m/content/compose.js'],   // optional: extra scripts (loaded with defer, after kit.js)
   errors: {}, values: {}, // your own locals
@@ -259,6 +259,7 @@ Route code uses the same helpers with `const ui = require('../../core/ui');`. Be
 ## 8. Pages and forms
 
 - **Post/Redirect/Get:** every form POST ends with `res.done()` (a 303 redirect), or re-renders the form with status 400 and `errors` when validation fails.
+- **Responsive layout:** one server-rendered page and the same routes work at every width. The shared shell supplies desktop sidebar navigation at 1024 px and above, bottom tabs below 1024 px, and an expanded tablet column with optional card grids from 768 px. Follow [RESPONSIVE.md](RESPONSIVE.md) for width helpers and browser acceptance checks; navigation and layout must work without JavaScript.
 - **Progressive enhancement:** pages work without JavaScript. `kit.js` adds: AJAX for forms marked `data-ajax` (like and watch buttons update in place using the `json` from `res.done`), `data-confirm` dialogs, the compose page's leave guard, live character counters and countdowns. Never put essential logic only in JavaScript.
 - **Toggles with explicit state:** a like button posts `like=1` or `like=0`, never "toggle", so a double click cannot undo itself.
 - **Empty states:** every list has one (`partials/empty`). The `newbie0hk` persona has no data, so use it to check them.
@@ -282,6 +283,8 @@ Route code uses the same helpers with `const ui = require('../../core/ui');`. Be
 | Module tests | Your routes through HTTP with `supertest`, against the seeded test database | each owner | `npm test -- modules/content` |
 | Contract tests | Cross-module promises: login wall, CSRF, privacy, visibility, unique routes | coordinator | `npm test -- test/contract` |
 | End-to-end | The demo's golden path across all modules | coordinator, integration week | `npm test -- test/e2e` |
+
+In addition to these automated checks, every page must pass the 390 / 768 / 1440 px browser checklist in [RESPONSIVE.md](RESPONSIVE.md), with JavaScript enabled and disabled. HTTP tests alone do not verify layout.
 
 Test helpers (`test/helpers.js`):
 

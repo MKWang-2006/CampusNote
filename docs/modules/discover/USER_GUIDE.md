@@ -4,9 +4,11 @@ The Feed and Search tabs are how you find posts. The feed shows everything you a
 
 Screenshots go in `docs/modules/discover/img/` when the pages are built; the placeholders below name the file each one should have.
 
+**On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Feeds and search can show cards in more columns on a wider screen; topic tabs remain scrollable when needed. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
+
 ## 1. The feed
 
-Tap **Feed** in the tab bar. The strip at the top has these tabs:
+Select **Feed** in the sidebar or compact tab bar. The strip at the top has these tabs:
 
 | Tab | Shows |
 |---|---|
@@ -38,7 +40,7 @@ On the **All** tab, current announcements from the Campus Notes team appear abov
 
 1. Tap **Search** in the tab bar.
 2. Type one or more words and tap **Search**. You see the posts that contain **all** the words.
-3. To change the order, pick **Relevance** (best match first) or **Newest**. To look in one topic only, pick it from the topic list. On a phone the page updates as soon as you pick.
+3. To change the order, pick **Relevance** (best match first) or **Newest**. To look in one topic only, pick it from the topic list. With JavaScript enabled the page updates as soon as you pick; otherwise press **Search**.
 
 Tips:
 - Chinese works without spaces: "叉烧" finds posts about char siu.

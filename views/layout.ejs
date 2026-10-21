@@ -16,40 +16,79 @@
   <script src="<%= src %>" defer></script>
 <% }) -%>
 </head>
+<% const unread = Number((badges && badges.messages) || 0);
+   const tabs = [
+     { key: 'feed', href: '/feed', label: 'Feed', icon: 'feed' },
+     { key: 'search', href: '/search', label: 'Search', icon: 'search' },
+     { key: 'compose', href: '/compose', label: 'New post', icon: 'plus' },
+     { key: 'messages', href: '/messages', label: 'Messages', icon: 'messages' },
+     { key: 'me', href: '/me', label: 'Me', icon: 'me' },
+   ];
+   const inEvents = pagePath.startsWith('/events') || pagePath === '/me/tickets';
+   const currentSection = inEvents ? 'events' : tab;
+   const desktopLinks = [...tabs.filter((item) => item.key !== 'compose' && item.key !== 'me'),
+     { key: 'events', href: '/events', label: 'Events', icon: 'calendar' }, tabs[4]];
+-%>
 <body class="<%= hideTabs || !me ? 'no-tabs' : '' %>">
-  <header class="topbar">
-<% if (back) { -%>
-    <a class="topbar-back" href="<%= back %>" aria-label="Back"><%- ui.icon('back') %></a>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app-shell<%= me ? '' : ' is-public' %>">
+<% if (me) { -%>
+    <aside class="desktop-sidebar" aria-label="Campus Notes sidebar">
+      <a class="site-brand" href="/feed" aria-label="Campus Notes home">
+        <span class="brand-mark" aria-hidden="true">cn</span>
+        <span>Campus Notes<small>HKU · CUHK · HKUST</small></span>
+      </a>
+      <a class="btn sidebar-compose" href="/compose"<%- tab === 'compose' ? ' aria-current="page"' : '' %>><%- ui.icon('plus') %>New post</a>
+      <nav class="sidebar-nav" aria-label="Main desktop">
+<% desktopLinks.forEach((item) => { -%>
+        <a href="<%= item.href %>"<%- currentSection === item.key ? ' aria-current="page"' : '' %>>
+          <%- ui.icon(item.icon) %><span><%= item.label %></span>
+<% if (item.key === 'messages' && unread > 0) { -%>
+          <span class="badge" aria-label="<%= unread %> unread"><%= unread > 99 ? '99+' : unread %></span>
 <% } -%>
-    <h1 class="topbar-title"><%= title || 'Campus Notes' %></h1>
-  </header>
-  <main class="page" id="main">
+        </a>
+<% }) -%>
+      </nav>
+      <div class="sidebar-footer">
+        <a class="sidebar-account" href="/me">
+          <img class="avatar avatar-md" src="<%= ui.avatarUrl(me.avatarCode) %>" alt="" width="44" height="44">
+          <span><strong><%= me.handle %></strong><small><%= me.universityCode %> · Your account</small></span>
+        </a>
+        <div class="sidebar-meta"><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a></div>
+      </div>
+    </aside>
+<% } -%>
+    <div class="app-content">
+      <header class="topbar<%= back ? ' has-back' : '' %>">
+<% if (back) { -%>
+        <a class="topbar-back" href="<%= back %>" aria-label="Back"><%- ui.icon('back') %></a>
+<% } -%>
+        <div class="topbar-heading">
+          <p class="topbar-eyebrow">Campus Notes</p>
+          <h1 class="topbar-title"><%= title || 'Campus Notes' %></h1>
+        </div>
+      </header>
+      <main class="page" id="main" tabindex="-1">
 <% if (flash) { -%>
-    <p class="flash" role="status"><%= flash %></p>
+        <p class="flash" role="status"><%= flash %></p>
 <% } -%>
 <%- body %>
-  </main>
-<% if (!hideTabs && me) {
-     const unread = Number((badges && badges.messages) || 0);
-     const tabs = [
-       { key: 'feed', href: '/feed', label: 'Feed', icon: 'feed' },
-       { key: 'search', href: '/search', label: 'Search', icon: 'search' },
-       { key: 'compose', href: '/compose', label: 'New post', icon: 'plus' },
-       { key: 'messages', href: '/messages', label: 'Messages', icon: 'messages' },
-       { key: 'me', href: '/me', label: 'Me', icon: 'me' },
-     ]; -%>
+      </main>
+    </div>
+  </div>
+<% if (!hideTabs && me) { -%>
   <nav class="tabbar" aria-label="Main">
-<% tabs.forEach((t) => { -%>
-<%   if (t.key === 'compose') { -%>
-    <a class="tab-compose" href="<%= t.href %>"<%- tab === t.key ? ' aria-current="page"' : '' %>><span class="plus"><%- ui.icon('plus') %></span><span class="sr-only"><%= t.label %></span></a>
-<%   } else { -%>
-    <a href="<%= t.href %>"<%- tab === t.key ? ' aria-current="page"' : '' %>>
-      <%- ui.icon(t.icon) %><span><%= t.label %></span>
-<%     if (t.key === 'messages' && unread > 0) { -%>
+<% tabs.forEach((item) => { -%>
+<% if (item.key === 'compose') { -%>
+    <a class="tab-compose" href="<%= item.href %>"<%- tab === item.key ? ' aria-current="page"' : '' %>><span class="plus"><%- ui.icon('plus') %></span><span class="sr-only"><%= item.label %></span></a>
+<% } else { -%>
+    <a href="<%= item.href %>"<%- tab === item.key ? ' aria-current="page"' : '' %>>
+      <%- ui.icon(item.icon) %><span><%= item.label %></span>
+<% if (item.key === 'messages' && unread > 0) { -%>
       <span class="badge" aria-label="<%= unread %> unread"><%= unread > 99 ? '99+' : unread %></span>
-<%     } -%>
+<% } -%>
     </a>
-<%   } -%>
+<% } -%>
 <% }) -%>
   </nav>
 <% } -%>

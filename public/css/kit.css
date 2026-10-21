@@ -1,8 +1,8 @@
 /* Campus Notes UI kit (docs/architecture/UI_KIT.md). One stylesheet for every page.
-   Dark, phone-sized, a 480 px column centred on a desktop. No web fonts, no CDN. */
+   Desktop-first responsive shell, with compact navigation on phones/tablets. No CDN. */
 
 :root {
-  --bg: #000000;
+  --bg: #101012;
   --surface: #1c1c1c;
   --surface-2: #2a2a2a;
   --line: #333333;
@@ -19,7 +19,7 @@
   --on-brand: #f4ece6;
   --radius: 12px;
   --gap: 12px;
-  --column: 480px;
+  --column: 1280px;
   --topbar-h: 52px;
   --tabbar-h: 64px;
   --font:
@@ -976,5 +976,363 @@ table.table {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------- responsive shared frame
+   Desktop is the default. Compact navigation and one-column cards are viewport rules,
+   so the same server-rendered page works without JavaScript or device detection. */
+:root {
+  --gap: 20px;
+  --radius: 16px;
+  --sidebar-width: 224px;
+  --topbar-h: 104px;
+}
+body {
+  max-width: none;
+  background: var(--bg);
+  font-size: 16px;
+}
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  gap: 36px;
+  width: 100%;
+  max-width: var(--column);
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+.app-shell.is-public {
+  display: block;
+  max-width: 48rem;
+}
+.app-content,
+.page > *,
+.page-grid > *,
+.page-grid-wide > * {
+  min-width: 0;
+}
+.app-content {
+  min-height: 100vh;
+}
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--cta);
+  color: var(--cta-text);
+  transform: translateY(-160%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+.desktop-sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100vh;
+  height: 100dvh;
+  padding-block: 30px 24px;
+  overflow-y: auto;
+}
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+.site-brand:hover {
+  text-decoration: none;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--brand);
+  color: var(--on-brand);
+  font-size: 23px;
+  letter-spacing: -1px;
+}
+.site-brand small,
+.sidebar-account small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.sidebar-compose {
+  min-height: 48px;
+  border-color: transparent;
+  background: var(--cta);
+  color: var(--cta-text);
+}
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 50px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.sidebar-nav a:hover {
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.sidebar-nav a[aria-current='page'] {
+  background: rgba(134, 68, 66, 0.22);
+  color: var(--brand-soft);
+}
+.sidebar-nav .badge {
+  margin-left: auto;
+}
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 24px;
+}
+.sidebar-account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 12px;
+  color: var(--text);
+}
+.sidebar-account > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.sidebar-account strong {
+  font-size: 14px;
+}
+.sidebar-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.sidebar-meta a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--muted);
+}
+.topbar {
+  grid-template-columns: 44px minmax(0, 1fr) 32px;
+  gap: 12px;
+  min-height: 104px;
+  padding-top: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+}
+.topbar-heading {
+  grid-column: 2;
+  min-width: 0;
+}
+.topbar:not(.has-back) .topbar-heading {
+  grid-column: 1 / -1;
+}
+.topbar-eyebrow {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+.topbar-title {
+  text-align: left;
+  font-size: 27px;
+  letter-spacing: -0.5px;
+}
+.topbar-back {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+}
+.page {
+  padding: 24px 0 48px;
+}
+body.no-tabs .page {
+  padding-bottom: 48px;
+}
+.page > .full-bleed {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+.tabbar {
+  display: none;
+}
+.card {
+  padding: 20px;
+  border: 1px solid var(--line);
+}
+h2 {
+  font-size: 19px;
+}
+.btn {
+  max-width: 100%;
+  padding-block: 10px;
+  white-space: normal;
+  text-align: center;
+}
+.btn-sm,
+.link-button {
+  min-height: 44px;
+}
+.chip {
+  max-width: 100%;
+  white-space: normal;
+}
+.row-between,
+.post-card-head {
+  flex-wrap: wrap;
+}
+.row > *,
+.row-between > *,
+.toggle-text {
+  min-width: 0;
+}
+.input,
+.field input,
+.field textarea,
+.field select {
+  min-width: 0;
+  max-width: 100%;
+  font-size: 16px;
+}
+.field input:focus-visible,
+.field textarea:focus-visible,
+.field select:focus-visible,
+.input:focus-visible {
+  outline: 2px solid var(--cta);
+  outline-offset: 2px;
+}
+.table-wrap {
+  min-width: 0;
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+}
+.readable,
+.form-width,
+.page > .form,
+.page > .prose {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+.page-grid,
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  align-items: start;
+}
+.page-grid-wide {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --topbar-h: 84px;
+  }
+  .app-shell {
+    display: block;
+    max-width: 960px;
+    padding-inline: 24px;
+  }
+  .desktop-sidebar {
+    display: none;
+  }
+  .topbar {
+    min-height: 84px;
+  }
+  .page {
+    padding-bottom: calc(var(--tabbar-h) + 32px + env(safe-area-inset-bottom, 0px));
+  }
+  .tabbar {
+    display: grid;
+    max-width: 960px;
+  }
+  .page-grid-wide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --gap: 16px;
+    --radius: 12px;
+    --topbar-h: 56px;
+  }
+  .app-shell {
+    padding-inline: 0;
+  }
+  .topbar {
+    gap: 0;
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    min-height: calc(56px + env(safe-area-inset-top, 0px));
+    padding-top: env(safe-area-inset-top, 0px);
+    background: var(--brand);
+    color: var(--on-brand);
+    border-bottom: 0;
+  }
+  .topbar:not(.has-back) .topbar-heading {
+    grid-column: 2;
+  }
+  .topbar-eyebrow {
+    display: none;
+  }
+  .topbar-title {
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 0;
+  }
+  .topbar-back {
+    margin-left: 2px;
+    border: 0;
+    color: var(--on-brand);
+  }
+  .page {
+    padding-top: var(--gap);
+    padding-inline: var(--gap);
+  }
+  .page > .full-bleed {
+    width: calc(100% + 2 * var(--gap));
+    max-width: none;
+    margin: calc(-1 * var(--gap)) calc(-1 * var(--gap)) 0;
+  }
+  .card {
+    padding: 16px;
+  }
+  .page-grid,
+  .post-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tabbar a {
+    font-size: 12px;
   }
 }
