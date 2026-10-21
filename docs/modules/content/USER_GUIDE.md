@@ -2,7 +2,7 @@
 
 Campus Notes is a tree hole: you write short notes, anonymously unless you choose otherwise, and other students reply under nicknames that belong to that one post. This guide covers writing a post, reading and commenting, likes and watching, deleting, your history and your comments.
 
-Screenshots go in `docs/modules/content/img/` when the pages are built; the placeholders below name the file each one should have.
+Screenshots below use local demo accounts. Watching/History lists, private messages, reports and notification screens require the Discover and Messages modules; their descriptions below explain the intended integrated experience. For current checks and pending integration, see [VALIDATION.md](VALIDATION.md).
 
 **On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Compose and reply forms stay at a comfortable reading width; post images fit the screen and action buttons wrap. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
 
@@ -25,11 +25,13 @@ Select **New post** in the desktop sidebar, or tap the pink **+** button in the 
 
 Posts cannot be edited after publishing. If you made a mistake, delete the post and write it again.
 
-If you start typing and then leave the page, Campus Notes asks "Leave and discard this draft?". Choose **Cancel** to keep writing; drafts are not saved.
+If you start typing and then leave the page, Campus Notes asks "Leave and discard this draft?". Choose **Keep editing** to keep writing; drafts are not saved.
 
 Each post gets a random animal avatar, so even your picture does not give you away.
 
-*(screenshot to add: `img/compose.png`, `img/compose-leave.png`)*
+![Compose on desktop](img/compose-1440.png)
+
+[Phone compose](img/compose-390.png) · [Validation errors on phone](img/compose-error-390.png)
 
 ## 2. Reading a post
 
@@ -44,7 +46,9 @@ Tap any post in the feed, in search results or in a notification. The post page 
 
 If a post was deleted, hidden by a moderator, or shared only with another university, its page says "This page does not exist or you cannot see it".
 
-*(screenshot to add: `img/post-page.png`)*
+![Post on a phone](img/post-390.png)
+
+[Desktop post](img/post-1440.png) · [Tablet post](img/post-768.png)
 
 ## 3. Comments and aliases
 
@@ -75,7 +79,7 @@ What the labels mean:
 
 The post's writer, and everyone watching the post, are told about new comments in **Messages → Notifications**.
 
-*(screenshot to add: `img/post-thread.png`, `img/post-reply.png`)*
+The post screenshot above includes the flat thread, Host label, reply links and hidden-comment placeholder.
 
 ## 4. Likes and watching
 
@@ -95,7 +99,7 @@ Both open pages of the Messages tab; see the Messages user guide.
 
 ## 6. Deleting
 
-- **Your post:** open it, tap **Delete** at the bottom and confirm. You see "Post deleted" and the feed. The post disappears from every list and its page no longer opens, for you too.
+- **Your post:** open it, tap **Delete post** and confirm. You see "Post deleted" and the feed. The post disappears from every list and its page no longer opens, for you too.
 - **Your comment:** tap **Delete** under it and confirm. It shows as "[deleted]" for everyone.
 
 Deleting cannot be undone. You can only delete what you wrote.
@@ -110,7 +114,7 @@ Every post you open is added to **Me → History**, newest first. To erase it, o
 
 Deleted comments are not listed, and neither are comments on posts that were deleted or hidden. A comment a moderator hid shows "[hidden by a moderator]".
 
-*(screenshot to add: `img/my-comments.png`)*
+![My comments on desktop](img/my-comments-1440.png)
 
 ## 9. Who can see what
 
@@ -152,3 +156,15 @@ All demo accounts use the password `campus123` (in development, the login page l
 6. Log in as **mandy0hku** → **Me → My comments**: four comments, three as Alice and one as Host (on her own library post #600001).
 7. Log in as **jason0ust** → **Me → My comments**: his rude comment on #600012 shows "[hidden by a moderator]".
 8. As **mandy0hku**, open **Me → History** → **Clear history**: the list is empty.
+
+## 12. Full-screen images
+
+Tap a post image to open the viewer. Use **Previous** and **Next**, the keyboard left/right arrows, or a horizontal swipe on a touch screen to move between images. The counter shows your position, such as “Image 1 of 2”. Navigation stops at the first and last image; both navigation buttons are disabled for a single image.
+
+Use **Close** or **Escape** to return to the same position in the post. Keyboard focus returns to the image you opened; Tab and Shift+Tab stay inside the viewer while it is open. **Open original** opens the file in a new tab. If an image fails to load, an error message and the original-file link remain available.
+
+Without JavaScript, selecting an image opens its original file directly; use the browser Back button to return. Posting, replying, liking, watching and deleting also continue to work as ordinary forms without JavaScript. Interactive confirmation and draft-leaving prompts require JavaScript.
+
+![Image viewer on phone](img/viewer-phone.png)
+
+[Desktop image viewer](img/viewer-desktop.png)

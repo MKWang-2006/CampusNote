@@ -73,3 +73,66 @@
 .content-compose .chip-choice span {
   min-height: 44px;
 }
+
+.content-viewer {
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  background: #101012;
+  color: var(--text);
+  overflow: auto;
+}
+.content-viewer::backdrop {
+  background: #101012;
+}
+.content-viewer-layout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.content-viewer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.content-viewer-toolbar .btn {
+  min-height: 44px;
+}
+.content-viewer-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: pan-y pinch-zoom;
+}
+.content-viewer-stage img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.content-viewer [data-viewer-error] {
+  margin: 0;
+}
+.content-viewer button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+@media (max-width: 380px) {
+  .content-viewer {
+    padding: 8px;
+  }
+  .content-viewer-toolbar .btn {
+    padding-inline: 10px;
+  }
+}
