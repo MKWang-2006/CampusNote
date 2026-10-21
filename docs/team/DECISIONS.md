@@ -93,4 +93,4 @@ The backbone is everything shared: the app skeleton, database runner, sessions, 
 
 ### Role claims, 21 Oct 2026
 
-Catherine135 self-selected Content (issue #1); hX1-dev self-selected Discover (issue #2). Messages remains unclaimed. The coordinator records role claims and invites accounts; no name-only PR is required. Current role availability is recorded in `START_HERE.md` and the three role issues.
+Catherine135 self-selected Content (issue #1); hX1-dev self-selected Discover (issue #2). Michael confirmed MKWang-2006 for Messages on 21 Oct; all three roles are now claimed. The coordinator records role claims and invites accounts; no name-only PR is required. Current role availability is recorded in `START_HERE.md` and the three role issues.

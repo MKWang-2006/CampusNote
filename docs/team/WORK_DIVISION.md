@@ -4,7 +4,7 @@
 
 ## 1. The split at a glance
 
-| | Coordinator (Michael) | Member 1 — Content (Catherine135) | Member 2 — Discover (hX1-dev) | Member 3 — Messages (unclaimed) |
+| | Coordinator (Michael) | Member 1 — Content (Catherine135) | Member 2 — Discover (hX1-dev) | Member 3 — Messages (MKWang-2006) |
 |---|---|---|---|---|
 | **Module** | backbone + identity (built before kickoff) and **events** | **content**: posts, comments, likes, watches, history | **discover**: feeds, hot ranking, search, lists, user pages, announcements | **messages**: notifications, private messages, reports and moderation |
 | **Folder** | `core/`, `views/`, `public/`, `db/`, `test/`, `.github/`, `modules/identity/`, `modules/events/` | `modules/content/` | `modules/discover/` | `modules/messages/` |
@@ -15,7 +15,7 @@
 | **Shared duty** | integration, E-R drawing, README, rehearsals | demo video | slides | rebuild test, bug bash, Moodle package |
 | **Effort (points)** | 10.5 module + 4.5 coordination = 15 | 11 + 2 = 13 | 11 + 2 = 13 | 10.5 + 2 = 12.5 |
 
-Roles are self-selected: Catherine135 claimed Content in issue #1; hX1-dev claimed Discover in issue #2. Messages is still available. Michael has sent both known accounts collaborator invitations and recorded their ownership. Start with [START_HERE.md](../../START_HERE.md). Content focuses on posting and interaction; Discover on feeds and search; Messages on private conversations, notifications and moderation.
+Roles are self-selected: Catherine135 claimed Content in issue #1; hX1-dev claimed Discover in issue #2. Michael confirmed MKWang-2006 for Messages on 21 Oct. All three roles are claimed, and collaborator invitations have been sent to all three accounts. Start with [START_HERE.md](../../START_HERE.md). Content focuses on posting and interaction; Discover on feeds and search; Messages on private conversations, notifications and moderation.
 
 ## 2. Why this split
 

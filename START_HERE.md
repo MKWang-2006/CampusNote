@@ -10,11 +10,11 @@ Campus Notes is our COMP3278 anonymous campus forum. The shared app, database, d
 |---|---|---|---|
 | **Member 1 — Content** | **[Catherine135](https://github.com/Catherine135)** — claimed | Posts/images, comments, likes, watches and history | [Content DEV_GUIDE](docs/modules/content/DEV_GUIDE.md) |
 | **Member 2 — Discover** | **[hX1-dev](https://github.com/hX1-dev)** — claimed | Feeds, ranking, search, personal lists, user pages and announcements | [Discover DEV_GUIDE](docs/modules/discover/DEV_GUIDE.md) |
-| **Member 3 — Messages** | **Unclaimed** | Notifications, private messages, reports and moderation | [Messages DEV_GUIDE](docs/modules/messages/DEV_GUIDE.md) |
+| **Member 3 — Messages** | **[MKWang-2006](https://github.com/MKWang-2006)** — claimed | Notifications, private messages, reports and moderation | [Messages DEV_GUIDE](docs/modules/messages/DEV_GUIDE.md) |
 
-These are self-selected roles. To claim Messages, tell Michael your GitHub username and chosen role, or comment on [issue #3](https://github.com/Michael-wzl/CampusNote/issues/3). Michael records the owner and sends the collaborator invitation; no name-only PR is needed.
+All three roles are claimed. Michael recorded MKWang-2006’s Messages claim on 21 Oct. Start your module directly; no name-only PR is needed.
 
-Invitations have been sent to **Catherine135** and **hX1-dev**. Accept your invitation on GitHub before pushing. Existing claims are tracked in [Content #1](https://github.com/Michael-wzl/CampusNote/issues/1) and [Discover #2](https://github.com/Michael-wzl/CampusNote/issues/2).
+Repository invitations have been sent to all three members. Accept yours on GitHub before pushing if you have not already. Ownership is tracked in [Content #1](https://github.com/Michael-wzl/CampusNote/issues/1), [Discover #2](https://github.com/Michael-wzl/CampusNote/issues/2) and [Messages #3](https://github.com/Michael-wzl/CampusNote/issues/3).
 
 [Weekly status — Done / Next / Blocked](https://github.com/Michael-wzl/CampusNote/issues/4)
 

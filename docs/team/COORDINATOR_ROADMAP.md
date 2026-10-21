@@ -59,7 +59,7 @@ Use [TEAM_MESSAGE.md](TEAM_MESSAGE.md), which contains the repository link, thre
 |---|---|---|
 | 0 to 10 | Demo the running backbone: register, feed with seed data, dev login, mailbox | Everyone sees the target. |
 | 10 to 20 | The rules: own folder, one writer per table, views, URL contracts, small PRs, Sunday status | `ARCHITECTURE.md` §1. |
-| 20 to 30 | Each teammate claims one unclaimed role (Member 1 — Content, Member 2 — Discover, Member 3 — Messages); confirm shared duties | Names recorded in the role issues and module READMEs. |
+| 20 to 30 | Confirm the recorded roles (Member 1 — Content: Catherine135; Member 2 — Discover: hX1-dev; Member 3 — Messages: MKWang-2006) and shared duties | Names recorded in the role issues and module READMEs. |
 | 30 to 50 | Everyone gets the app running and opens a first feature branch; help whoever is stuck | Everyone can run the app and knows their first feature. |
 | 50 to 60 | Dates (CP1, CP2, 6 Nov), how to ask questions, Q&A | Schema frozen from now on. |
 
