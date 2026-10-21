@@ -74,4 +74,6 @@ Before / after, or the new page.
 
 Shared paths and the coordinator's modules have `@Michael-wzl` as owner in [.github/CODEOWNERS](../../.github/CODEOWNERS). Teammate module folders are unassigned so each member can claim a role. The coordinator reviews changes outside your module, including schema changes. CI must pass for every PR.
 
-GitHub branch protection should require a pull request and passing `ci`, with code-owner review enabled for covered paths and no force pushes. When a PR changes only an unowned teammate module, it can merge without a coordinator approval. Do not merge shared changes until the coordinator has reviewed them.
+GitHub branch protection is configured to require a pull request and passing `ci`, with code-owner review enabled for covered paths and no force pushes. When a PR changes only an unowned teammate module, it can merge without a coordinator approval. Do not merge shared changes until the coordinator has reviewed them.
+
+The repository owner retains GitHub’s default admin override for coordinator maintenance. Teammates follow the PR/CI rules above.

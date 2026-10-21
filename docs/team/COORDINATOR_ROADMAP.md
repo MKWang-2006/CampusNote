@@ -36,7 +36,7 @@ The public repository is [Michael-wzl/CampusNote](https://github.com/Michael-wzl
 
 The current handoff checklist is [COORDINATOR_TODO.md](COORDINATOR_TODO.md). Teammates start at [START_HERE.md](../../START_HERE.md), claim one of the three role issues, and follow the root README to run the app. Feature checklists live in their DEV_GUIDEs; a Projects board and an issue for every feature are optional.
 
-Invite the three teammates as collaborators using their GitHub usernames. Protect `main` with pull requests, passing `ci`, code-owner review for shared paths, and no force pushes. Module-only PRs do not need a coordinator approval; changes to shared code do.
+Invite the three teammates as collaborators using their GitHub usernames. `main` is protected with pull requests, passing `ci`, code-owner review for shared paths, resolved conversations, and no force pushes/deletion. The owner retains the default admin override. Module-only PRs do not need a coordinator approval; changes to shared code do.
 
 ## 4. Reviewing the backbone (about 4 to 6 hours)
 

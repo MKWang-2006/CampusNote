@@ -10,7 +10,8 @@
 - [x] Contact page uses project issues; no team email placeholder to fill.
 - [x] Events implementation, mobile screenshots, SQL card and its acceptance tests.
 - [x] Three role-claim issues and a pinned weekly-status issue are created.
-- Publication and branch protection are completed as the final repository setup step.
+- [x] Project committed and pushed to the public `Michael-wzl/CampusNote` repo.
+- [x] `main` requires PRs, passing `ci`, code-owner review for shared paths, and resolved conversations; force pushes and branch deletion are disabled. The repository owner retains GitHub’s default admin override.
 
 ## Your remaining actions
 
