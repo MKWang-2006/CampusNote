@@ -61,6 +61,7 @@ VALUES (600002, 2, 1, 'Wrong post');
 |---|---|
 | HTTP: 20 new users comment on the same post at once | All 20 received 303; aliases were exactly 0–20 including Host; 20 comments |
 | HTTP: the same participant submits five concurrent comments | All five received 303; no additional participant row |
+| HTTP: deletion commits after the initial visibility check, before the comment transaction | Post deletion: 404. Reply-target deletion: 400 with the draft retained. Neither request adds a comment, alias, notification or visit |
 | Reference SQL: 30 concurrent new users with row lock | Aliases 1–30, no errors |
 | Reference SQL: same participant five times | One identity, six comments including its first comment |
 | Comparison SQL without row lock | 28 of 30 transactions failed in this run; exact failure count is timing-dependent |

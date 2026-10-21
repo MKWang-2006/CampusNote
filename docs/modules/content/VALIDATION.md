@@ -1,12 +1,13 @@
 # Content validation
 
-Checked on 21 October 2026 against main `89fed67` and the updated responsive guide. CT-1–CT-8 are implemented inside `modules/content/`; the code reuses the shared shell, authentication, uploads, validation, database views and notification triggers. No shared file, dependency or schema changes are required. Local Triple UNI research informed flat threads, image ordering and return navigation; project requirements take precedence. Original-app screenshots and real user content are not in this repository.
+Checked on 21 October 2026 against main `89fed67` and the updated responsive guide. A follow-up audit compared main `635a204`: its changes record the Messages owner and do not alter the Content contract. CT-1–CT-8 are implemented inside `modules/content/`; the code reuses the shared shell, authentication, uploads, validation, database views and notification triggers. No shared file, dependency or schema changes are required. Local Triple UNI research informed flat threads, image ordering and return navigation; project requirements take precedence. Original-app screenshots and real user content are not in this repository.
 
 ## Review order
 
 1. [PR #6](https://github.com/Michael-wzl/CampusNote/pull/6): responsive compose form, post/thread pages and My comments (CT-2, CT-7).
 2. [PR #7](https://github.com/Michael-wzl/CampusNote/pull/7): transactional publishing, comments/replies, deletion, likes, watches and history (CT-1, CT-3–CT-6).
-3. `content/CT-8-viewer-validation`: full image viewer, browser checks and delivery documentation (CT-8).
+3. [PR #8](https://github.com/Michael-wzl/CampusNote/pull/8): full image viewer, browser checks and delivery documentation (CT-8).
+4. `content/CT-3-deletion-races`: regression coverage for deletion during comment/reply submission (CT-3).
 
 The branches are stacked in this order so each diff contains only its own changes. After merging a preceding PR, retarget/rebase the following PR onto main; do not merge later branches first. Team review and merging are still pending.
 
@@ -14,8 +15,8 @@ The branches are stacked in this order so each diff contains only its own change
 
 | Check | Result |
 |---|---|
-| `npm test -- modules/content` | 17 tests passed; 0 failed |
-| `npm test` | 139 total: 132 passed, 0 failed, 7 existing TODOs |
+| `npm test -- modules/content` | 19 tests passed; 0 failed |
+| `npm test` | 141 total: 134 passed, 0 failed, 7 existing TODOs |
 | `npm run lint` | Passed (ESLint and Prettier) |
 | Full `npm run check:sql` on a disposable database | 456 PASS checks; `ALL SQL CHECKS PASSED` |
 | HTTP race: 20 first-time participants | 20 successful 303 responses; aliases 0–20 including Host, no gaps or duplicates |
@@ -52,6 +53,8 @@ Tests group related acceptance cases to avoid resetting a database once per tiny
 
 Additional coverage includes escaped user text, strict positive IDs, malformed array fields, SQL-looking topic values, disguised image files and a forced database failure after partial post/image insertion. The latter verifies the real transaction rollback and file cleanup together.
 
+Two follow-up HTTP tests deliberately pause a submission after its route-level visibility check, let an owner's real delete request finish, then resume the real comment transaction. A deleted post returns 404 without creating a comment, alias, notification or visit. A deleted reply target returns 400, retains the draft, removes the invalid reply target and shows its deleted placeholder, with the same absence of side effects. The barrier controls request order without timing sleeps or privileged database-monitoring queries; the existing 20-client test separately exercises simultaneous alias allocation.
+
 ## Browser checks
 
 `modules/content/tests/browser-checks.js` exports a check function accepting a Playwright `page`. Run it against a **fresh seeded development database**, not production: it publishes and soft-deletes two sample posts. It does not add Playwright to the application dependencies. Load it using a separate Playwright installation/CLI and pass `{ baseURL, screenshotDir }`; the screenshot directory must already exist. Browser checks are local checks, separate from the HTTP/SQL CI suite.
@@ -62,6 +65,7 @@ Additional coverage includes escaped user text, strict positive IDs, malformed a
 - WebKit 26.6: the same 128 layout checks, two complete form workflows and viewer keyboard/focus/original-link checks passed. Native Tab preferences can skip buttons in this engine, so the viewer explicitly advances focus in both directions. Touch dispatch is checked in Chromium only. WebKit engine coverage does not claim a run in the installed Safari application or on physical iOS hardware.
 - Chrome 155 at **real 200% browser zoom**: all three pages passed as all four personas (12 page checks), plus form errors and viewer navigation/close. The isolated test profile's Chrome Appearance setting was set to 200%; a 1440 px outer window yielded a 720 CSS px viewport and `devicePixelRatio = 2`. This was browser zoom, not CSS `zoom` or a page transform. See [the zoom screenshot](img/compose-zoom200.png).
 - Phone, tablet and desktop screenshots in `img/` use only seeded demonstration content. Viewer captures show the viewport; normal pages use full-page captures.
+- Follow-up Chrome audit: two selected PNG files produced two loaded thumbnails; keyboard activation of Next at the final-image boundary still allowed ArrowLeft to return. The audit used a separate browser session and preserved the user's demonstration posts.
 
 ## Pending integration and contract clarification
 

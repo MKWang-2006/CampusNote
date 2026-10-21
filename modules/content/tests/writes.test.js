@@ -251,6 +251,66 @@ test('CT-T16/T17: invalid replies and text never consume aliases or visits', asy
   assert.equal((await n.form('/posts/600012/comments', { body: '中'.repeat(500) })).status, 303);
 });
 
+// Pause only at the HTTP-to-query boundary: both requests still execute their real SQL.
+// This makes deletion win after the comment route has accepted its initial visibility check.
+async function deleteBeforeCommentWrite(t, owner, deletePath, commenter, postId, fields) {
+  const entered = Promise.withResolvers();
+  const resume = Promise.withResolvers();
+  const addComment = queries.addComment;
+  t.mock.method(queries, 'addComment', async (...args) => {
+    entered.resolve();
+    await resume.promise;
+    return addComment(...args);
+  });
+  const pending = commenter.form('/posts/' + postId + '/comments', fields);
+  try {
+    await Promise.race([
+      entered.promise,
+      pending.then(() => assert.fail('The comment request did not reach the write boundary')),
+    ]);
+    assert.equal((await owner.form(deletePath)).status, 303);
+  } finally {
+    resume.resolve();
+    await pending;
+  }
+  return pending;
+}
+
+test('CT-3: deletion after visibility check rejects a pending comment without side effects', async (t) => {
+  const n = await agentAs('newbie0hk');
+  const owner = await agentAs('wing0cuhk');
+  const comments = await count('comments');
+  const notifications = await count('notifications');
+  const res = await deleteBeforeCommentWrite(t, owner, '/posts/600003/delete', n, 600003, {
+    body: 'Sent from a page that was still open',
+  });
+  assert.equal(res.status, 404);
+  assert.equal(await count('comments'), comments);
+  assert.equal(await count('notifications'), notifications);
+  assert.equal((await q.one('SELECT COUNT(*) AS n FROM post_participants WHERE user_id=6')).n, 0);
+  assert.equal((await q.one('SELECT COUNT(*) AS n FROM post_views WHERE user_id=6')).n, 0);
+});
+
+test('CT-3: reply target deleted during submission preserves the draft and consumes no alias', async (t) => {
+  const n = await agentAs('newbie0hk');
+  const owner = await agentAs('wing0cuhk');
+  const comments = await count('comments');
+  const notifications = await count('notifications');
+  const res = await deleteBeforeCommentWrite(t, owner, '/comments/11/delete', n, 600012, {
+    body: 'Keep this reply draft',
+    reply_to: 11,
+  });
+  assert.equal(res.status, 400);
+  assert.match(res.text, /You can only reply to a visible comment/);
+  assert.equal(res.$('textarea[name=body]').val(), 'Keep this reply draft');
+  assert.equal(res.$('input[name=reply_to]').length, 0);
+  assert.match(res.$('#c11').text(), /\[deleted\]/);
+  assert.equal(await count('comments'), comments);
+  assert.equal(await count('notifications'), notifications);
+  assert.equal((await q.one('SELECT COUNT(*) AS n FROM post_participants WHERE user_id=6')).n, 0);
+  assert.equal((await q.one('SELECT COUNT(*) AS n FROM post_views WHERE user_id=6')).n, 0);
+});
+
 test('CT-T18/T19/T20/T26: soft deletes preserve anchors/aliases and enforce ownership', async () => {
   const m = await agentAs('mandy0hku');
   assert.equal((await m.form('/posts/600012/delete')).status, 404);
