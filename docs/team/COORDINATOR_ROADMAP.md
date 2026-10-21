@@ -9,7 +9,7 @@
 | Fri 16 to Sun 18 Oct | **Design pack and decisions** | Read `docs/README.md`, then make the five calls in `team/DECISIONS.md`. Publish the team GitHub repo (§3). | Nothing yet (A2 and midterm). |
 | Sat 17 to Tue 20 Oct | **Backbone** | Claude builds the backbone, identity and module skeletons (D2). Review and run it (§4). Merge it as the first commit on `main`. | A2 due Mon 19 Oct 23:59. |
 | Wed 21 Oct | Midterm quiz | Evening: send the pre-read message (§5). | Midterm. Install Node 22+ and MySQL 8.4 if time allows. |
-| **Thu 22 Oct** | **Kickoff (the only meeting, 60 min)** | Run the agenda in §6. Freeze the schema. | Choose modules, run the app, open a first PR. |
+| **Thu 22 Oct** | **Kickoff (the only meeting, 60 min)** | Run the agenda in §6. Freeze the schema. | Confirm role claims, run the app, begin a real feature. |
 | **Sun 25 Oct** | **CP1: walking skeleton** | Check every module's pages render with seed data and CI is green. | Read-only pages for your module. |
 | Mon 26 Oct | Project tutorial (TA) | Attend. Note anything the TA expects that we do differently, and adjust the README or slides. | Attend. |
 | **Sun 1 Nov** | **CP2: all Must features merged** | Check against each DEV_GUIDE's Must list. Re-scope anything at risk (§8). | Must features with tests. |
@@ -60,7 +60,7 @@ Use [TEAM_MESSAGE.md](TEAM_MESSAGE.md), which contains the repository link, thre
 | 0 to 10 | Demo the running backbone: register, feed with seed data, dev login, mailbox | Everyone sees the target. |
 | 10 to 20 | The rules: own folder, one writer per table, views, URL contracts, small PRs, Sunday status | `ARCHITECTURE.md` §1. |
 | 20 to 30 | Each teammate claims one unclaimed role (Member 1 — Content, Member 2 — Discover, Member 3 — Messages); confirm shared duties | Names recorded in the role issues and module READMEs. |
-| 30 to 50 | Everyone gets the app running and opens a first PR (their name in their module's README); help whoever is stuck | Four green PRs merged. |
+| 30 to 50 | Everyone gets the app running and opens a first feature branch; help whoever is stuck | Everyone can run the app and knows their first feature. |
 | 50 to 60 | Dates (CP1, CP2, 6 Nov), how to ask questions, Q&A | Schema frozen from now on. |
 
 ## 7. Integration week runbook (Sat 7 to Fri 13 Nov)

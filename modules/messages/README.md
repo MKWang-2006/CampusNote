@@ -6,4 +6,4 @@ The backbone shipped this folder as a skeleton: `index.js` (the manifest), `rout
 
 ## Claim this role
 
-**Member 3 — Messages: unclaimed.** Reply on the role issue linked from [START_HERE.md](../../START_HERE.md), then replace “unclaimed” here with your name and GitHub username in your first pull request. No teammate has been assigned this role.
+**Member 3 — Messages: unclaimed.** Tell Michael your GitHub username and chosen role, or comment on [issue #3](https://github.com/Michael-wzl/CampusNote/issues/3). Michael will record ownership and send the collaborator invitation. Accept it, then start your first real feature; no name-only PR is needed.

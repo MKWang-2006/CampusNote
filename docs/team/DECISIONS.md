@@ -61,7 +61,7 @@ The backbone is everything shared: the app skeleton, database runner, sessions, 
 |---|---|---|---|
 | D6 | **Four feature modules, one per member**: content, discover, messages, events. Identity is built with the backbone. | Each member owns one folder, a set of tables and a set of URLs; nobody edits anyone else's files. See `WORK_DIVISION.md`. | everyone |
 | D7 | **Michael is the coordinator** and owns the backbone, identity and events. | He is the most experienced member and the one who will aggregate. Owning the shared code means he reviews every change to it. | everyone |
-| D8 | **Three unclaimed roles: Member 1 — Content; Member 2 — Discover; Member 3 — Messages.** Every teammate chooses their own role. | Background information informed the split; it does not assign work to people. Claim one role using `START_HERE.md`. | team |
+| D8 | **Three self-selected roles: Member 1 — Content; Member 2 — Discover; Member 3 — Messages.** Every teammate chooses their own role. | Background information informed the split; it does not assign work to people. Claim one role using `START_HERE.md`. | team |
 | D9 | **Every table has exactly one writer module**; others only read. Cross-module side effects use database triggers owned by the module that needs them. | This removes the main source of integration bugs: two modules updating the same row with different rules. | everyone |
 | D10 | **Display rules live in shared views** (`v_live_posts`, `v_post_cards`, `v_comment_items`). | Deletion, hiding and anonymity are applied in one place, so no page can leak an anonymous author by accident. | content, discover, messages |
 | D11 | **Posts cannot be edited**, only deleted (soft delete). | Same as the reference app. It removes image re-ordering, which fails on MySQL under `UNIQUE (post, position)` unless done carefully, because MySQL checks the unique key row by row, so swapping two positions in one `UPDATE` collides halfway through. | content |
@@ -93,4 +93,4 @@ The backbone is everything shared: the app skeleton, database runner, sessions, 
 
 ### Role claims, 21 Oct 2026
 
-Catherine135 self-selected Content (issue #1); hX1-dev self-selected Discover (issue #2). Messages remains unclaimed. The coordinator records role claims and invites accounts; no name-only PR is required. D8 describes the original unclaimed role options, not the current availability.
+Catherine135 self-selected Content (issue #1); hX1-dev self-selected Discover (issue #2). Messages remains unclaimed. The coordinator records role claims and invites accounts; no name-only PR is required. Current role availability is recorded in `START_HERE.md` and the three role issues.
