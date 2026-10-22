@@ -158,7 +158,7 @@ The page, top to bottom:
 
 **Delete** (`POST /posts/:id/delete`): `deletePost(id, me.userId)`; 0 rows means 404 (not yours, already deleted, or no such post). Then `res.done({ to: '/feed', flash: 'Post deleted' })`. The rows stay (soft delete, BR-8): the views drop the post from every list, its page answers 404, and its notifications and conversations keep working as messages decides.
 
-Rules: BR-5, BR-6, BR-8, BR-9, BR-17. The author of an anonymous post sees it anonymous too (Kelvin's own post shows no handle). Liking or watching your own post is allowed; the trigger never notifies you about yourself.
+Rules: BR-5, BR-6, BR-8, BR-9, BR-17. The author sees their own post content anonymously too. The shared account navigation may show the signed-in viewer's own handle; it never identifies a post author or commenter (D23). Liking or watching your own post is allowed; the trigger never notifies you about yourself.
 
 ### CT-3 Comments, replies and deleting: `POST /posts/:id/comments`, `POST /comments/:id/delete` (Must)
 
@@ -303,7 +303,7 @@ Run them with `npm test -- modules/content`. The SQL itself is checked by `npm r
 
 - CT-T01 to CT-T30 pass, and `npm test`, `npm run lint` and `npm run check:sql` are green in CI.
 - Every page checked as `mandy0hku`, `kelvin0hk`, `wing0cuhk` and `newbie0hk`, at 390, 768 and 1440 CSS pixels, and with JavaScript off (compose still publishes, like and watch redirect back, Reply still works through `?reply=`).
-- No handle appears on an anonymous post's page for anyone, including its author (CT-T09 and the contract privacy test).
+- Anonymous post and participant content contains no author/commenter handle, including for the author-viewer. The shared account navigation may show only the signed-in viewer's own handle (D23; CT-T09 and the contract privacy test).
 - `USER_GUIDE.md` has screenshots, and its §10 matches what the pages really print (the blank and too-long messages come from `core/validate`; copy their exact wording into the guide); `SQL_CARD.md` is written (§9).
 
 ## 9. Presentation (SQL card)

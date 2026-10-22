@@ -1,5 +1,5 @@
 // ID-4 Me hub, ID-5 profile, ID-6 settings and password (DEV_GUIDE §7, ID-T21 to ID-T29).
-// The two parts that need other modules' lists (CP2) are the todo tests at the end of the file.
+// The count-to-list check still needs Discover's lists (CP2); Clear history is integrated.
 const { test, before } = require('node:test');
 const assert = require('node:assert/strict');
 const { resetDb, anon, agentAs, make, q } = require('../../../test/helpers');
@@ -299,20 +299,16 @@ test(
   },
 );
 
-test(
-  "ID-T24 (CP2) after Clear history, Mandy's Viewed count is 0",
-  { todo: 'needs content/discover lists (CP2)' },
-  async () => {
-    const mandy = await agentAs('mandy0hku');
-    const before = meStats(await mandy.page('/me')).find((s) => s.label === 'Viewed');
-    assert.ok(before.value > 0);
-    const res = await mandy.form('/me/history/clear');
-    assert.equal(res.status, 303);
-    const after = meStats(await mandy.page('/me')).find((s) => s.label === 'Viewed');
-    assert.equal(after.value, 0);
-    assert.equal(
-      await count('SELECT COUNT(*) AS n FROM post_views WHERE user_id = 2 AND cleared_at IS NULL'),
-      0,
-    );
-  },
-);
+test("ID-T24 (CP2) after Clear history, Mandy's Viewed count is 0", async () => {
+  const mandy = await agentAs('mandy0hku');
+  const before = meStats(await mandy.page('/me')).find((s) => s.label === 'Viewed');
+  assert.ok(before.value > 0);
+  const res = await mandy.form('/me/history/clear');
+  assert.equal(res.status, 303);
+  const after = meStats(await mandy.page('/me')).find((s) => s.label === 'Viewed');
+  assert.equal(after.value, 0);
+  assert.equal(
+    await count('SELECT COUNT(*) AS n FROM post_views WHERE user_id = 2 AND cleared_at IS NULL'),
+    0,
+  );
+});

@@ -28,16 +28,17 @@ test(
   },
 );
 
-test(
-  'CT definition of done: an anonymous author handle is absent from the entire HTML',
-  pending('Shared account sidebar conflicts with whole-page anonymity; issue #5'),
-  async () => {
-    const own = await (await agentAs('kelvin0hk')).page('/posts/600012');
-    assert.equal(own.status, 200);
-    assert.ok(!own.$('.content-post').html().includes('kelvin0hk'));
-    assert.ok(
-      !own.text.includes('kelvin0hk'),
-      'The shared account sidebar still contains the author-viewer handle',
-    );
-  },
-);
+test('CT-T09: anonymous content hides identities while own-account navigation remains named', async () => {
+  for (const viewer of ['mandy0hku', 'kelvin0hk', 'wing0cuhk', 'newbie0hk']) {
+    const page = await (await agentAs(viewer)).page('/posts/600012');
+    assert.equal(page.status, 200);
+    const content = page.$('.content-post').html();
+    assert.ok(content, 'The complete Content area must be present');
+    assert.equal(page.$('.sidebar-account strong').text(), viewer);
+    for (const hidden of ['kelvin0hk', 'mandy0hku', 'wing0cuhk', 'jason0ust']) {
+      assert.ok(!content.includes(hidden), `${viewer} sees ${hidden} in anonymous content`);
+      if (hidden !== viewer)
+        assert.ok(!page.text.includes(hidden), `${viewer} sees another participant's identity`);
+    }
+  }
+});

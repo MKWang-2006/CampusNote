@@ -76,6 +76,7 @@ The backbone is everything shared: the app skeleton, database runner, sessions, 
 | D20 | **One synchronous meeting** (kickoff, Thu 22 Oct). Everything else is asynchronous on GitHub: issues, PRs and a Sunday status comment. | This is the least-communication requirement. The docs answer the questions a meeting normally would. | everyone |
 | D21 | **Node 22 LTS or later, MySQL 8.0.19 or later** (8.4 LTS recommended). CI uses MySQL 8.4. | The schema uses CHECK constraints (8.0.16) and REGEXP_LIKE; messages uses `INSERT ... AS new ON DUPLICATE KEY UPDATE` (8.0.19). Tested on 8.0.46. | everyone |
 | D22 | **Desktop-first responsive website**, approved by Michael on 21 Oct. Desktop has a sidebar and wider content; phones keep one column and bottom tabs. | One shared server-rendered app adapts by CSS viewport width. Modules reuse the layout and pass 390 / 768 / 1440 px browser checks; see [RESPONSIVE.md](../architecture/RESPONSIVE.md). | everyone |
+| D23 | **Own-account navigation may identify only the signed-in viewer on anonymous post pages**, approved by Michael on 22 Oct in issue #5 review. Anonymous post and participant content must hide author/commenter identities even from the author-viewer. | Account navigation identifies the current session, without identifying who wrote a post or comment. Clarifies BR-6 and CT-T09 after D22. | everyone |
 
 ## Change log
 
@@ -83,6 +84,7 @@ The backbone is everything shared: the app skeleton, database runner, sessions, 
 |---|---|
 | 2026-10-16 | Register created with the design pack. D1 to D5 asked; D6 to D21 set as defaults. |
 | 2026-10-17 | Michael decided D1 to D5: option A for each. |
+| 2026-10-22 | Michael approved D23: own-account sidebar allowed; anonymous content and participants remain anonymous (issue #5). |
 
 ### 21 Oct 2026 handoff update
 

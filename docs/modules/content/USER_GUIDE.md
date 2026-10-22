@@ -152,7 +152,7 @@ All demo accounts use the password `campus123` (in development, the login page l
 2. Log in as **wing0cuhk** (CUHK) and open `/posts/600015`: it does not exist for her, because Mandy's post is for HKU only.
 3. Log in as **newbie0hk** → open #600012 ("Midterm tomorrow...") → the box says "You will appear under a new alias" → comment. You are **Dave**, because Alice, Bob and Carol already commented. Tap **Reply** under Bob's comment and reply: it says "replying to Bob".
 4. Still as Newbie, tap the **star** on #600003, then open **Me → Watching**: the post is there.
-5. Log in as **kelvin0hk**, the anonymous writer of #600012: his comment shows as **Host**, his handle appears nowhere, and **Messages → Notifications** says Dave commented on his post.
+5. Log in as **kelvin0hk**, the anonymous writer of #600012: his comment shows as **Host**, his handle is hidden from the post and comments (his own account sidebar still names him), and **Messages → Notifications** says Dave commented on his post.
 6. Log in as **mandy0hku** → **Me → My comments**: four comments, three as Alice and one as Host (on her own library post #600001).
 7. Log in as **jason0ust** → **Me → My comments**: his rude comment on #600012 shows "[hidden by a moderator]".
 8. As **mandy0hku**, open **Me → History** → **Clear history**: the list is empty.

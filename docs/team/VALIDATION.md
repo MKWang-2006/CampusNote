@@ -27,3 +27,13 @@ The desktop-first shared shell and module examples were checked at 390, 768 and 
 Fresh full application suite after this update: **122 total, 115 pass, 0 fail, 7 TODO**. The TODOs still belong to the teammate modules. Lint/format pass. SQL and database behavior are unchanged; remote CI runs the SQL suite on the new commit.
 
 Browser evidence includes 105 page visits, 94 edge checks and a long-content component fixture; it used Chromium emulation. Physical phones, Safari and Firefox have not been tested. Local evidence is retained in the course workspace’s AI working folder rather than the public repo.
+
+## Content integration review — 22 Oct 2026
+
+The coordinator reviewed the combined Content PRs #6–#11 against current main. Content publishing/images, detail/comments, likes/watches, history writes and image viewer are implemented. Discover lists and Messages screens still need their owners. D23 resolves issue #5: own-account sidebar identity is allowed, while post/participant identities remain anonymous. The shared privacy test now checks the viewer's own identity in anonymous content too.
+
+Coordinator checks: **154 application cases: 148 pass, 0 fail, 6 TODO**; lint/format pass; **456 SQL checks pass**. The six TODOs are one Content Watching destination check, one Identity count-to-list check, and four cross-module demo stages requiring Discover/Messages. Two formerly pending checks now run: Identity clear-history count and real multipart image publishing through the demo path.
+
+Installed Chrome browser QA passed 130 layout checks across four personas, 320/390/768/1440 px and JavaScript on/off, plus publishing/comment/reply/like/watch/deletion workflows, viewer keyboard/focus/scroll/error fallback and simulated touch swipe. Desktop and phone screenshots were visually checked. This coordinator run used Chromium; physical phones, Firefox and installed Safari were not run. The member's earlier engine/zoom evidence is recorded in [Content validation](../modules/content/VALIDATION.md).
+
+One intermediate local full run failed during Events race setup because a fresh login response lacked the expected CSRF meta tag. The original log did not identify the HTTP status; no SQL/session error was logged. Twenty-six isolated Events race runs (780 buyer logins/bookings) did not reproduce it. The final full application run passed all 148 enabled cases. Safe response-status/type/path diagnostics were added to the test helper, without retries or changes to application authentication. The cause remains unconfirmed; a passing rerun does not establish a fix.

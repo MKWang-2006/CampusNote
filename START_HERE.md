@@ -2,7 +2,7 @@
 
 Repository: **[Michael-wzl/CampusNote](https://github.com/Michael-wzl/CampusNote)**.
 
-Campus Notes is our COMP3278 anonymous campus forum. The shared app, database, demo data, login/profile and events modules are built. Content, Discover and Messages are starter modules for teammates to implement. Michael owns shared code, identity and events.
+Campus Notes is our COMP3278 anonymous campus forum. The shared app, database, demo data, login/profile, events and Content modules are built. Discover and Messages are starter modules; their owners can build against Content's working routes and data. Michael owns shared code, identity and events.
 
 ## 1. Roles and repository access
 
