@@ -9,10 +9,11 @@
 //   agent.raw                       the underlying supertest agent, for anything else
 //   make.user / make.post / make.comment   rows the seed lacks (see below)
 const crypto = require('crypto');
-const { after } = require('node:test');
+const { before, after } = require('node:test');
 const request = require('supertest');
 const cheerio = require('cheerio');
 const { createApp } = require('../app');
+const { startTestServer, stopTestServer } = require('./http-server');
 const db = require('../core/db');
 const { resetDb: rebuild } = require('../db/reset');
 
@@ -22,14 +23,24 @@ const PASSWORD = 'campus123';
 const PASSWORD_HASH = '$2a$10$BQXplPmPWQ5gXkjIbT1MmOYLVK74US3DzjohpkazjNKPPp.RXNx5C'; // campus123
 const DOMAINS = { 1: 'connect.hku.hk', 2: 'link.cuhk.edu.hk', 3: 'connect.ust.hk' };
 
+// One explicit IPv4 listener per test file; independent agents still have separate cookie jars.
+// Keep app creation lazy until the first request, after file-level upload/config fixtures.
 let app = null;
+let server = null;
 function getApp() {
   if (!app) app = createApp();
   return app;
 }
-
-// Close the pool when the file's tests are done, so the process can exit.
-after(() => db.close().catch(() => {}));
+before(async () => {
+  server = await startTestServer((req, res) => getApp()(req, res));
+});
+after(async () => {
+  try {
+    await stopTestServer(server);
+  } finally {
+    await db.close();
+  }
+});
 
 // A fresh, seeded test database.
 async function resetDb() {
@@ -123,7 +134,9 @@ function wrap(raw) {
 
 // A logged-out visitor.
 function anon() {
-  return wrap(request.agent(getApp()));
+  if (!server || !server.listening)
+    throw new Error('test helpers: create agents inside a test, after the HTTP server starts');
+  return wrap(request.agent(server));
 }
 
 // A logged-in agent for a persona or a user from make.user(), through POST /auth/login.

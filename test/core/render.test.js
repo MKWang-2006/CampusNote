@@ -1,11 +1,12 @@
 // core/render.js: res.page refuses local names that Express or EJS read as options (§6.3).
-const { test } = require('node:test');
+const { test, before, after } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('path');
 const express = require('express');
 const request = require('supertest');
 const cheerio = require('cheerio');
 const { installRender } = require('../../core/render');
+const { startTestServer, stopTestServer } = require('../http-server');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -35,15 +36,21 @@ app.get('/compose', memberPage({ tab: 'compose', hideTabs: true }));
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => res.status(500).send(err.message));
 
+let server;
+before(async () => {
+  server = await startTestServer(app);
+});
+after(() => stopTestServer(server));
+
 test('a page renders inside the layout', async () => {
-  const res = await request(app).get('/ok');
+  const res = await request(server).get('/ok');
   assert.equal(res.status, 200);
   assert.match(res.text, /<title>[^<]*Fine/);
   assert.ok(res.text.includes('Hello'));
 });
 
 test('a reserved local name fails loudly, naming the clash', async () => {
-  const res = await request(app).get('/clash');
+  const res = await request(server).get('/clash');
   assert.equal(res.status, 500);
   assert.equal(
     res.text,
@@ -52,7 +59,7 @@ test('a reserved local name fails loudly, naming the clash', async () => {
 });
 
 test('public pages offer a keyboard skip link and omit signed-in navigation', async () => {
-  const res = await request(app).get('/ok');
+  const res = await request(server).get('/ok');
   const $ = cheerio.load(res.text);
   assert.equal($('.skip-link').attr('href'), '#main');
   assert.equal($('#main').attr('tabindex'), '-1');
@@ -60,7 +67,7 @@ test('public pages offer a keyboard skip link and omit signed-in navigation', as
 });
 
 test('ticket pages expose Events as the desktop section and keep compact navigation', async () => {
-  const res = await request(app).get('/me/tickets');
+  const res = await request(server).get('/me/tickets');
   assert.equal(res.status, 200);
   const $ = cheerio.load(res.text);
   assert.equal($('.sidebar-nav a[aria-current="page"]').attr('href'), '/events');
@@ -70,7 +77,7 @@ test('ticket pages expose Events as the desktop section and keep compact navigat
 });
 
 test('focused compose pages retain desktop navigation while hiding compact tabs', async () => {
-  const res = await request(app).get('/compose');
+  const res = await request(server).get('/compose');
   assert.equal(res.status, 200);
   const $ = cheerio.load(res.text);
   assert.equal($('.desktop-sidebar').length, 1);

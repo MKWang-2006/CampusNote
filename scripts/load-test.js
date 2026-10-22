@@ -9,6 +9,7 @@ const config = require('../core/config');
 const db = require('../core/db');
 const { createApp } = require('../app');
 const { loadModules } = require('../core/modules');
+const { startTestServer, stopTestServer } = require('../test/http-server');
 
 const args = process.argv.slice(2);
 const COUNT = Number(args[args.indexOf('--posts') + 1]) || 20000;
@@ -62,27 +63,35 @@ async function addPosts() {
 }
 
 async function timePages() {
-  const agent = request.agent(createApp());
-  const login = await agent.get('/dev/login-as/mandy0hku');
-  if (login.status !== 303) throw new Error('could not log in as mandy0hku (is this development?)');
-  const pages = [...new Set(loadModules().flatMap((m) => m.smoke))];
-  let slow = 0;
-  console.log(`\nPage timings as mandy0hku (median of 5, limit ${LIMIT_MS} ms):`);
-  for (const url of pages) {
-    const times = [];
-    let status = 0;
-    for (let i = 0; i < 5; i += 1) {
-      const t0 = process.hrtime.bigint();
-      status = (await agent.get(url)).status;
-      times.push(Number(process.hrtime.bigint() - t0) / 1e6);
+  const server = await startTestServer(createApp());
+  try {
+    const agent = request.agent(server);
+    const login = await agent.get('/dev/login-as/mandy0hku');
+    if (login.status !== 303)
+      throw new Error('could not log in as mandy0hku (is this development?)');
+    const pages = [...new Set(loadModules().flatMap((m) => m.smoke))];
+    let slow = 0;
+    console.log(`\nPage timings as mandy0hku (median of 5, limit ${LIMIT_MS} ms):`);
+    for (const url of pages) {
+      const times = [];
+      let status = 0;
+      for (let i = 0; i < 5; i += 1) {
+        const t0 = process.hrtime.bigint();
+        status = (await agent.get(url)).status;
+        times.push(Number(process.hrtime.bigint() - t0) / 1e6);
+      }
+      const median = times.sort((a, b) => a - b)[2];
+      if (median > LIMIT_MS) slow += 1;
+      console.log(
+        `${median > LIMIT_MS ? 'SLOW' : 'ok  '} ${median.toFixed(0).padStart(5)} ms  ${status}  ${url}`,
+      );
     }
-    const median = times.sort((a, b) => a - b)[2];
-    if (median > LIMIT_MS) slow += 1;
     console.log(
-      `${median > LIMIT_MS ? 'SLOW' : 'ok  '} ${median.toFixed(0).padStart(5)} ms  ${status}  ${url}`,
+      slow ? `\n${slow} page(s) over ${LIMIT_MS} ms.` : '\nEvery page is under the limit.',
     );
+  } finally {
+    await stopTestServer(server);
   }
-  console.log(slow ? `\n${slow} page(s) over ${LIMIT_MS} ms.` : '\nEvery page is under the limit.');
 }
 
 async function main() {

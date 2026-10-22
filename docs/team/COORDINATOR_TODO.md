@@ -26,7 +26,7 @@ No manual copying of `.github` files, username replacement, team-email setup or 
 
 ## Validation
 
-Fresh coordinator checks on 22 Oct: **148 application tests pass, 0 fail; 6 TODOs await Discover/Messages integration.** ESLint and formatting pass. **456 SQL checks pass**, including the 120-buyer booking race and the comment-alias race. Events also passed a 200-buyer HTTP race: 50 booked, 150 sold out, no overselling.
+Fresh coordinator checks on 22 Oct: **153 application tests pass, 0 fail; 6 TODOs await Discover/Messages integration.** ESLint and formatting pass. **456 SQL checks pass**, including the 120-buyer booking race and the comment-alias race. Events also passed a 200-buyer HTTP race: 50 booked, 150 sold out, no overselling.
 
 See [VALIDATION.md](VALIDATION.md) for exact scope and limitations, and [GitHub Actions](https://github.com/Michael-wzl/CampusNote/actions) for the remote CI result. Content is implemented and reviewed; Discover and Messages remain starter modules. Full cross-module acceptance waits for those destinations.
 
