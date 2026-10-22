@@ -1,0 +1,18 @@
+<section class="content-compose form-width">
+  <p class="muted">Share a note with your campus. Choose who can see it and how you appear.</p>
+  <form class="form" method="post" action="<%= csrfUrl('/compose') %>" enctype="multipart/form-data" data-leave-guard>
+    <%- include('partials/field', { name: 'body', label: 'Your post', type: 'textarea', rows: 8, value: values.body, error: errors.body, max: 750, hint: 'Text is required. Line breaks are kept.', autocomplete: null, inputmode: null }) %>
+    <div class="group">
+      <%- include('partials/toggle', { name: 'show_handle', label: 'Show my handle', checked: values.show_handle, hint: 'Others see your handle (or organization name) and can open your page.' }) %>
+      <%- include('partials/toggle', { name: 'all_universities', label: 'Visible to all universities', checked: values.all_universities, hint: 'Off: only ' + me.universityCode + ' students can see it.' }) %>
+    </div>
+    <%- include('partials/topic-chips', { topics: ref.topics, name: 'topic', selected: values.topic, error: errors.topic, label: 'Pick a topic' }) %>
+    <div class="field<%= errors.images ? ' has-error' : '' %>">
+      <label for="content-images">Images (up to 6)</label>
+      <p class="hint" id="content-images-hint">JPEG, PNG, WebP or GIF, 5 MB each. Images appear in selection order.</p>
+      <input id="content-images" name="images" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif" data-preview="images" data-max-files="6" aria-describedby="content-images-hint<%= errors.images ? ' content-images-error' : '' %>"<% if (errors.images) { %> aria-invalid="true"<% } %>>
+      <% if (errors.images) { %><p class="error" id="content-images-error"><%= errors.images %></p><% } %>
+    </div>
+    <button class="btn btn-cta" type="submit">Publish</button>
+  </form>
+</section>

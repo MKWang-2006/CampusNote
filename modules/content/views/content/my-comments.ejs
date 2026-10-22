@@ -1,0 +1,13 @@
+<section class="content-my-comments readable stack">
+  <% if (!items.length) { %>
+    <%- include('partials/empty', { text: 'You have not commented on anything yet.', href: '/feed', label: 'Browse the feed', icon: 'comment' }) %>
+  <% } %>
+  <% items.forEach((item) => { %>
+    <a class="card stack content-comment-item" href="/posts/<%= item.post_id %>#c<%= item.comment_id %>">
+      <div class="row wrap"><strong>as <%= ui.alias(item.alias_no) %></strong><time class="muted" title="<%= ui.hkt(item.created_at, true) %>"><%= ui.timeAgo(item.created_at) %></time></div>
+      <p class="content-text"><%= item.is_hidden ? '[hidden by a moderator]' : item.body %></p>
+      <p class="muted"><%= ui.postNo(item.post_id) %> · <%= ui.excerpt(item.post_body, 60) %></p>
+    </a>
+  <% }) %>
+  <% if (nextUrl) { %><a class="btn" href="<%= nextUrl %>">Load more</a><% } %>
+</section>

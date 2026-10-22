@@ -1,0 +1,56 @@
+<div class="content-post readable stack">
+  <article class="card stack">
+    <header class="row wrap content-header">
+      <%- include('partials/avatar', { code: card.avatar_code, size: 'md' }) %>
+      <div class="stack">
+        <div class="row wrap"><strong><%= ui.postNo(card.post_id) %></strong><span class="chip"><%= card.topic_name_en %></span></div>
+        <div class="muted"><%= card.author_university_code %> · <time title="<%= ui.hkt(card.created_at, true) %>"><%= ui.timeAgo(card.created_at) %></time></div>
+        <% if (card.author_name != null) { %><a href="/u/<%= card.author_handle %>"><%= card.author_name %></a><% } %>
+      </div>
+    </header>
+    <p class="content-text"><%= card.body %></p>
+    <% if (images.length) { %>
+      <div class="content-images" aria-label="Post images">
+        <% images.forEach((img, i) => { %>
+          <a href="<%= img.file_path %>" data-content-image aria-label="Open image <%= i + 1 %> of <%= images.length %>"><img src="<%= img.file_path %>" alt="Image <%= i + 1 %> attached to post <%= ui.postNo(card.post_id) %>" loading="lazy"></a>
+        <% }) %>
+      </div>
+    <% } %>
+    <%- include('partials/like-watch', { postId: card.post_id, liked: state.liked_by_me, watched: state.watched_by_me, likeCount: card.like_count, watchCount: card.watch_count }) %>
+    <% if (!isMine) { %><div class="row wrap content-actions">
+      <a class="btn" href="/messages/new?post=<%= card.post_id %>">Message the host</a>
+      <a class="btn" href="/report?type=post&id=<%= card.post_id %>">Report</a>
+    </div><% } %>
+  </article>
+  <section class="stack" aria-labelledby="content-comments-title">
+    <h2 id="content-comments-title"><%= ui.plural(card.comment_count, 'comment') %></h2>
+    <% if (!thread.length) { %><p class="muted">No comments yet. Be the first.</p><% } %>
+    <% thread.forEach((c) => { %>
+      <article class="comment card stack" id="c<%= c.comment_id %>">
+        <header class="row wrap"><strong class="content-alias<%= c.alias_no === 0 ? ' is-host' : '' %>"><%= ui.alias(c.alias_no) %></strong><% if (c.is_mine) { %><span class="muted">(you)</span><% } %><time class="muted" title="<%= ui.hkt(c.created_at, true) %>"><%= ui.timeAgo(c.created_at) %></time></header>
+        <% if (c.reply_to_alias_no != null) { %><a class="content-reply-link" href="#c<%= c.reply_to_comment_id %>">replying to <%= ui.alias(c.reply_to_alias_no) %></a><% } %>
+        <p class="content-text"><%= c.is_deleted ? '[deleted]' : c.is_hidden ? '[hidden by a moderator]' : c.body %></p>
+        <% if (c.body !== null) { %><div class="row wrap content-actions">
+          <a class="btn" href="/posts/<%= card.post_id %>?reply=<%= c.comment_id %>#comment-box">Reply</a>
+          <% if (!c.is_mine) { %>
+            <a class="btn" href="/messages/new?post=<%= card.post_id %>&alias=<%= c.alias_no %>">Message</a>
+            <a class="btn" href="/report?type=comment&id=<%= c.comment_id %>">Report</a>
+          <% } else { %>
+            <form method="post" action="/comments/<%= c.comment_id %>/delete" data-confirm="Delete this comment?"><%- csrfField() %><button class="btn content-delete" type="submit">Delete</button></form>
+          <% } %>
+        </div><% } %>
+      </article>
+    <% }) %>
+  </section>
+  <section id="comment-box" class="card stack form-width" aria-label="Add a comment">
+    <p><%= state.my_alias == null ? 'You will appear under a new alias' : 'You will appear as ' + ui.alias(state.my_alias) %></p>
+    <form class="form" method="post" action="/posts/<%= card.post_id %>/comments">
+      <%- csrfField() %>
+      <% if (replyTo) { %><div class="row wrap"><span>Replying to <%= ui.alias(replyTo.alias_no) %></span><a class="btn" href="/posts/<%= card.post_id %>#comment-box">Cancel</a></div><input type="hidden" name="reply_to" value="<%= replyTo.comment_id %>"><% } %>
+      <% if (errors.reply_to) { %><p class="error" role="alert"><%= errors.reply_to %></p><% } %>
+      <%- include('partials/field', { name: 'body', label: 'Your comment', type: 'textarea', rows: 3, max: 500, value: values.body, error: errors.body, hint: null, autocomplete: null, inputmode: null }) %>
+      <button class="btn btn-cta" type="submit">Send</button>
+    </form>
+  </section>
+  <% if (isMine) { %><form method="post" action="/posts/<%= card.post_id %>/delete" data-confirm="Delete this post? This cannot be undone."><%- csrfField() %><button class="btn content-delete" type="submit">Delete post</button></form><% } %>
+</div>
