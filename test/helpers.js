@@ -63,8 +63,15 @@ function wrap(raw) {
   // and the login page (after the login wall's redirect) when logged out.
   async function ensureToken() {
     if (token) return token;
-    remember(await raw.get('/__test/csrf-token').redirects(2));
-    if (!token) throw new Error('test helpers: no csrf-token meta tag found');
+    const res = await raw.get('/__test/csrf-token').redirects(2);
+    remember(res);
+    if (!token) {
+      const pathname = new URL(res.request.url).pathname;
+      throw new Error(
+        'test helpers: no csrf-token meta tag found ' +
+          `(status ${res.status}; content-type ${res.headers['content-type'] || '(missing)'}; path ${pathname})`,
+      );
+    }
     return token;
   }
 

@@ -1,20 +1,127 @@
 # Content validation
 
-## PR 1: pages (CT-1 form, CT-2, CT-3 thread, CT-7, CT-8 links)
+Member validation ran on 21 October 2026 against main `89fed67` and the updated responsive guide; coordinator verification ran on 22 October. A follow-up audit compared main `635a204`: its changes record the Messages owner and do not alter the Content contract. CT-1–CT-8 are implemented inside `modules/content/`; the code reuses the shared shell, authentication, uploads, validation, database views and notification triggers. No shared file, dependency or schema changes are required. Local Triple UNI research informed flat threads, image ordering and return navigation; project requirements take precedence. Original-app screenshots and real user content are not in this repository.
 
-Checked against main `89fed67` and the 21 October responsive guide. Local original-app research informed flat threads, image ordering and return navigation; project rules take precedence. No original-app screenshots or user data are included.
+## Review order
 
-- Six HTTP tests cover CT-T01/02/08/09/10/11/15 (GET)/25/26 (read side)/27/29, including real 20-item pagination, Unicode escaping, aliases and hidden/deleted anchors.
-- Shared lint passed. Full-suite result is recorded in the PR; existing integration TODOs remain explicitly pending.
-- Post detail inspected in Chromium at 390×844, 768×1024 and 1440×900, with screenshots in `img/`. These are local seeded personas.
-- Writes are completed by the next PR in the series; this PR establishes the read-only checkpoint.
-- Contract clarification [#5](https://github.com/Michael-wzl/CampusNote/issues/5): the shared D22 account sidebar shows the viewer's own handle. Content never reveals an anonymous author's or commenter's handle, including within the author's own Content area. The old whole-page wording is not marked fully satisfied pending coordinator clarification.
+1. [PR #6](https://github.com/Michael-wzl/CampusNote/pull/6): responsive compose form, post/thread pages and My comments (CT-2, CT-7).
+2. [PR #7](https://github.com/Michael-wzl/CampusNote/pull/7): transactional publishing, comments/replies, deletion, likes, watches and history (CT-1, CT-3–CT-6).
+3. [PR #8](https://github.com/Michael-wzl/CampusNote/pull/8): full image viewer, browser checks and delivery documentation (CT-8).
+4. [PR #9](https://github.com/Michael-wzl/CampusNote/pull/9): regression coverage for deletion during comment/reply submission (CT-3).
+5. [PR #10](https://github.com/Michael-wzl/CampusNote/pull/10): clause-by-clause acceptance assertions and executable pending integration checks.
+6. `content/CT-boundary-regressions`: upload boundaries, input safety, transaction rollback and concurrent-request regressions.
 
-## PR 2: publishing and interactions (CT-1 to CT-7)
+The branches are stacked in this order so each diff contains only its own changes. After merging a preceding PR, retarget/rebase the following PR onto main; do not merge later branches first. The coordinator reviewed the complete stack on 22 Oct, reran it against current main, and adopted D23 for issue #5. See the PR merge states for integration progress.
 
-- 17 Content HTTP tests cover the guide's CT-T01–CT-T30 behaviors on the Content side. CT-T22's actual Discover Watching page remains pending; its database contract and notifications are verified.
-- Upload tests include 6/7 files, PNG signature, disguised files, wrong MIME type, >5 MB, Unicode 750/751 and comment 500/501 boundaries. A deliberate SQL failure after a partial image insert proves transaction rollback and uploaded-file cleanup.
-- 20 simultaneous first comments through HTTP produce aliases 1–20; five concurrent comments from the same participant retain one alias.
-- SQL suite: 456 PASS checks, including 30 concurrent first comments and repeated-participant race. The no-lock comparison failed 28/30 transactions as expected.
-- Chromium phone workflow with JavaScript **enabled and disabled**: publish, comment as Host, like and watch all succeeded; no document overflow. Compose screenshots at 390/768/1440 px are in `img/`.
-- Discover personal lists and Messages destinations remain placeholders on the baseline. Content writes the expected records and links; those destination screens are not represented as completed.
+## Automated results
+
+| Check | Result |
+|---|---|
+| `npm test -- modules/content` | 32 tests: 31 passed, 0 unexpected failures, 1 explicit TODO |
+| `npm test` | 154 total: 148 passed, 0 unexpected failures, 6 TODOs (1 Content Watching, 1 Identity count/list, 4 cross-module demo flows) |
+| `npm run lint` | Passed (ESLint and Prettier) |
+| Full `npm run check:sql` on a disposable database | 456 PASS checks; `ALL SQL CHECKS PASSED` |
+| HTTP race: 20 first-time participants | 20 successful 303 responses; aliases 0–20 including Host, no gaps or duplicates |
+| HTTP race: one participant comments five times | Five independent sessions for one user; one participant row and unchanged alias |
+| SQL race: 30 participants | All 30 names unique with the lock; the no-lock comparison failed 28/30 transactions in this run |
+
+Original member validation used Node 25.8.1 and MySQL 8.0.46. Coordinator verification on 22 Oct uses Node 24.9.0 and MySQL 8.4.13. Development, HTTP tests and SQL races use separate task-owned databases. Content upload tests now use a temporary directory per test process and remove it afterwards; they never write into the running demo's upload folder. GitHub checks exercise the repository CI environment as well; consult each PR's checks for its exact commit.
+
+The six remaining TODOs depend on unfinished Discover/Messages integration. Publishing with a real image and Identity clear-history now run as ordinary passing integration tests. The Identity count-to-list check still reports its expected TODO assertion while Discover's lists are placeholders; the process exits successfully. These TODOs are **not** counted as completed integration tests. The post and comment rollback tests deliberately cause SQL errors and expect HTTP 500. They verify that failed transactions retain neither partial rows nor uploaded files; a comment retry still receives the first available alias.
+
+## Acceptance mapping: every CT-T01–CT-T30 clause
+
+Coordinator audit, 22 Oct 2026: **29 acceptance cases pass; CT-T22 remains partial because Discover has no Watching list yet.** Michael approved D23: the viewer's own account sidebar may name the viewer, while the complete anonymous post and participant content must conceal identities, including for the author-viewer. CT-T03, CT-T08 and CT-T09 are verified against this clarified contract.
+
+Evidence links: [page tests](../../../modules/content/tests/pages.test.js), [write tests](../../../modules/content/tests/writes.test.js), [pending integration tests](../../../modules/content/tests/integration.test.js). The tests group related cases, but every acceptance ID is accounted for below.
+
+| Case | Required behavior and evidence | Verdict |
+|---|---|---|
+| CT-T01 | Mandy compose 200, no compact tabs, multipart/leave guard, 750 counter, preview input, seven topics, both switches off (pages) | Pass |
+| CT-T02 | Jason/Kelvin/Newbie defaults and updated Newbie preference reflected in the form (pages) | Pass |
+| CT-T03 | Publish two distinguishable PNG byte streams; 303, Posted, post number, Trade, anonymous header, Host, database flags, and identical storage/HTML image order (writes) | Pass (D23) |
+| CT-T04 | Wing cannot open the HKU-only post; both toggles on exposes the new post and Mandy's author link to Wing (writes) | Pass |
+| CT-T05 | Blank + image gives field error and preserves topic; no row/file; 751 rejected and exactly 750 Unicode code points accepted (writes) | Pass |
+| CT-T06 | Missing/invalid topic gives Pick a topic; no post or file added (writes) | Pass |
+| CT-T07 | Seven images/wrong MIME rejected with draft and exact upload error; files removed; missing multipart CSRF refused (writes) | Pass |
+| CT-T08 | Seed metadata, like 3/watch 1 selected, non-owner Message/Report links; author-only Delete and no self Message/Report (pages) | Pass (D23) |
+| CT-T09 | Mandy's entire response excludes Kelvin/Wing/Jason identities; named Jason and Film Society posts show their required links/names (pages) | Pass (D23), including the author-viewer and other participants |
+| CT-T10 | Anchors c10–c14, Alice/Bob/Carol/Host/Alice, hidden c12 has no actions, reply labels including Host=0, owner actions, alias links, deleted c6 (pages) | Pass |
+| CT-T11 | All six specified unavailable/invalid IDs return 404, plus zero/negative/fraction/exponent/overflow IDs (pages) | Pass |
+| CT-T12 | Wing's GET/like/watch/comment on HKU-only post return 404; all five relevant tables remain unchanged (writes) | Pass |
+| CT-T13 | Newbie's first and second comments render Dave; composer says Dave; one participant row (writes) | Pass |
+| CT-T14 | Empty-post first commenters render Alice, Bob, then author Host; database aliases 1, 2, 0 (writes) | Pass |
+| CT-T15 | Newbie GET reply=11 shows Bob and hidden target; Cancel returns to box; POST reply says Bob; hidden reply=12 is ignored (pages/writes) | Pass |
+| CT-T16 | Hidden/deleted/cross-post/unknown/malformed targets give 400 with the expected message and no comment/alias (writes) | Pass |
+| CT-T17 | Blank/501-character comments give exact field errors, preserve input and allocate no alias; 500 accepted (writes) | Pass |
+| CT-T18 | Delete c14 redirects to its anchor; deleted placeholder and flash; count 4→3; next comment stays Alice; repeat delete 404 (writes) | Pass |
+| CT-T19 | Non-owner deletion of post/comment gives 404; post still opens and original comment text is unchanged (writes) | Pass |
+| CT-T20 | Delete 600013 redirects to feed with Post deleted; feed link absent; owner/other viewer GET and repeat deletion give 404 (writes) | Pass, including the existing seed feed |
+| CT-T21 | Like 1/1/0/0 returns exact states/counts; ordinary form redirects to post (writes; browser checks cover in-place updates) | Pass |
+| CT-T22 | Watch/unwatch JSON and stored state pass; actual Watching page never displays the saved post (writes + executable integration TODO) | **Partial: Discover list assertion fails** |
+| CT-T23 | Newbie's two visits create one row/count 2; Mandy count 4→5; inaccessible visit creates no row (writes) | Pass |
+| CT-T24 | Clear marks Mandy's four rows, leaves Kelvin's rows unchanged and total 11; repeat safe; revisit restores row/count 5 and total 12 (writes) | Pass for all stated assertions; History page UI is separate pending integration |
+| CT-T25 | Exact links/order 14,10,3,2 and Alice/Alice/Alice/Host labels; cursor 10 gives exactly 3,2; hidden text preserved as placeholder; deleted c6 omitted (pages) | Pass |
+| CT-T26 | Newbie empty state; Kelvin's new comment is first; deleting its post removes it from My comments (pages/writes) | Pass |
+| CT-T27 | All required anchors remain, including hidden/deleted comments (pages) | Pass |
+| CT-T28 | 20 concurrent HTTP submissions all 303; exactly 20 comments and aliases 0–20, no duplicates/gaps (writes) | Pass |
+| CT-T29 | Two seed thumbnails link to original files in order; no-JavaScript original links work (pages/browser) | Pass |
+| CT-T30 | Missing comment CSRF gives 403 and no comment inserted (writes; shared CSRF tests cover every POST) | Pass |
+
+### Unmet checks are executable, not silently counted as passed
+
+`integration.test.js` executes the Watching-list assertion as a TODO because Discover is unfinished. It separately verifies D23 as an ordinary passing test for four viewers, including the anonymous author: only the viewer’s own sidebar is named; anonymous content never names participants. The Watching TODO is excluded from the pass count. To make the pending check a strict release failure, run:
+
+```sh
+CONTENT_STRICT_ACCEPTANCE=1 npm test -- modules/content/tests/integration.test.js
+```
+
+Strict mode still fails the Watching assertion until Discover implements its destination; the privacy assertion now passes. Remove the remaining TODO only after verifying saved and removed items through the actual Watching UI.
+
+The repeated-user race uses independent authenticated sessions. An earlier concurrent run sharing one agent hit `ECONNRESET`; this was not counted as a pass, and the exact transport cause was not conclusively isolated. The independent-session regression keeps concurrent HTTP writes while avoiding a shared test client and concurrent CSRF refresh.
+
+### Additional boundary and regression tests
+
+[Boundary tests](../../../modules/content/tests/boundaries.test.js) add ten executable cases, all passing:
+
+| Test | Result demonstrated |
+|---|---|
+| File size below/above 5 MB | 5 MB minus one byte accepted; plus one byte refused with no new post/file |
+| File size exactly 5 MB | Inclusive limit accepted |
+| Repeated form fields | Array-valued text/topic rejected with no uploads, comments or participant aliases |
+| Stored HTML payload | Real HTTP post/comment submissions remain literal text in detail, personal list and error draft; no injected script/event handler/image |
+| Comment failure after alias allocation | Real SQL error rolls back alias/comment/notification effects; retry becomes Alice; no visit recorded |
+| Concurrent duplicate interactions | Five independent sessions each send like/watch 1, 0, 1; one row per user and one like notification; no self notification |
+| All comments by a participant deleted | Alias remains reserved; replies keep their deleted target anchor and name; returning commenter stays Alice |
+| More than 26 participants | Participant 27 appears as Alice 2 in thread, composer, reply prompt and personal list |
+| Concurrent visits | Ten simultaneous successful GETs from one account produce one row with ten visits |
+| Cursor/moderation boundaries | Invalid/repeated cursors safely fall back; newly hidden posts disappear from My comments and return 404 without losing aliases |
+
+Earlier regressions also cover strict positive IDs, SQL-looking topic values, disguised image files and a forced database failure after partial post/image insertion. CT-T23 and CT-T24 now run as separate fresh-seed tests, explicitly checking both ordinary visit increments and clear/revisit behavior. Exact upload error text and ordinary-form 303 responses are asserted as well.
+
+Two follow-up HTTP tests deliberately pause a submission after its route-level visibility check, let an owner's real delete request finish, then resume the real comment transaction. A deleted post returns 404 without creating a comment, alias, notification or visit. A deleted reply target returns 400, retains the draft, removes the invalid reply target and shows its deleted placeholder, with the same absence of side effects. The barrier controls request order without timing sleeps or privileged database-monitoring queries; the existing 20-client test separately exercises simultaneous alias allocation.
+
+## Browser checks
+
+`modules/content/tests/browser-checks.js` exports a check function accepting a Playwright `page`. Run it against a **fresh seeded development database**, not production: it publishes and soft-deletes two sample posts. It does not add Playwright to the application dependencies. Load it using a separate Playwright installation/CLI and pass `{ baseURL, screenshotDir }`; the screenshot directory must already exist. Browser checks are local checks, separate from the HTTP/SQL CI suite.
+
+- Chromium: 128 layout checks = four personas × four widths (390, 768, 1440 and 320 CSS px) × JavaScript on/off × compose, post, My comments and compose errors. No horizontal document overflow; appropriate shared navigation; relevant buttons, toggles and topic targets at least 44 px high.
+- Two full browser workflows (JavaScript on/off): publish, Host comment, reply to Host, like, watch, delete a comment and delete the post; deleted page returns 404. Long unbroken text wraps.
+- Viewer: single/multiple images, first/last bounds, arrow keys, Tab/Shift+Tab focus containment, Escape, Close, scroll/focus restoration, image-load failure and an ordinary original-file link with scripts disabled. Chromium touch dispatch verifies a real horizontal swipe; this is simulated touch, not a physical phone test.
+- WebKit 26.6: the same 128 layout checks, two complete form workflows and viewer keyboard/focus/original-link checks passed. Native Tab preferences can skip buttons in this engine, so the viewer explicitly advances focus in both directions. Touch dispatch is checked in Chromium only. WebKit engine coverage does not claim a run in the installed Safari application or on physical iOS hardware.
+- Chrome 155 at **real 200% browser zoom**: all three pages passed as all four personas (12 page checks), plus form errors and viewer navigation/close. The isolated test profile's Chrome Appearance setting was set to 200%; a 1440 px outer window yielded a 720 CSS px viewport and `devicePixelRatio = 2`. This was browser zoom, not CSS `zoom` or a page transform. See [the zoom screenshot](img/compose-zoom200.png).
+- Phone, tablet and desktop screenshots in `img/` use only seeded demonstration content. Viewer captures show the viewport; normal pages use full-page captures.
+- Follow-up Chrome audit: two selected PNG files produced two loaded thumbnails; keyboard activation of Next at the final-image boundary still allowed ArrowLeft to return. The audit used a separate browser session and preserved the user's demonstration posts.
+
+## Pending integration and approved privacy contract
+
+1. **Discover:** `/me/watching`, `/me/history`, `/me/posts`, liked lists and user pages are still placeholders on the checked baseline. Content writes the expected rows and links; rerun their list/count checks once Discover is integrated.
+2. **Messages:** database triggers create the expected notifications. Notification screens, private-message destinations and report forms still require Messages. Their links are verified; their complete UI workflows are not represented as passed.
+3. **[Issue #5](https://github.com/Michael-wzl/CampusNote/issues/5), resolved by D23:** Michael approved the viewer’s own shared account sidebar on 22 Oct. Content and shared privacy tests enforce anonymous post/participant identities separately from that account navigation. No shared layout change is needed.
+4. **Team video:** [DEMO_SCRIPT.md](DEMO_SCRIPT.md) supplies the Content segment and narration. Whole-team recording and integration shots remain pending until the destination modules are ready.
+
+## Supporting material
+
+- [User guide and screenshots](USER_GUIDE.md)
+- [SQL slide, constraints and concurrency evidence](SQL_CARD.md)
+- [Content demonstration script](DEMO_SCRIPT.md)

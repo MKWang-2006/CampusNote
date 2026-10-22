@@ -80,6 +80,8 @@ test('CT-T10/T15/T27: flat aliases, hidden/deleted anchors and reply targeting',
   assert.equal(p.$('#c13 a[href="/messages/new?post=600012&alias=0"]').length, 1);
   assert.equal(p.$('#c10 form[action="/comments/10/delete"]').length, 1);
   assert.equal(p.$('#c10 a[href*="messages"]').length, 0);
+  assert.equal(p.$('#c14 form[action="/comments/14/delete"]').length, 1);
+  assert.equal(p.$('#c14 a[href*="messages"]').length, 0);
   assert.match(p.$('#comment-box').text(), /You will appear as Alice/);
   const deleted = await a.page('/posts/600002');
   assert.match(deleted.$('#c6').text(), /\[deleted\]/);
@@ -90,7 +92,13 @@ test('CT-T10/T15/T27: flat aliases, hidden/deleted anchors and reply targeting',
       .get(),
     ['c3', 'c4', 'c5', 'c6'],
   );
-  assert.equal((await a.page('/posts/600012?reply=11')).$('input[name=reply_to]').val(), '11');
+  const newbie = await agentAs('newbie0hk');
+  const reply = await newbie.page('/posts/600012?reply=11');
+  assert.equal(reply.$('input[name=reply_to]').val(), '11');
+  assert.match(reply.$('#comment-box').text(), /Replying to Bob/);
+  assert.equal(reply.$('#comment-box a').attr('href'), '/posts/600012#comment-box');
+  const hidden = await newbie.page('/posts/600012?reply=12');
+  assert.doesNotMatch(hidden.$('#comment-box').text(), /Replying to/);
   for (const id of ['12', '6', '1', 'abc', '0'])
     assert.equal((await a.page('/posts/600012?reply=' + id)).$('input[name=reply_to]').length, 0);
 });
@@ -123,7 +131,21 @@ test('CT-T25/T26: my comments show aliases, visibility, hidden text, empty state
       .get(),
     ['/posts/600012#c14', '/posts/600012#c10', '/posts/600002#c3', '/posts/600001#c2'],
   );
-  assert.equal((await a.page('/me/comments?before=10')).$('.content-comment-item').length, 2);
+  assert.deepEqual(
+    p
+      .$('.content-comment-item strong')
+      .map((_, e) => p.$(e).text())
+      .get(),
+    ['as Alice', 'as Alice', 'as Alice', 'as Host'],
+  );
+  const older = await a.page('/me/comments?before=10');
+  assert.deepEqual(
+    older
+      .$('.content-comment-item')
+      .map((_, e) => older.$(e).attr('href'))
+      .get(),
+    ['/posts/600002#c3', '/posts/600001#c2'],
+  );
   const j = await (await agentAs('jason0ust')).page('/me/comments');
   assert.match(j.$('.content-comment-item').first().text(), /\[hidden by a moderator\]/);
   assert.equal(

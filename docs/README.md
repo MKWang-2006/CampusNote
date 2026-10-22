@@ -2,7 +2,7 @@
 
 Campus Notes is our COMP3278 group project: an anonymous campus forum for Hong Kong university students, modelled on the Triple Uni / HKU Pootal mini-program. This folder is everything needed to build it in three weeks with four people and very little coordination. It is the `docs/` folder of the repository; the code it describes is next to it (`../README.md` says how to run it).
 
-**Current status (21 Oct 2026):** backbone, identity and events are implemented; Content (Catherine135), Discover (hX1-dev) and Messages (MKWang-2006) are claimed starter modules. CI and CODEOWNERS are installed.
+**Current status (22 Oct 2026):** backbone, identity, events and Content (Catherine135) are implemented. Discover (hX1-dev) and Messages (MKWang-2006) remain claimed starter modules. Content's cross-module list/message workflows still await them. CI and CODEOWNERS are installed.
 
 **Layout:** one desktop-first responsive website, with a wider desktop sidebar layout and a single-column phone layout. All members should read the short [responsive guide](architecture/RESPONSIVE.md) before building pages.
 

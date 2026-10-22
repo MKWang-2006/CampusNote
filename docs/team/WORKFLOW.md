@@ -24,6 +24,8 @@ The whole team process fits on this page. Nothing here needs a meeting.
 
 Keep PRs small: one feature, ideally under 400 changed lines. Pull `main` into your branch at least daily (`git pull origin main`) so you never drift.
 
+For an existing stack of dependent PRs, use merge commits in dependency order to preserve the commits the next branch is based on. Retarget the next PR to `main` (GitHub may do this automatically), update its branch, and wait for fresh CI before merging. Keep the default squash workflow above for independent feature PRs.
+
 ## 2. Rules that keep us out of each other's way
 
 - Change files only inside `modules/<your module>/` and `docs/modules/<your module>/`. Anything else is a shared file: open a `contract-change` issue (`ARCHITECTURE.md` §13).

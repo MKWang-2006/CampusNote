@@ -54,3 +54,20 @@
   </section>
   <% if (isMine) { %><form method="post" action="/posts/<%= card.post_id %>/delete" data-confirm="Delete this post? This cannot be undone."><%- csrfField() %><button class="btn content-delete" type="submit">Delete post</button></form><% } %>
 </div>
+<% if (images.length) { %>
+<dialog class="content-viewer" aria-label="Post image viewer">
+  <div class="content-viewer-layout">
+    <header class="content-viewer-toolbar">
+      <span data-viewer-count role="status" aria-live="polite"></span>
+      <button class="btn" type="button" data-viewer-close>Close</button>
+    </header>
+    <div class="content-viewer-stage" data-viewer-stage><img data-viewer-image alt=""></div>
+    <p data-viewer-error role="alert" hidden>Image unavailable. Try opening the original image.</p>
+    <footer class="content-viewer-toolbar">
+      <button class="btn" type="button" data-viewer-previous aria-label="Previous image">Previous</button>
+      <a class="btn" data-viewer-original target="_blank" rel="noopener">Open original</a>
+      <button class="btn" type="button" data-viewer-next aria-label="Next image">Next</button>
+    </footer>
+  </div>
+</dialog>
+<% } %>

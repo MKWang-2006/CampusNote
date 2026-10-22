@@ -40,7 +40,7 @@ async function pagesToOpen() {
 test("no page shows a hidden author or another person's e-mail", async () => {
   const pages = await pagesToOpen();
   const users = await q('SELECT user_id, handle, email FROM users');
-  // Kelvin never shows his handle (DATA_MODEL §5), so it must appear nowhere but his own page.
+  // Kelvin never publishes his handle (DATA_MODEL §5); only his own account navigation may name him.
   // On each anonymous post's page, neither its author nor any commenter may be named; on a named
   // post only its author may be (as the author, never as a commenter alias).
   const anonPosts = await q('SELECT post_id, author_id FROM posts WHERE is_anonymous = 1');
@@ -72,6 +72,10 @@ test("no page shows a hidden author or another person's e-mail", async () => {
         assert.ok(!html.includes('kelvin0hk'), `${me} sees kelvin0hk on ${url}`);
       }
       for (const handle of hiddenOn.get(url.split('?')[0]) || []) {
+        assert.ok(
+          !res.$('main').html().includes(handle),
+          `${me} sees ${handle} behind anonymous content on ${url}`,
+        );
         if (handle !== me) assert.ok(!html.includes(handle), `${me} sees ${handle} on ${url}`);
       }
       for (const u of users) {

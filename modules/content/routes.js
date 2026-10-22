@@ -55,6 +55,7 @@ async function showPost(req, res, card, errors = {}, values = {}, replyId = req.
     thread.find((c) => c.comment_id === positiveId(replyId) && c.body !== null) || null;
   return res.page('content/post', {
     title: '#' + id,
+    scripts: ['/m/content/content.js'],
     tab: null,
     back: '/feed',
     styles,
