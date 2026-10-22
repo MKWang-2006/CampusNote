@@ -109,6 +109,10 @@ test('an unrelated IPv4 listener cannot receive requests intended for the test a
       ipv6.listen({ host: '::', port, ipv6Only: true }, resolve);
     });
   } catch (err) {
+    if (err.code === 'EADDRINUSE') {
+      t.skip('An unrelated IPv6 listener already owns the chosen fixture port');
+      return;
+    }
     if (['EAFNOSUPPORT', 'EADDRNOTAVAIL', 'EPROTONOSUPPORT', 'ENOTSUP'].includes(err.code)) {
       t.skip(`IPv6 loopback is unavailable: ${err.code}`);
       return;
