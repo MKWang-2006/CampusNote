@@ -3,7 +3,7 @@
 ## Ready in the workspace
 
 - [x] Desktop-first responsive shell, shared helpers and updated teammate guides.
-- [x] Content ownership recorded for Catherine135; Discover for hX1-dev; both collaborator invitations sent.
+- [x] Content ownership recorded for Catherine135; Discover for hX1-dev; Messages for MKWang-2006; all three collaborator invitations sent.
 
 - [x] Neutral role options; ownership follows teammate claims.
 - [x] `START_HERE.md`, module guides and a short teammate message.
@@ -18,7 +18,7 @@
 
 ## Your remaining actions
 
-1. **Get the remaining teammate’s GitHub username and Messages claim.** Invitations have been sent to Catherine135 (Content) and hX1-dev (Discover); they must accept on GitHub before pushing. Ask the remaining teammate to choose Messages, then record and invite their account.
+1. **Make sure pending repository invitations are accepted.** All roles are claimed and invitations sent; teammates can follow `START_HERE.md` and begin their modules. GitHub will not yet add MKWang-2006 as an issue assignee; assign issue #3 after the invitation is accepted.
 2. **Send [TEAM_MESSAGE.md](TEAM_MESSAGE.md)**. Roles are [Content #1](https://github.com/Michael-wzl/CampusNote/issues/1), [Discover #2](https://github.com/Michael-wzl/CampusNote/issues/2) and [Messages #3](https://github.com/Michael-wzl/CampusNote/issues/3); [weekly status is #4](https://github.com/Michael-wzl/CampusNote/issues/4). The first checkpoint is 25 Oct; confirm dates with the team if needed.
 3. **Read [CODE_WALKTHROUGH.md](CODE_WALKTHROUGH.md)** so you can explain the code you own. Automated review cannot replace your understanding for the presentation.
 

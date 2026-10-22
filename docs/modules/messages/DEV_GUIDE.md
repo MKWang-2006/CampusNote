@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Owner** | Member 3 — Messages (unclaimed; teammates choose their own role) |
+| **Owner** | Member 3 — Messages: [MKWang-2006](https://github.com/MKWang-2006), claim confirmed by Michael on 21 Oct |
 | **Folder** | `modules/messages/` (including `db/triggers.sql`), `docs/modules/messages/` |
 | **Features** | MS-1 to MS-8 (`PRODUCT_SPEC.md` §4) |
 | **Read first** | `ARCHITECTURE.md` §1, §5, §6, §9; `PRODUCT_SPEC.md` BR-5, BR-6, BR-8, BR-9, BR-13, BR-14, BR-15, BR-17, BR-18; [responsive layout](../../architecture/RESPONSIVE.md); this guide |
