@@ -1,19 +1,18 @@
 // core/uploads.js: type, size and count checks, and where files land (BB-3, BR-18).
-const { test, after } = require('node:test');
+const { test, before, after } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const express = require('express');
 const request = require('supertest');
+const { startTestServer, stopTestServer } = require('../http-server');
 
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cn-uploads-'));
 process.env.UPLOAD_DIR = dir;
 const config = require('../../core/config');
 config.uploadDir = dir;
 const uploads = require('../../core/uploads');
-
-after(() => fs.rmSync(dir, { recursive: true, force: true }));
 
 const PNG = Buffer.concat([
   Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
@@ -26,11 +25,23 @@ app.post('/up', uploads.images({ field: 'images', max: 2 }), (req, res) => {
   res.json({ files: req.files, error: req.uploadError || null, body: req.body });
 });
 
+let server;
+before(async () => {
+  server = await startTestServer(app);
+});
+after(async () => {
+  try {
+    await stopTestServer(server);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 const filesOnDisk = () =>
   fs.readdirSync(dir, { recursive: true }).filter((f) => fs.statSync(path.join(dir, f)).isFile());
 
 test('accepts images, stores them under YYYY/MM and reports public paths', async () => {
-  const res = await request(app)
+  const res = await request(server)
     .post('/up')
     .field('body', 'hello')
     .attach('images', PNG, { filename: 'a.png', contentType: 'image/png' })
@@ -47,7 +58,7 @@ test('accepts images, stores them under YYYY/MM and reports public paths', async
 });
 
 test('a form without files gives req.files = []', async () => {
-  const res = await request(app).post('/up').field('body', 'text only');
+  const res = await request(server).post('/up').field('body', 'text only');
   assert.deepEqual(res.body.files, []);
   assert.equal(res.body.error, null);
 });
@@ -84,7 +95,7 @@ for (const [name, attach] of [
   ],
 ]) {
   test(`refuses ${name}: nothing kept, the handler still runs with the message`, async () => {
-    const res = await attach(request(app).post('/up').field('body', 'draft'));
+    const res = await attach(request(server).post('/up').field('body', 'draft'));
     assert.equal(res.status, 200);
     assert.equal(res.body.error, 'Up to 2 images, JPEG, PNG, WebP or GIF, 5 MB each.');
     assert.deepEqual(res.body.files, []);

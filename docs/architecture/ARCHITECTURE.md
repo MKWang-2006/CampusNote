@@ -323,6 +323,7 @@ test('a student can comment and appears under an alias', async () => {
   ```
 
   A user from `make.user()` has the personas' password `campus123`, so `agentAs(handle)` can log in as it. `createdAt` is a JavaScript `Date` (for example `new Date(Date.now() - 8 * 24 * 3600e3)` for a post 8 days old). Likes, watches and views have no helper: insert them with `q()`.
+- HTTP test agents share an explicitly bound IPv4 loopback server per file, with separate cookie jars. The helper starts and closes that listener automatically; create agents inside tests or after the before hooks. For isolated HTTP fixtures, use `startTestServer` / `stopTestServer` from `test/http-server.js` rather than passing an app function directly to SuperTest. This keeps the listener and request URL in the same address family; see [the transport investigation](../team/VALIDATION.md#login-test-transport-investigation-and-fix--22-oct-2026).
 - Tests run one file at a time (`--test-concurrency=1`) against `DB_NAME_TEST`. Each file calls `resetDb()` once; write tests in a file so they do not depend on each other's order, or reset again.
 - Seed personas and their data are listed in `docs/data/DATA_MODEL.md` §5. Use them by handle.
 - **Definition of done** for any feature: its acceptance tests from your DEV_GUIDE pass, CI is green, the page has been checked in a browser as at least two personas (including `newbie0hk` for empty states), and the USER_GUIDE section for it is written.

@@ -18,7 +18,7 @@ The branches are stacked in this order so each diff contains only its own change
 | Check | Result |
 |---|---|
 | `npm test -- modules/content` | 32 tests: 31 passed, 0 unexpected failures, 1 explicit TODO |
-| `npm test` | 154 total: 148 passed, 0 unexpected failures, 6 TODOs (1 Content Watching, 1 Identity count/list, 4 cross-module demo flows) |
+| `npm test` | 159 total: 153 passed, 0 unexpected failures, 6 TODOs (1 Content Watching, 1 Identity count/list, 4 cross-module demo flows) |
 | `npm run lint` | Passed (ESLint and Prettier) |
 | Full `npm run check:sql` on a disposable database | 456 PASS checks; `ALL SQL CHECKS PASSED` |
 | HTTP race: 20 first-time participants | 20 successful 303 responses; aliases 0–20 including Host, no gaps or duplicates |
@@ -125,3 +125,7 @@ Two follow-up HTTP tests deliberately pause a submission after its route-level v
 - [User guide and screenshots](USER_GUIDE.md)
 - [SQL slide, constraints and concurrency evidence](SQL_CARD.md)
 - [Content demonstration script](DEMO_SCRIPT.md)
+
+### Shared HTTP test transport follow-up
+
+The coordinator fixed the reproduced IPv6-listener/IPv4-client mismatch in the shared HTTP test harness on 22 Oct; Content application behavior is unchanged. Five new transport regressions raise the full-suite count to 159 total / 153 pass / 6 TODO. See [the investigation and evidence](../../team/VALIDATION.md#login-test-transport-investigation-and-fix--22-oct-2026).
