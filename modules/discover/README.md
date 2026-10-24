@@ -2,7 +2,7 @@
 
 Owner: Member 2 — Discover ([hX1-dev](https://github.com/hX1-dev)). This folder holds the discover module: feeds, hot ranking, search, the four "my" lists, user pages and announcements. Everything about it (routes, SQL, pages, tests, the build plan and a ready-made prompt for a coding agent) is in [`docs/modules/discover/DEV_GUIDE.md`](../../docs/modules/discover/DEV_GUIDE.md); what users see is in [`USER_GUIDE.md`](../../docs/modules/discover/USER_GUIDE.md).
 
-The backbone shipped this folder as a skeleton: `index.js` (the manifest), `routes.js` with placeholder pages for the paths other modules link to, and `views/discover/placeholder.ejs`. Replace the placeholders as you build the real pages, add `queries.js` for your SQL and your tests in `tests/`. Only change files in this folder and in `docs/modules/discover/` (see `AGENTS.md`).
+The CP1 Feed now implements All, university and topic tabs with keyset pagination and empty states. Its tests are in `tests/feed.test.js`; browser checks accept a supplied Playwright browser in `tests/browser-checks.js`. Hot, Watching and the other Discover pages remain for later features. Only change files in this folder and in `docs/modules/discover/` (see `AGENTS.md`).
 
 ## Ownership and first step
 

@@ -10,6 +10,8 @@
 
 You can build this module without knowing the rest of the app. Everything you need from other modules is listed in §3.
 
+**CP1 Feed delivery, 23 Oct 2026:** All, university and topic tabs, keyset pagination and empty states are implemented with nine HTTP/database tests. This is the Feed portion of CP1 only: My posts and public user pages remain pending. Watching/Hot and the other DS features retain their milestone scope below. See [VALIDATION.md](VALIDATION.md) for exact coverage and platform limitations; issue #2 remains open.
+
 ## 1. The module in one paragraph
 
 Discover is how people find posts. The Feed tab shows every post the reader may see, newest first, with tabs for the posts they watch (👀), the week's hot posts (🔥), their own university and each topic, plus an announcement banner on top. The Search tab finds posts that contain all the words typed, in Chinese or English, and jumps straight to a post when a number like `#600012` is typed. The module also owns the four personal lists on the Me page (my posts, watching, liked, history), each user's public page, and the admin page for announcements. It writes only one table (`announcements`); everything about posts is read through the shared views, so deletion, hiding, visibility and anonymity are never re-implemented here. It is the project's ranking and search showcase: a hot score built from correlated subqueries and time arithmetic, and an ngram full-text index that searches Chinese.

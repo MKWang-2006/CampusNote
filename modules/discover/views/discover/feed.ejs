@@ -1,3 +1,9 @@
-<p class="muted small">First version from the backbone: the All tab only. DS-1 adds the tabs, Hot and the
-  announcement banner (<code>docs/modules/discover/DEV_GUIDE.md</code>).</p>
-<%- include('partials/post-list', { cards, nextUrl, empty: 'No posts yet. Be the first to write one.' }) %>
+<section class="discover-feed stack" aria-labelledby="feed-heading">
+  <%- include('partials/tabs', { items: feedTabs, label: 'Feed filters' }) %>
+  <h2 class="small muted" id="feed-heading"><%= feedHeading %></h2>
+<% if (cards.length) { -%>
+  <%- include('partials/post-list', { cards, nextUrl, empty: emptyText }) %>
+<% } else { -%>
+  <%- include('partials/empty', { text: emptyText, href: canCompose ? '/compose' : null, label: canCompose ? 'Write a post' : null }) %>
+<% } -%>
+</section>
