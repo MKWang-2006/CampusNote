@@ -185,6 +185,9 @@ Speed (20,000 extra posts, measured): a rare word answers in under 1 ms. A word 
 | `/me/history` | History | `myHistoryIds` | latest visit first | `?page=` | "Posts you open appear here." (Browse the feed → `/feed`) |
 
 - **My posts** includes my anonymous posts: only I see this page. Under the title: "Anonymous posts show no name to others." Deleted and hidden posts are not listed.
+
+  CP1 delivery (23 Oct 2026, issue #15): `/me/posts` is implemented with the shared `my-list` template, 20-card keyset paging, the note and compose empty state above. Eight HTTP/database tests cover the My posts portions of DS-T15/16/17/19/26; see [MY_POSTS_VALIDATION.md](MY_POSTS_VALIDATION.md). The other three lists remain separate work; this does not complete DS-5 or issue #2.
+
 - **Watching, Liked, History** join `v_live_posts` and apply `VISIBLE`, so a post that was deleted or hidden after I touched it simply drops out.
 - **History** lists only rows with `cleared_at IS NULL`. When the list is not empty, the page shows a "Clear history" button: `<form method="post" action="/me/history/clear" data-confirm="Clear your history?">` with `csrfField()`. Content handles the POST (CT-6), keeps the view counts and redirects back here with "History cleared".
 - Ties (same second) go to the higher post id.

@@ -67,16 +67,21 @@ router.get(
   }),
 );
 
-router.get(
-  '/me/posts',
-  placeholder({
-    feature: 'DS-5',
+router.get('/me/posts', async (req, res) => {
+  const before = int(req.query.before, { min: 1, max: 4294967295 });
+  const ids = await queries.myPostIds(req.me.userId, before);
+  res.page('discover/my-list', {
     title: 'My posts',
     tab: 'me',
     back: '/me',
-    what: 'Your live posts, newest first.',
-  }),
-);
+    cards: await byIds(ids.slice(0, 20)),
+    nextUrl: ids.length > 20 ? `/me/posts?before=${ids[19]}` : null,
+    note: 'Anonymous posts show no name to others.',
+    emptyText: 'You have not posted yet.',
+    emptyHref: '/compose',
+    emptyLabel: 'Write a post',
+  });
+});
 
 router.get(
   '/me/watching',

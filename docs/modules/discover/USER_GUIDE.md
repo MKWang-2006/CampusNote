@@ -68,6 +68,10 @@ Open **Me** and pick one of these:
 | **Liked** | Posts you liked (the heart), the latest first. |
 | **History** | Posts you opened, the latest visit first. |
 
+**My posts:** this page shows 20 posts at a time. Tap **Load more** for the next page. The reminder "Anonymous posts show no name to others." also applies to your own anonymous cards: they show no author name. When the list is empty, **Write a post** opens the compose page. Use the back arrow to return to Me. These links work with JavaScript disabled.
+
+[My posts on phone](img/my-posts-390.png) · [Tablet](img/my-posts-768.png) · [Desktop](img/my-posts-1440.png) · [Empty list](img/my-posts-empty-390.png)
+
 **Clear history:** at the top of History, tap **Clear history** and confirm. Your list is emptied (the posts keep their view counts). Opening a post again puts it back in your history.
 
 If a post is deleted, hidden by a moderator, or no longer visible to you, it drops out of these lists by itself.

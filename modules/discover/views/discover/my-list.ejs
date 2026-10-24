@@ -1,0 +1,8 @@
+<section class="discover-my-list stack" aria-label="<%= title %>">
+  <p class="muted"><%= note %></p>
+<% if (cards.length) { -%>
+  <%- include('partials/post-list', { cards, nextUrl, empty: emptyText }) %>
+<% } else { -%>
+  <%- include('partials/empty', { text: emptyText, href: emptyHref, label: emptyLabel }) %>
+<% } -%>
+</section>
