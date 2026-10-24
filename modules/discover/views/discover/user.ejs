@@ -1,0 +1,26 @@
+<section class="discover-user stack" aria-label="Public profile">
+  <div class="card stack user-summary">
+    <div class="row wrap">
+<% if (profile.role === 'organization' && profile.logo_path) { -%>
+      <img class="avatar avatar-lg" src="<%= profile.logo_path %>" alt="" width="72" height="72">
+<% } else { -%>
+      <%- include('partials/avatar', { code: profile.avatar_code, size: 'lg' }) %>
+<% } -%>
+      <div>
+        <h2><%= title %></h2>
+        <p class="row wrap muted"><% if (profile.role === 'organization') { %><span><%= profile.handle %></span><% } %><span class="chip"><%= profile.university_code %></span></p>
+      </div>
+    </div>
+<% const bio = profile.role === 'organization' ? profile.description : profile.bio;
+   if (bio) { -%>
+    <p class="pre"><%= bio %></p>
+<% } -%>
+<% if (canMessage) { -%>
+    <div><a class="btn" href="/messages/new?to=<%= profile.handle %>">Message</a></div>
+<% } -%>
+  </div>
+<% if (isOwn) { -%>
+  <p class="muted own-page-note">Only posts that show your handle appear here.</p>
+<% } -%>
+  <%- include('partials/post-list', { cards, nextUrl, empty: 'No public posts yet.' }) %>
+</section>

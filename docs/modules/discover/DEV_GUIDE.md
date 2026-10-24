@@ -10,7 +10,7 @@
 
 You can build this module without knowing the rest of the app. Everything you need from other modules is listed in §3.
 
-**CP1 Feed delivery, 23 Oct 2026:** All, university and topic tabs, keyset pagination and empty states are implemented with nine HTTP/database tests. This is the Feed portion of CP1 only: My posts and public user pages remain pending. Watching/Hot and the other DS features retain their milestone scope below. See [VALIDATION.md](VALIDATION.md) for exact coverage and platform limitations; issue #2 remains open.
+**CP1 delivery, 23 Oct 2026:** All, university and topic feeds, My posts and public user pages are implemented, with 26 HTTP/database acceptance tests and combined browser verification. See [CP1_INTEGRATION_VALIDATION.md](CP1_INTEGRATION_VALIDATION.md) for the merge validation; each feature also retains its original evidence. Watching/Hot, search, the remaining personal lists and announcements retain their milestone scope below. Issue #2 remains open for the rest of Discover.
 
 ## 1. The module in one paragraph
 
@@ -201,6 +201,8 @@ Speed (20,000 extra posts, measured): a rare word answers in under 1 ms. A word 
 - On your own page, a note above the list: "Only posts that show your handle appear here."
 - List: `userPostIds(userId, myUniversityId, before)`: that user's live posts with `is_anonymous = 0` that I can see, newest first, `?before=` paging. **Never** an anonymous post (BR-6): listing one would tie it to the handle. Empty text: "No public posts yet." (the same words whether or not the person has anonymous posts).
 - A banned user's page still exists, as their earlier posts stay in the feeds.
+
+CP1 delivery (23 Oct 2026, issue #17): `/u/:handle` is implemented with the specified student/organization summaries, named visible posts, keyset paging, own-page note and Message-link rules. DS-T20/21/22 and additional privacy/boundary tests pass. See [USER_PAGE_VALIDATION.md](USER_PAGE_VALIDATION.md). The Message action links to the existing Messages contract; this module does not implement messaging.
 
 ### DS-7 Admin announcements: `/admin/announcements`, `/admin/announcements/:id`, `/admin/announcements/:id/delete` (Should)
 

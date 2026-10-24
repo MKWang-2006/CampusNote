@@ -1,6 +1,6 @@
 # CP1 My posts validation — 23 Oct 2026
 
-Scope: DS-5's read-only `/me/posts` page only. Refs [feature #15](https://github.com/Michael-wzl/CampusNote/issues/15) and [Discover #2](https://github.com/Michael-wzl/CampusNote/issues/2). This branch starts at upstream main `995b84d`, independently of the Feed PR #14. Other lists and public user pages remain pending.
+Original standalone scope: DS-5's read-only `/me/posts` page. Refs [feature #15](https://github.com/Michael-wzl/CampusNote/issues/15) and [Discover #2](https://github.com/Michael-wzl/CampusNote/issues/2). The feature began at main `995b84d`, independently of Feed PR #14. This record retains its original counts; see [combined CP1 validation](CP1_INTEGRATION_VALIDATION.md) for integration with Feed and public user pages. The other three personal lists remain pending.
 
 ## Implementation and SQL
 

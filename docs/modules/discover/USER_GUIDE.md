@@ -4,7 +4,7 @@ The Feed and Search tabs are how you find posts. The feed shows everything you a
 
 Screenshots go in `docs/modules/discover/img/` when the pages are built; the placeholders below name the file each one should have.
 
-**Current delivery (23 Oct 2026):** All, your university and the seven topic Feed tabs are available, with 20-post pages and Load more. Watching, Hot, announcements and the other Discover pages described below are planned for subsequent deliveries.
+**Current delivery (23 Oct 2026):** All, your university and the seven topic Feed tabs, My posts and public user pages are available, with 20-post pages and Load more. Watching, Hot, Search, Liked, History and announcements described below are planned for subsequent deliveries.
 
 **On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Feeds and search can show cards in more columns on a wider screen; topic tabs remain scrollable when needed. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
 
@@ -84,7 +84,9 @@ Tap a name on a post that shows one to open that person's or organization's page
 
 Tap **Message** to write to them privately. On your own page there is no Message button, and a note reminds you that only posts that show your handle appear there. A banned user's page has no Message button either.
 
-*(screenshot to add: `img/user-page.png`)*
+Public pages show up to 20 posts at a time; tap **Load more** for the next page. Deleted and hidden posts disappear, and a post restricted to its author's university is visible only to that university. If there are no posts you may see that show a name, the page says **No public posts yet.** Use the back arrow to return to Feed. These links work with JavaScript disabled.
+
+[Own page on phone](img/user-own-390.png) · [Organization on desktop](img/user-org-1440.png) · [Tablet](img/user-org-768.png) · [Empty public page](img/user-empty-390.png)
 
 ## 7. For admins: announcements
 

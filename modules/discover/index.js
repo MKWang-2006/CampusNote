@@ -14,5 +14,8 @@ module.exports = {
     '/me/watching',
     '/me/likes',
     '/me/history',
+    '/u/mandy0hku',
+    '/u/jason0ust',
+    '/u/filmsoc00',
   ],
 };

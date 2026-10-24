@@ -1,6 +1,6 @@
 # CP1 Feed validation — 23 Oct 2026
 
-Scope: DS-1's All, university and seven topic tabs, keyset paging, empty states and shared post cards. Refs [Michael-wzl/CampusNote#2](https://github.com/Michael-wzl/CampusNote/issues/2). This delivery does not complete DS-1 or the whole CP1: Watching/Hot and the My posts/public user pages remain pending.
+Original standalone scope: DS-1's All, university and seven topic tabs, keyset paging, empty states and shared post cards. Refs [Michael-wzl/CampusNote#2](https://github.com/Michael-wzl/CampusNote/issues/2). This record's counts describe the Feed delivery. My posts and public user pages now have their own evidence and [combined CP1 validation](CP1_INTEGRATION_VALIDATION.md); Watching/Hot and the rest of Discover remain pending.
 
 ## HTTP and database checks
 

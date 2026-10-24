@@ -47,4 +47,28 @@ async function myPostIds(userId, before) {
   return rows.map((r) => r.post_id);
 }
 
-module.exports = { feedAllIds, feedUniIds, feedTopicIds, myPostIds };
+// DS-6: public profile fields only; status controls Message availability, not page existence.
+async function userByHandle(handle) {
+  return q.one(
+    `SELECT u.user_id, u.handle, u.role, u.status, u.avatar_code, u.bio,
+            un.code AS university_code, o.display_name, o.description, o.logo_path
+     FROM users u
+     JOIN universities un ON un.university_id = u.university_id
+     LEFT JOIN organizations o ON o.user_id = u.user_id
+     WHERE u.handle = ?`,
+    [handle],
+  );
+}
+
+// DS-6, BR-5/6/8/9: only this author's named, live posts visible to the viewer; page ids first.
+async function userPostIds(userId, myUniversityId, before) {
+  const rows = await q(
+    `SELECT p.post_id FROM v_live_posts p
+     WHERE p.author_id = ? AND p.is_anonymous = 0 AND ${VISIBLE} AND p.post_id < ?
+     ORDER BY p.post_id DESC LIMIT 21`,
+    [userId, myUniversityId, before ?? 4294967295],
+  );
+  return rows.map((r) => r.post_id);
+}
+
+module.exports = { feedAllIds, feedUniIds, feedTopicIds, myPostIds, userByHandle, userPostIds };

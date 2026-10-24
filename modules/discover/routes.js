@@ -5,6 +5,7 @@ const { requireRole } = require('../../core/auth');
 const { int, oneOf } = require('../../core/validate');
 const { byIds } = require('../../core/cards');
 const ref = require('../../core/ref');
+const { notFound } = require('../../core/errors');
 const queries = require('./queries');
 
 const router = express.Router();
@@ -115,6 +116,26 @@ router.get(
     what: 'Posts you opened, latest visit first, with "Clear history".',
   }),
 );
+
+router.get('/u/:handle', async (req, res) => {
+  const handle = req.params.handle.toLowerCase();
+  if (!/^[a-z0-9]{9}$/.test(handle)) throw notFound();
+  const profile = await queries.userByHandle(handle);
+  if (!profile) throw notFound();
+  const before = int(req.query.before, { min: 1, max: 4294967295 });
+  const ids = await queries.userPostIds(profile.user_id, req.me.universityId, before);
+  const isOwn = profile.user_id === req.me.userId;
+  res.page('discover/user', {
+    title: profile.role === 'organization' ? profile.display_name : profile.handle,
+    tab: null,
+    back: '/feed',
+    profile,
+    isOwn,
+    canMessage: !isOwn && profile.status !== 'banned',
+    cards: await byIds(ids.slice(0, 20)),
+    nextUrl: ids.length > 20 ? `/u/${profile.handle}?before=${ids[19]}` : null,
+  });
+});
 
 router.get(
   '/admin/announcements',
