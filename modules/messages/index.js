@@ -1,8 +1,11 @@
-// The messages module: notifications, private messages, reports and moderation.
-// Skeleton from the backbone: placeholder pages keep every tab and Me menu link working until
-// the owner builds the real ones from docs/modules/messages/DEV_GUIDE.md (manifest in its §2).
+const { countUnread } = require('./queries');
+
 module.exports = {
   name: 'messages',
   router: require('./routes'),
-  smoke: ['/messages'],
+  locals: async (req) => {
+    const unread = await countUnread(req.me.userId);
+    return { badges: { messages: unread.notifications + unread.messages } };
+  },
+  smoke: ['/messages', '/messages/notifications'],
 };
