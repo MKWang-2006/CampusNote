@@ -1,0 +1,626 @@
+[
+  {
+    "label": "mandy/home/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "mandy/notifications/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "mandy/conversation/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "mandy/new-message/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "mandy/report/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "mandy/home/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "mandy/notifications/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "mandy/conversation/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 753,
+    "shortTargets": [],
+    "width": 753
+  },
+  {
+    "label": "mandy/new-message/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "mandy/report/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "mandy/home/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1440,
+    "shortTargets": [],
+    "width": 1440
+  },
+  {
+    "label": "mandy/notifications/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1440,
+    "shortTargets": [],
+    "width": 1440
+  },
+  {
+    "label": "mandy/conversation/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1425,
+    "shortTargets": [],
+    "width": 1425
+  },
+  {
+    "label": "mandy/new-message/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1440,
+    "shortTargets": [],
+    "width": 1440
+  },
+  {
+    "label": "mandy/report/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1440,
+    "shortTargets": [],
+    "width": 1440
+  },
+  {
+    "label": "newbie/empty-home/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "newbie/empty-notifications/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "newbie/empty-home/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "newbie/empty-notifications/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "newbie/empty-home/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1440,
+    "shortTargets": [],
+    "width": 1440
+  },
+  {
+    "label": "newbie/empty-notifications/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1440,
+    "shortTargets": [],
+    "width": 1440
+  },
+  {
+    "label": "admin/reports/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "admin/reports/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 753,
+    "shortTargets": [],
+    "width": 753
+  },
+  {
+    "label": "admin/reports/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1425,
+    "shortTargets": [],
+    "width": 1425
+  },
+  {
+    "label": "mandy/long-message/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "mandy/long-message/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 753,
+    "shortTargets": [],
+    "width": 753
+  },
+  {
+    "label": "mandy/long-message/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1425,
+    "shortTargets": [],
+    "width": 1425
+  },
+  {
+    "label": "mandy/validation-error/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "mandy/validation-error/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 753,
+    "shortTargets": [],
+    "width": 753
+  },
+  {
+    "label": "mandy/validation-error/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1425,
+    "shortTargets": [],
+    "width": 1425
+  },
+  {
+    "label": "nojs/admin/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "nojs/admin/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "nojs/admin/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "nojs/mandy/home/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "nojs/mandy/notifications/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "nojs/mandy/conversation/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "nojs/mandy/new-message/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "nojs/mandy/report/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "nojs/mandy/home/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "nojs/mandy/notifications/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "nojs/mandy/conversation/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "nojs/mandy/new-message/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "nojs/mandy/report/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "nojs/mandy/home/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "nojs/mandy/notifications/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "nojs/mandy/conversation/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 753,
+    "shortTargets": [],
+    "width": 753
+  },
+  {
+    "label": "nojs/mandy/new-message/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "nojs/mandy/report/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "kelvin//messages/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "kelvin//messages/notifications/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "kelvin//messages/c/1/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "kelvin//messages/new?post=600001/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "kelvin//report?type=post&id=600004/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "kelvin//messages/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "kelvin//messages/notifications/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "kelvin//messages/c/1/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "kelvin//messages/new?post=600001/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "kelvin//report?type=post&id=600004/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "kelvin//messages/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "kelvin/notifications/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1425,
+    "shortTargets": [],
+    "width": 1425
+  },
+  {
+    "label": "kelvin//messages/c/1/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1425,
+    "shortTargets": [],
+    "width": 1425
+  },
+  {
+    "label": "kelvin//messages/new?post=600001/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1440,
+    "shortTargets": [],
+    "width": 1440
+  },
+  {
+    "label": "kelvin//report?type=post&id=600004/1440",
+    "compact": false,
+    "desktop": true,
+    "scrollWidth": 1425,
+    "shortTargets": [],
+    "width": 1425
+  },
+  {
+    "label": "jason//messages/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//messages/notifications/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//messages/c/2/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//messages/new?post=600012/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//report?type=post&id=600003/390",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "jason//messages/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//messages/notifications/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//messages/c/2/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//messages/new?post=600012/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 390,
+    "shortTargets": [],
+    "width": 390
+  },
+  {
+    "label": "jason//report?type=post&id=600003/768",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 375,
+    "shortTargets": [],
+    "width": 375
+  },
+  {
+    "label": "jason//messages/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "jason//messages/notifications/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "jason//messages/c/2/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "jason//messages/new?post=600012/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  },
+  {
+    "label": "jason//report?type=post&id=600003/1440",
+    "compact": true,
+    "desktop": false,
+    "scrollWidth": 768,
+    "shortTargets": [],
+    "width": 768
+  }
+]

@@ -1,0 +1,1119 @@
+{
+  "date": "2026-10-25",
+  "baseline": "f9e8f68703731219c6994c38e035203b4bf64572",
+  "layoutChecks": [
+    {
+      "clientWidth": 390,
+      "controls": [],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "Messages · Campus Notes",
+      "width": 390,
+      "label": "home-390",
+      "url": "http://localhost:3000/messages"
+    },
+    {
+      "clientWidth": 375,
+      "controls": [],
+      "scrollWidth": 375,
+      "sidebar": "none",
+      "title": "Campus Notes · Campus Notes",
+      "width": 390,
+      "label": "feed-390",
+      "url": "http://localhost:3000/feed"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "My posts · Campus Notes",
+      "width": 390,
+      "label": "my-posts-390",
+      "url": "http://localhost:3000/me/posts"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "height": 46,
+          "text": "Message"
+        }
+      ],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 390,
+      "label": "profile-390",
+      "url": "http://localhost:3000/u/jason0ust"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "height": 142,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "New message · Campus Notes",
+      "width": 390,
+      "label": "public-compose-390",
+      "url": "http://localhost:3000/messages/new?to=jason0ust"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [
+        {
+          "height": 142,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "New message · Campus Notes",
+      "width": 768,
+      "label": "public-compose-768",
+      "url": "http://localhost:3000/messages/new?to=jason0ust"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "Messages · Campus Notes",
+      "width": 768,
+      "label": "home-768",
+      "url": "http://localhost:3000/messages"
+    },
+    {
+      "clientWidth": 753,
+      "controls": [],
+      "scrollWidth": 753,
+      "sidebar": "none",
+      "title": "Campus Notes · Campus Notes",
+      "width": 768,
+      "label": "feed-768",
+      "url": "http://localhost:3000/feed"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "My posts · Campus Notes",
+      "width": 768,
+      "label": "my-posts-768",
+      "url": "http://localhost:3000/me/posts"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [
+        {
+          "height": 46,
+          "text": "Message"
+        }
+      ],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 768,
+      "label": "profile-768",
+      "url": "http://localhost:3000/u/jason0ust"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 46,
+          "text": "Message"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "jason0ust · Campus Notes",
+      "width": 1440,
+      "label": "profile-1440",
+      "url": "http://localhost:3000/u/jason0ust"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "Messages · Campus Notes",
+      "width": 1440,
+      "label": "home-1440",
+      "url": "http://localhost:3000/messages"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "Campus Notes · Campus Notes",
+      "width": 1440,
+      "label": "feed-1440",
+      "url": "http://localhost:3000/feed"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "My posts · Campus Notes",
+      "width": 1440,
+      "label": "my-posts-1440",
+      "url": "http://localhost:3000/me/posts"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 142,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "New message · Campus Notes",
+      "width": 1440,
+      "label": "public-compose-1440",
+      "url": "http://localhost:3000/messages/new?to=jason0ust"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "Notifications · Campus Notes",
+      "width": 1440,
+      "label": "notifications-1440",
+      "url": "http://localhost:3000/messages/notifications"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "Notifications · Campus Notes",
+      "width": 768,
+      "label": "notifications-768",
+      "url": "http://localhost:3000/messages/notifications"
+    },
+    {
+      "clientWidth": 375,
+      "controls": [],
+      "scrollWidth": 375,
+      "sidebar": "none",
+      "title": "Notifications · Campus Notes",
+      "width": 390,
+      "label": "notifications-390",
+      "url": "http://localhost:3000/messages/notifications"
+    },
+    {
+      "clientWidth": 375,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 375,
+      "sidebar": "none",
+      "title": "Visitor · Campus Notes",
+      "width": 390,
+      "label": "anonymous-chat-390",
+      "url": "http://localhost:3000/messages/c/1"
+    },
+    {
+      "clientWidth": 753,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 753,
+      "sidebar": "none",
+      "title": "Visitor · Campus Notes",
+      "width": 768,
+      "label": "anonymous-chat-768",
+      "url": "http://localhost:3000/messages/c/1"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "Visitor · Campus Notes",
+      "width": 1440,
+      "label": "anonymous-chat-1440",
+      "url": "http://localhost:3000/messages/c/1"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "Messages · Campus Notes",
+      "width": 1440,
+      "label": "empty-home-1440",
+      "url": "http://localhost:3000/messages"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "Notifications · Campus Notes",
+      "width": 1440,
+      "label": "empty-notifications-1440",
+      "url": "http://localhost:3000/messages/notifications"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "Notifications · Campus Notes",
+      "width": 768,
+      "label": "empty-notifications-768",
+      "url": "http://localhost:3000/messages/notifications"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "Messages · Campus Notes",
+      "width": 768,
+      "label": "empty-home-768",
+      "url": "http://localhost:3000/messages"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "Messages · Campus Notes",
+      "width": 390,
+      "label": "empty-home-390",
+      "url": "http://localhost:3000/messages"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "Notifications · Campus Notes",
+      "width": 390,
+      "label": "empty-notifications-390",
+      "url": "http://localhost:3000/messages/notifications"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 390,
+      "label": "public-chat-390",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 768,
+      "label": "public-chat-768",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "jason0ust · Campus Notes",
+      "width": 1440,
+      "label": "public-chat-1440",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 96,
+          "text": ""
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "jason0ust · Campus Notes",
+      "width": 1440,
+      "label": "message-error-1440",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [
+        {
+          "height": 96,
+          "text": ""
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 768,
+      "label": "message-error-768",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "height": 96,
+          "text": ""
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 390,
+      "label": "message-error-390",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "HKU Film Society · Campus Notes",
+      "width": 390,
+      "label": "organization-chat-390",
+      "url": "http://localhost:3000/messages/c/4"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "Host · Campus Notes",
+      "width": 390,
+      "label": "nojs-anonymous-chat-390",
+      "url": "http://localhost:3001/messages/c/5"
+    },
+    {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 390,
+      "sidebar": "none",
+      "title": "mandy0hku · Campus Notes",
+      "width": 390,
+      "label": "nojs-public-chat-390",
+      "url": "http://localhost:3001/messages/c/6"
+    },
+    {
+      "clientWidth": 375,
+      "controls": [
+        {
+          "height": 44,
+          "text": "Spam"
+        },
+        {
+          "height": 44,
+          "text": "Harassment"
+        },
+        {
+          "height": 44,
+          "text": "Privacy"
+        },
+        {
+          "height": 44,
+          "text": "Other"
+        },
+        {
+          "height": 118,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send report"
+        }
+      ],
+      "scrollWidth": 375,
+      "sidebar": "none",
+      "title": "Report · Campus Notes",
+      "width": 390,
+      "label": "nojs-report-390",
+      "url": "http://localhost:3001/report?type=post&id=600013"
+    },
+    {
+      "clientWidth": 375,
+      "controls": [
+        {
+          "height": 46,
+          "text": "Hide"
+        },
+        {
+          "height": 46,
+          "text": "Dismiss"
+        },
+        {
+          "height": 46,
+          "text": "Hide"
+        },
+        {
+          "height": 46,
+          "text": "Dismiss"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        }
+      ],
+      "scrollWidth": 375,
+      "sidebar": "none",
+      "title": "Reports · Campus Notes",
+      "width": 390,
+      "label": "nojs-reports-390",
+      "url": "http://localhost:3001/admin/reports"
+    },
+    {
+      "clientWidth": 753,
+      "controls": [
+        {
+          "height": 46,
+          "text": "Hide"
+        },
+        {
+          "height": 46,
+          "text": "Dismiss"
+        },
+        {
+          "height": 46,
+          "text": "Hide"
+        },
+        {
+          "height": 46,
+          "text": "Dismiss"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        }
+      ],
+      "scrollWidth": 753,
+      "sidebar": "none",
+      "title": "Reports · Campus Notes",
+      "width": 768,
+      "label": "nojs-reports-768",
+      "url": "http://localhost:3001/admin/reports"
+    },
+    {
+      "clientWidth": 768,
+      "controls": [
+        {
+          "height": 44,
+          "text": "Spam"
+        },
+        {
+          "height": 44,
+          "text": "Harassment"
+        },
+        {
+          "height": 44,
+          "text": "Privacy"
+        },
+        {
+          "height": 44,
+          "text": "Other"
+        },
+        {
+          "height": 118,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send report"
+        }
+      ],
+      "scrollWidth": 768,
+      "sidebar": "none",
+      "title": "Report · Campus Notes",
+      "width": 768,
+      "label": "nojs-report-768",
+      "url": "http://localhost:3001/report?type=post&id=600013"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 44,
+          "text": "Spam"
+        },
+        {
+          "height": 44,
+          "text": "Harassment"
+        },
+        {
+          "height": 44,
+          "text": "Privacy"
+        },
+        {
+          "height": 44,
+          "text": "Other"
+        },
+        {
+          "height": 118,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send report"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "Report · Campus Notes",
+      "width": 1440,
+      "label": "nojs-report-1440",
+      "url": "http://localhost:3001/report?type=post&id=600013"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 46,
+          "text": "Hide"
+        },
+        {
+          "height": 46,
+          "text": "Dismiss"
+        },
+        {
+          "height": 46,
+          "text": "Hide"
+        },
+        {
+          "height": 46,
+          "text": "Dismiss"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "Reports · Campus Notes",
+      "width": 1440,
+      "label": "nojs-reports-1440",
+      "url": "http://localhost:3001/admin/reports"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 46,
+          "text": "Hide"
+        },
+        {
+          "height": 46,
+          "text": "Dismiss"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        },
+        {
+          "height": 46,
+          "text": "Restore"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "Reports · Campus Notes",
+      "width": 1440,
+      "label": "nojs-hidden-1440",
+      "url": "http://localhost:3001/admin/reports"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "My posts · Campus Notes",
+      "width": 1440,
+      "label": "hidden-my-posts-1440",
+      "url": "http://localhost:3001/me/posts"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "Campus Notes · Campus Notes",
+      "width": 1440,
+      "label": "hidden-feed-all-1440",
+      "url": "http://localhost:3001/feed?tab=all"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "Campus Notes · Campus Notes",
+      "width": 1440,
+      "label": "hidden-feed-uni-1440",
+      "url": "http://localhost:3001/feed?tab=uni"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "mandy0hku · Campus Notes",
+      "width": 1440,
+      "label": "hidden-profile-1440",
+      "url": "http://localhost:3001/u/mandy0hku"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "My posts · Campus Notes",
+      "width": 1440,
+      "label": "restored-my-posts-1440",
+      "url": "http://localhost:3001/me/posts"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "Campus Notes · Campus Notes",
+      "width": 1440,
+      "label": "restored-feed-all-1440",
+      "url": "http://localhost:3001/feed?tab=all"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "Campus Notes · Campus Notes",
+      "width": 1440,
+      "label": "restored-feed-uni-1440",
+      "url": "http://localhost:3001/feed?tab=uni"
+    },
+    {
+      "clientWidth": 1440,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        }
+      ],
+      "scrollWidth": 1440,
+      "sidebar": "flex",
+      "title": "mandy0hku · Campus Notes",
+      "width": 1440,
+      "label": "restored-profile-1440",
+      "url": "http://localhost:3001/u/mandy0hku"
+    },
+    {
+      "clientWidth": 375,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 375,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 390,
+      "label": "long-message-390",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 753,
+      "controls": [
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 753,
+      "sidebar": "none",
+      "title": "jason0ust · Campus Notes",
+      "width": 768,
+      "label": "long-message-768",
+      "url": "http://localhost:3000/messages/c/3"
+    },
+    {
+      "clientWidth": 1425,
+      "controls": [
+        {
+          "height": 48,
+          "text": "New post"
+        },
+        {
+          "height": 96,
+          "text": "TEXTAREA"
+        },
+        {
+          "height": 50,
+          "text": "Send"
+        }
+      ],
+      "scrollWidth": 1425,
+      "sidebar": "flex",
+      "title": "jason0ust · Campus Notes",
+      "width": 1440,
+      "label": "long-message-1440",
+      "url": "http://localhost:3000/messages/c/3"
+    }
+  ],
+  "flows": [
+    {
+      "flow": "Mandy notifications",
+      "before": 4,
+      "after": 1
+    },
+    {
+      "flow": "Mandy opens anonymous conversation",
+      "before": 1,
+      "after": 0
+    },
+    {
+      "flow": "Kelvin receives and replies anonymously",
+      "badgeBeforeOpen": 5,
+      "badgeAfterOpen": 4
+    },
+    {
+      "flow": "/messages/c/1",
+      "persona": "newbie0hk",
+      "result": "Not found"
+    },
+    {
+      "flow": "/admin/reports",
+      "persona": "newbie0hk",
+      "result": "Not allowed"
+    },
+    {
+      "flow": "Student profile → first send → return profile → reuse",
+      "conversation": "http://localhost:3000/messages/c/3",
+      "result": "passed"
+    },
+    {
+      "flow": "Organization profile → send → display name → return",
+      "conversation": "http://localhost:3000/messages/c/4",
+      "result": "passed"
+    },
+    {
+      "flow": "No-page-JS Content anonymous entry and public profile entry",
+      "anonymous": "http://localhost:3001/messages/c/5",
+      "public": "http://localhost:3001/messages/c/6",
+      "result": "separate conversations"
+    },
+    {
+      "flow": "No-page-JS report and duplicate report",
+      "post": 600013,
+      "result": "submitted then already reported"
+    },
+    {
+      "flow": "Hidden post absent",
+      "path": "/me/posts",
+      "post": 600013,
+      "count": 0
+    },
+    {
+      "flow": "Hidden post absent",
+      "path": "/feed?tab=all",
+      "post": 600013,
+      "count": 0
+    },
+    {
+      "flow": "Hidden post absent",
+      "path": "/feed?tab=uni",
+      "post": 600013,
+      "count": 0
+    },
+    {
+      "flow": "Hidden post absent",
+      "path": "/u/mandy0hku",
+      "post": 600013,
+      "count": 0
+    },
+    {
+      "flow": "Restored post visible",
+      "path": "/me/posts",
+      "post": 600013,
+      "count": 1
+    },
+    {
+      "flow": "Restored post visible",
+      "path": "/feed?tab=all",
+      "post": 600013,
+      "count": 1
+    },
+    {
+      "flow": "Restored post visible",
+      "path": "/feed?tab=uni",
+      "post": 600013,
+      "count": 1
+    },
+    {
+      "flow": "Restored post visible",
+      "path": "/u/mandy0hku",
+      "post": 600013,
+      "count": 1
+    },
+    {
+      "flow": "1000-character unbroken message",
+      "length": 1000,
+      "widths": [
+        390,
+        768,
+        1440
+      ],
+      "result": "persisted and no document overflow"
+    }
+  ],
+  "noPageJavaScript": {
+    "port": 3001,
+    "csp": "script-src 'none'; object-src 'none'",
+    "globalBrowserJavaScriptSettingChanged": false,
+    "verified": [
+      "anonymous first message",
+      "public first message",
+      "report",
+      "duplicate report",
+      "hide",
+      "restore"
+    ]
+  }
+}
