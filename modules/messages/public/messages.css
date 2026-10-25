@@ -1,0 +1,116 @@
+.messages-page {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.messages-page .messages-list,
+.messages-page .messages-thread {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.messages-page .messages-list > li + li {
+  border-top: 1px solid var(--line);
+}
+
+.messages-page .messages-list-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  min-height: 76px;
+  color: var(--text);
+}
+
+.messages-page a.messages-list-row:hover {
+  background: var(--surface-2);
+  text-decoration: none;
+}
+
+.messages-page .messages-row-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  color: var(--brand-soft);
+}
+
+.messages-page .messages-row-content {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.messages-page .is-unread {
+  background: rgba(217, 47, 92, 0.08);
+  box-shadow: inset 3px 0 var(--accent);
+}
+
+.messages-chat {
+  width: 100%;
+  max-width: 54rem;
+}
+
+.messages-page .messages-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.messages-page .messages-bubble {
+  align-self: flex-start;
+  max-width: 85%;
+  min-width: 0;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.messages-page .messages-bubble.is-mine {
+  align-self: flex-end;
+  background: var(--surface-2);
+  border-inline-end: 3px solid var(--brand-soft);
+  box-shadow: none;
+}
+
+.messages-page .messages-bubble time {
+  display: block;
+  margin-top: 8px;
+}
+
+.messages-page .messages-reasons {
+  margin: 0;
+  min-width: 0;
+  border: 1px solid var(--line);
+}
+
+.messages-page .messages-reason {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.messages-page .messages-reason input {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  accent-color: var(--accent);
+}
+
+.messages-page .messages-report,
+.messages-page .messages-hidden {
+  min-width: 0;
+  align-content: start;
+}
+
+.messages-page .messages-context a,
+.messages-page .messages-report h3 a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
