@@ -1,0 +1,42 @@
+<section class="messages-page stack">
+  <h2>Open reports</h2>
+<% if (!reports.length) { -%>
+  <%- include('partials/empty', { text: 'No open reports.', icon: 'flag', href: null, label: null }) %>
+<% } else { -%>
+  <div class="page-grid">
+<% reports.forEach((report) => { -%>
+    <article class="card stack messages-report" data-report-id="<%= report.report_id %>">
+      <h3><a href="<%= report.href %>"><%= report.label %></a></h3>
+      <p class="muted"><%= ui.plural(report.report_count, 'report') %> · <%= report.reasons %></p>
+      <p class="pre"><%= report.content_body %></p>
+      <p class="small">Author: <%= report.author_handle %><% if (report.deleted_by_author) { %> · <span class="chip chip-warn">Deleted by its author</span><% } %></p>
+<% if (report.details) { -%>
+      <p class="pre small"><%= report.details %></p>
+<% } -%>
+      <time class="muted small" datetime="<%= report.first_reported_at.toISOString() %>">First reported <%= ui.timeAgo(report.first_reported_at) %></time>
+      <div class="row wrap">
+        <form method="post" action="/admin/reports/<%= report.report_id %>/hide" data-confirm="Hide this for everyone?" data-confirm-ok="Hide"><%- csrfField() %><button class="btn btn-danger" type="submit">Hide</button></form>
+        <form method="post" action="/admin/reports/<%= report.report_id %>/dismiss"><%- csrfField() %><button class="btn btn-ghost" type="submit">Dismiss</button></form>
+      </div>
+    </article>
+<% }) -%>
+  </div>
+<% } -%>
+  <h2>Hidden content</h2>
+<% if (!hidden.length) { -%>
+  <%- include('partials/empty', { text: 'Nothing is hidden.', icon: 'flag', href: null, label: null }) %>
+<% } else { -%>
+  <div class="page-grid">
+<% hidden.forEach((item) => { -%>
+    <article class="card stack messages-hidden" data-target="<%= item.target_type %>/<%= item.target_id %>">
+      <h3><%= item.label %></h3>
+      <p class="pre"><%= item.content_body %></p>
+      <p class="small">Author: <%= item.author_handle %></p>
+      <p class="muted small"><%= item.reason %></p>
+      <p class="muted small">Hidden by <%= item.hidden_by_handle %> · <%= ui.hkt(item.hidden_at, true) %> HKT</p>
+      <form method="post" action="/admin/hidden/<%= item.target_type %>/<%= item.target_id %>/restore"><%- csrfField() %><button class="btn btn-ghost" type="submit">Restore</button></form>
+    </article>
+<% }) -%>
+  </div>
+<% } -%>
+</section>

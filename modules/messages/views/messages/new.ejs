@@ -1,0 +1,16 @@
+<section class="messages-page form-width stack">
+  <div class="card stack">
+    <h2>To: <%= recipientName %><% if (postId) { %> · <%= ui.postNo(postId) %><% } %></h2>
+    <p class="muted"><%= postId ? 'You will appear as ' + myName : 'They will see your handle' %></p>
+  </div>
+<% if (errors.form) { -%>
+  <p class="alert" role="alert"><%= errors.form %></p>
+<% } -%>
+  <form class="form" method="post" action="<%= formAction %>" data-leave-guard>
+    <%- csrfField() %>
+    <div class="group">
+      <%- include('partials/field', { name: 'body', label: 'Message', type: 'textarea', value: values.body, error: errors.body, max: 1000, rows: 5, hint: null }) %>
+    </div>
+    <button class="btn btn-cta" type="submit">Send</button>
+  </form>
+</section>

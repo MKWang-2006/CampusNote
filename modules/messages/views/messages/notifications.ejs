@@ -1,0 +1,22 @@
+<section class="messages-page stack">
+<% if (!notifications.length) { -%>
+  <%- include('partials/empty', { text: 'No notifications yet.', icon: 'bell', href: null, label: null }) %>
+<% } else { -%>
+  <ul class="group messages-list">
+<% notifications.forEach((notification) => { -%>
+    <li class="messages-notification<%= notification.is_unread ? ' is-unread' : '' %>" data-notification-id="<%= notification.notification_id %>">
+      <% if (notification.href) { %><a class="messages-list-row" href="<%= notification.href %>"><% } else { %><div class="messages-list-row"><% } %>
+        <span class="messages-row-icon"><%- ui.icon(notification.type === 'like_on_post' ? 'heart' : 'comment') %></span>
+        <span class="messages-row-content">
+          <span><%= notification.text %></span>
+          <time class="small muted" datetime="<%= notification.created_at.toISOString() %>"><%= ui.timeAgo(notification.created_at) %></time>
+        </span>
+      <% if (notification.href) { %></a><% } else { %></div><% } %>
+    </li>
+<% }) -%>
+  </ul>
+<% if (nextUrl) { -%>
+  <a class="btn btn-ghost" href="<%= nextUrl %>">Load more</a>
+<% } -%>
+<% } -%>
+</section>

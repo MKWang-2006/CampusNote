@@ -1,0 +1,25 @@
+<section class="messages-page stack">
+  <%- include('partials/menu', { groups: [[{ href: '/messages/notifications', icon: 'bell', label: 'Notifications', badge: unread.notifications }]] }) %>
+  <h2>Conversations</h2>
+<% if (!conversations.length) { -%>
+  <%- include('partials/empty', { text: 'No conversations yet.', icon: 'messages', href: null, label: null }) %>
+<% } else { -%>
+  <ul class="group messages-list">
+<% conversations.forEach((conversation) => { -%>
+    <li class="messages-conversation" data-conversation-id="<%= conversation.conversation_id %>">
+      <a class="messages-list-row" href="/messages/c/<%= conversation.conversation_id %>">
+        <span class="messages-row-icon"><% if (conversation.other_avatar_code) { %><%- include('partials/avatar', { code: conversation.other_avatar_code, size: 'md' }) %><% } else { %><%- ui.icon('messages') %><% } %></span>
+        <span class="messages-row-content">
+          <strong><%= conversation.display_name %><% if (conversation.post_id) { %> · <%= ui.postNo(conversation.post_id) %><% } %></strong>
+          <span class="muted"><%= conversation.last_is_mine ? 'You: ' : '' %><%= ui.excerpt(conversation.last_body, 60) %></span>
+          <time class="small muted" datetime="<%= conversation.last_at.toISOString() %>"><%= ui.timeAgo(conversation.last_at) %></time>
+        </span>
+<% if (conversation.unread) { -%>
+        <span class="badge" aria-label="<%= conversation.unread %> unread messages"><%= conversation.unread %></span>
+<% } -%>
+      </a>
+    </li>
+<% }) -%>
+  </ul>
+<% } -%>
+</section>

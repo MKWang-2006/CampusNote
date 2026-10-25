@@ -1,0 +1,35 @@
+<section class="messages-page messages-chat stack">
+  <div class="card stack messages-context">
+<% if (conversation.post_id) { -%>
+    <p><% if (conversation.post_available) { %><a href="/posts/<%= conversation.post_id %>"><%= ui.postNo(conversation.post_id) %></a><% } else { %><%= ui.postNo(conversation.post_id) %> <span class="muted">This post is no longer available</span><% } %></p>
+    <p class="muted">You appear as <%= myName %></p>
+<% } else { -%>
+    <p><a href="/u/<%= conversation.other_handle %>"><%= conversation.display_name %></a></p>
+<% } -%>
+  </div>
+  <ol class="messages-thread" aria-label="Conversation messages">
+<% messages.forEach((message) => { -%>
+    <li class="messages-bubble<%= message.is_mine ? ' is-mine' : '' %>" data-message-id="<%= message.message_id %>">
+      <p class="pre"><%= message.body %></p>
+      <time class="small muted" datetime="<%= message.created_at.toISOString() %>"><span class="sr-only"><%= message.is_mine ? 'You, ' : '' %></span><%= ui.timeAgo(message.created_at) %></time>
+    </li>
+<% }) -%>
+  </ol>
+<% if (messages.length === 100) { -%>
+  <p class="muted small">Showing the last 100 messages.</p>
+<% } -%>
+<% if (errors.form) { -%>
+  <p class="alert" role="alert"><%= errors.form %></p>
+<% } -%>
+<% if (conversation.blocked_by_me || conversation.blocked_by_other) { -%>
+  <p class="card"><%= conversation.blocked_by_me ? 'You blocked this conversation. Unblock to reply.' : 'You can no longer reply in this conversation.' %></p>
+<% } else { -%>
+  <form class="form form-width" method="post" action="/messages/c/<%= conversation.conversation_id %>" data-leave-guard>
+    <%- csrfField() %>
+    <div class="group">
+      <%- include('partials/field', { name: 'body', label: 'Message', type: 'textarea', value: values.body, error: errors.body, max: 1000, rows: 3, hint: null }) %>
+    </div>
+    <button class="btn btn-cta" type="submit">Send</button>
+  </form>
+<% } -%>
+</section>

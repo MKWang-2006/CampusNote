@@ -1,0 +1,22 @@
+<section class="messages-page form-width stack">
+  <div class="card stack">
+    <h2><%= target.label %></h2>
+    <p class="pre"><%= ui.excerpt(target.excerpt, 240) %></p>
+  </div>
+  <form class="form" method="post" action="<%= formAction %>" data-leave-guard>
+    <%- csrfField() %>
+    <fieldset class="card stack messages-reasons"<% if (errors.reason) { %> aria-describedby="reason-error"<% } %>>
+      <legend>Reason</legend>
+<% reasons.forEach(([value, label]) => { -%>
+      <label class="messages-reason"><input type="radio" name="reason" value="<%= value %>"<%= values.reason === value ? ' checked' : '' %>> <span><%= label %></span></label>
+<% }) -%>
+<% if (errors.reason) { -%>
+      <p class="danger" id="reason-error" role="alert"><%= errors.reason %></p>
+<% } -%>
+    </fieldset>
+    <div class="group">
+      <%- include('partials/field', { name: 'details', label: 'Details (optional)', type: 'textarea', value: values.details, error: errors.details, max: 300, rows: 4, hint: null }) %>
+    </div>
+    <button class="btn btn-cta" type="submit">Send report</button>
+  </form>
+</section>
