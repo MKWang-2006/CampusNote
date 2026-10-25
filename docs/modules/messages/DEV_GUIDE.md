@@ -1,5 +1,7 @@
 # Messages module: developer guide
 
+> Local implementation note (25 Oct 2026): MS-1 to MS-7 are implemented on `codex/messages-local`, synchronized to main `f9e8f68` (Discover DS-1, DS-5 My posts and DS-6). MS-8 controls are deferred. The schema, existing triggers and shared code are unchanged. Six integration tests exercise profile/private-message links, identity contexts, moderation across lists and shared badges. See `MAIN_ADAPTATION.md` and `VALIDATION.md` for actual results and remaining handoff. The existing shared renderer runs locals hooks during `res.page`, after the route's read-state updates; references below to hooks running before the handler describe the original guide, not the actual timing used by this implementation.
+
 | | |
 |---|---|
 | **Owner** | Member 3 — Messages: [MKWang-2006](https://github.com/MKWang-2006), claim confirmed by Michael on 21 Oct |
@@ -267,7 +269,7 @@ Call `before(resetDb)` in each file; every test below starts from the fresh seed
 
 | ID | Feature | Test |
 |---|---|---|
-| MS-T01 | MS-1 | As `mandy0hku`, `/messages/notifications` shows exactly 7 rows (notifications #30, #29, #27, #17, #14, #2, #1), in this order: "Host replied to your comment on #600012: “Thanks, doing the 2024 paper now.”"; "Carol commented on #600012, which you watch: [hidden by a moderator]"; "Bob commented on #600012, which you watch: “加油！You got this.”"; "Host commented on #600004, which you watch: “Only behavioural ones, about 5 questions, 2 minutes each.”"; "Alice commented on #600004, which you watch: “Did they ask technical questions in the video part?”"; "Your post #600001 got a like"; "Alice commented on your post #600001: “Thanks! Is 4/F quiet too?”". Rows 1, 2 and 3 have the class `is-unread`; row 1 links to `/posts/600012#c13`, row 6 to `/posts/600001`. |
+| MS-T01 | MS-1 | As `mandy0hku`, `/messages/notifications` shows exactly 7 rows (notifications #30, #29, #27, #17, #14, #2, #1), in this order: "Host replied to your comment on #600012: “Thanks, doing the 2024 paper now.”"; "Carol commented on #600012, which you watch: [hidden by a moderator]"; "Bob commented on #600012, which you watch: “\u52a0\u6cb9\uff01You got this.”"; "Host commented on #600004, which you watch: “Only behavioural ones, about 5 questions, 2 minutes each.”"; "Alice commented on #600004, which you watch: “Did they ask technical questions in the video part?”"; "Your post #600001 got a like"; "Alice commented on your post #600001: “Thanks! Is 4/F quiet too?”". Rows 1, 2 and 3 have the class `is-unread`; row 1 links to `/posts/600012#c13`, row 6 to `/posts/600001`. |
 | MS-T02 | MS-1 | Mandy opens the page twice: the second response has no `is-unread` row, her badge is 1 (the unread message), and the database has no unread notification for her. |
 | MS-T03 | MS-1 | Kelvin's list has 9 rows and includes "Carol commented on your post #600002: [deleted]" (comment 6). |
 | MS-T04 | MS-1 | With `posts.deleted_at` set on 600001, Mandy's rows for #600001 (the like and comment 1) say "This post is no longer available" and have no link. |

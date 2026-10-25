@@ -102,9 +102,10 @@ CALL t_eq('listNotifications: #30 is "Host replied to your comment on #600012" w
 CALL t_eq('listNotifications: #29 is Carol (Jason) on the watched post, but comment 12 is hidden',
   (SELECT CONCAT(actor_alias_no, '/', IFNULL(comment_body, 'NULL'), '/', comment_deleted, '/', comment_hidden) FROM res WHERE notification_id = 29),
   '3/NULL/0/1');
+-- Original multilingual seed text is represented as UTF-8 bytes; its expected value is unchanged.
 CALL t_eq('listNotifications: #27 is Bob (Wing) on the watched post 600012',
   (SELECT CONCAT(type, '/', actor_alias_no, '/', comment_body) FROM res WHERE notification_id = 27),
-  'comment_on_watched/2/加油！You got this.');
+  CONCAT('comment_on_watched/2/', CONVERT(0xE58AA0E6B2B9EFBC81 USING utf8mb4), 'You got this.'));
 CALL t_eq('listNotifications: #1 is "Alice commented on your post #600001"',
   (SELECT CONCAT(type, '/', post_id, '/', actor_alias_no, '/', comment_body) FROM res WHERE notification_id = 1),
   'comment_on_post/600001/1/Thanks! Is 4/F quiet too?');
@@ -885,7 +886,7 @@ UPDATE reports
  WHERE target_type = @type AND target_id = @target AND resolved_at IS NULL;
 CALL t_eq('dismissTarget: report 8 on comment 11 is dismissed', ROW_COUNT(), '1');
 CALL t_eq('dismissTarget: comment 11 is not hidden and keeps its text',
-  (SELECT CONCAT(is_hidden, '/', body) FROM v_comment_items WHERE comment_id = 11), '0/加油！You got this.');
+  (SELECT CONCAT(is_hidden, '/', body) FROM v_comment_items WHERE comment_id = 11), CONCAT('0/', CONVERT(0xE58AA0E6B2B9EFBC81 USING utf8mb4), 'You got this.'));
 CALL t_eq('dismissTarget: the queue is now empty',
   (SELECT COUNT(*) FROM reports WHERE resolved_at IS NULL), '0');
 CALL t_err('dismissTarget: a resolution needs a time too (CHECK)',

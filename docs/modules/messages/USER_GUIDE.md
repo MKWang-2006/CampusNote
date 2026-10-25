@@ -2,7 +2,7 @@
 
 The **Messages** tab is your inbox. It tells you when people react to your posts and comments, lets you talk privately with another student, and is where you report posts or comments that break the rules. Admins also use it to review reports.
 
-Screenshots go in `docs/modules/messages/img/` when the pages are built; the placeholders below name the file each one should have.
+**Local implementation, synchronized 25 Oct 2026 to main `f9e8f68`:** MS-1 to MS-7 are available, including the working Discover public-profile links. MS-8 block/unblock controls are planned, not included. See [local acceptance steps](LOCAL_ACCEPTANCE.md), [main adaptation](MAIN_ADAPTATION.md) and [validation results](VALIDATION.md). Published screenshots show the synchronized app on 25 Oct; historical images remain in the local backup.
 
 **On a computer or phone:** Campus Notes is a responsive website. When logged in, use the left sidebar on desktop or the bottom tabs on tablets and phones. The same destinations and actions are available at every width. Conversations keep their chronological reading order, and long messages wrap to fit the screen. These instructions use “tap” for either clicking or tapping. See [the responsive layout guide](../../architecture/RESPONSIVE.md) for viewport details.
 
@@ -17,7 +17,9 @@ Tap the tab to see:
 
 If you have not talked to anyone yet, you see "No conversations yet."
 
-*(screenshot to add: `img/messages-home.png`)*
+![Messages on a phone](screenshots/adapt-home-390.jpg)
+
+[Desktop Messages screenshot](screenshots/adapt-home-1440.jpg)
 
 ## 2. Notifications
 
@@ -39,7 +41,7 @@ Open **Messages → Notifications**. You are told when:
 - If a comment was deleted or hidden after the notification, it shows "[deleted]" or "[hidden by a moderator]" instead of the text.
 - Don't want them? **Me → Settings** has switches for comment notifications and like notifications.
 
-*(screenshot to add: `img/notifications.png`)*
+![Notifications empty state](screenshots/adapt-empty-notifications-390.jpg)
 
 ## 3. Private messages
 
@@ -57,25 +59,25 @@ Write your first message and tap **Send**. The page tells you how you will appea
 - A conversation about a post and a conversation by handle with the same person are separate, so nobody can work out which handle is behind an alias.
 - You can only message about posts you can see.
 
-*(screenshot to add: `img/new-message.png`)*
+The **Message** button on a public student or organization profile opens the same Messages module. It is absent on your own profile and on a banned user's profile. In a public conversation, tap the other person's name to return to their profile. Opening Message again reuses the conversation.
+
+![Public conversation from the Discover profile](screenshots/adapt-public-chat-390.jpg)
+
+[Desktop public profile with the Message entry](screenshots/adapt-profile-1440.jpg)
+
+![New message](screenshots/adapt-public-compose-390.jpg)
 
 ### Talking
 
 Open a conversation from **Messages**. Your messages are on the right, theirs on the left, each with its time. The top shows who you are talking to and, for a conversation about a post, a link to the post and how you appear ("You appear as Host"). Opening a conversation marks it as read. Messages can be up to 1,000 characters. Only the two of you can read or write in it.
 
-*(screenshot to add: `img/conversation.png`)*
+![Conversation](screenshots/adapt-anonymous-chat-390.jpg)
 
-### Blocking a conversation
+### Blocking a conversation (MS-8, planned)
 
-Don't want to hear from someone in a conversation any more? Tap **Block** under the message box, in any conversation (about a post or by handle). From then on **neither of you can send messages in that conversation**: you see "You blocked this conversation. Unblock to reply." with an **Unblock** button, and they see "You can no longer reply in this conversation." Messages already sent stay, and you can still read them.
+The Block and Unblock controls are not part of this local MS-1 to MS-7 delivery. The future design is described in the developer guide. Existing block records are respected by sending checks, and existing messages remain readable.
 
-- Only you can lift your block. If the other person blocked the conversation too, it stays closed until they unblock as well.
-- A block covers **that one conversation only**. Your other conversations are not affected, including other conversations with the same person (about another post, or by handle), and they could still start a new one there. This is on purpose: a block that followed a person everywhere would let people test which handle is behind an alias, and anonymity comes first.
-- If someone is abusive, block the conversation and report their posts or comments (section 4).
-
-Blocking may arrive after the first version of the app.
-
-*(screenshot to add: `img/blocked.png`)*
+Use the report flow in section 4 for abusive posts or comments.
 
 ## 4. Reporting a post or comment
 
@@ -87,7 +89,7 @@ See something that breaks the rules? On the post, tap **Report** (for the post) 
 
 You can report each post or comment once. You cannot report your own. The person you report is not told who reported them.
 
-*(screenshot to add: `img/report.png`)*
+![Report form](screenshots/adapt-nojs-report-390.jpg)
 
 ## 5. For admins: the report queue
 
@@ -98,7 +100,7 @@ Open **Me → Reports**.
 - **Dismiss** closes the reports without hiding anything.
 - **Hidden content** lists everything currently hidden, with the reason and who hid it. **Restore** brings it back for everyone; its reports stay closed.
 
-*(screenshot to add: `img/admin-reports.png`)*
+![Admin report queue](screenshots/adapt-nojs-reports-1440.jpg)
 
 ## 6. Messages you may see
 
@@ -114,7 +116,6 @@ Open **Me → Reports**.
 | Pick a reason | A report needs a reason. |
 | You blocked this conversation. Unblock to reply. | You blocked this conversation; nobody can send in it until you unblock it. |
 | You can no longer reply in this conversation. | The other person blocked this conversation. |
-| Blocked. Nobody can send messages here until you unblock it. / Unblocked. | What your block or unblock did. |
 | Hidden. 2 reports resolved. / Dismissed. 1 report resolved. / Restored. | (Admins) What your action did. |
 
 ## 7. Try it with the demo accounts
@@ -128,4 +129,4 @@ All demo accounts use the password `campus123` (in development, the login page l
 5. Log in as **wing0cuhk** → open #600012 → **Message** on Alice's comment: Wing appears as "Bob", Mandy as "Alice". Try `/messages/new?post=600001` as Wing: the HKU-only post is not found.
 6. Log in as **newbie0hk** → open #600007 → **Report** → Spam → **Send report**.
 7. Log in as **admin0000** → Me → **Reports**: #600007 has 2 reports and shows its author's handle. Tap **Hide**: the post disappears for everyone. Under **Hidden content**, **Restore** would bring back the spam post #600010; its old report stays closed.
-8. Log in as **mandy0hku** → Messages → the conversation "Visitor · #600005" → **Block**: the message box is replaced by "You blocked this conversation. Unblock to reply.", while her conversations from steps 4 and 5 work as before. Log in as **kelvin0hk**: the conversation says "You can no longer reply in this conversation." Back as Mandy, tap **Unblock**.
+8. Log in as **newbie0hk** and open `/messages/c/1`: the conversation is not found. Open `/admin/reports`: access is forbidden. These checks must not expose private messages or change moderation data.
